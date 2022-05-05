@@ -1,5 +1,14 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>image/nature-grass.jpg</file>
+        <file>TopBar.qml</file>
+        <file>image/bt-home-pressed.png</file>
+        <file>image/bt-home-release.png</file>
+        <file>image/bt-next-pressed.png</file>
+        <file>image/bt-next-release.png</file>
+        <file>image/bt-prev-pressed.png</file>
+        <file>image/bt-prev-release.png</file>
+        <file>ImageButton.qml</file>
     </qresource>
 </RCC>
