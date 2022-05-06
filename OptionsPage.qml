@@ -14,8 +14,8 @@ Item {
     Rectangle {
         id: testRectangleOptions
 
-        width: parent.width/3
-        height: parent.height/3
+        width: parent.width/2
+        height: parent.height/2
         radius: parent.width/20
         anchors.centerIn: parent
         color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
@@ -24,7 +24,7 @@ Item {
             anchors.centerIn: parent
             text: qsTr("Options Page")
             color: "black"
-            font.pixelSize: 24
+            font.pixelSize: 40
         }
     }
 

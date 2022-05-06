@@ -6,35 +6,54 @@ Item {
     ListModel {
         id: listModel
 
-        ListElement {name: "One";   page: ""; imageSource: ""}
-        ListElement {name: "Two";   page: ""; imageSource: ""}
-        ListElement {name: "Three"; page: ""; imageSource: ""}
-        ListElement {name: "Four";  page: ""; imageSource: ""}
-        ListElement {name: "Five";  page: ""; imageSource: ""}
-        ListElement {name: "Six";   page: ""; imageSource: ""}
-        ListElement {name: "Seven"; page: ""; imageSource: ""}
-        ListElement {name: "Options"; page: "OptionsPage.qml"; imageSource: "qrc:/image/icon-settings.png"}
+        ListElement {
+            name: "Quick Settings";
+            page: "QiuckSettingsPage.qml";
+            imageSource: "qrc:/image/icon-quick-settings.png"
+        }
+        ListElement {
+            name: "Drive";
+            page: "DrivePage.qml";
+            imageSource: "qrc:/image/icon-tractor.png"
+        }
+        ListElement {
+            name: "Camera view";
+            page: "CameraPage.qml";
+            imageSource: "qrc:/image/icon-cam.png"
+        }
+        ListElement {
+            name: "My Fields";
+            page: "FieldsPage.qml";
+            imageSource: "qrc:/image/icon-field-base.png"}
+        ListElement {
+            name: "Options";
+            page: "OptionsPage.qml";
+            imageSource: "qrc:/image/icon-settings.png"
+        }
+        ListElement {name: "Six";   page: ""; imageSource: "qrc:/image/icon-no-image.png"}
+        ListElement {name: "Seven"; page: ""; imageSource: "qrc:/image/icon-no-image.png"}
+        ListElement {name: "--8--"; page: ""; imageSource: "qrc:/image/icon-no-image.png"}
+
     }
 
     GridView {
         id: gridView
 
         anchors.fill: parent
-        anchors.leftMargin: 40
+        anchors.leftMargin: 60
+        anchors.topMargin: 10
 
         model: listModel
 
         cellWidth: 240
-        cellHeight: 240
+        cellHeight: 220
 
         delegate: Rectangle {
             width: 200
             height: 200
-
-            //color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
-            color: Qt.rgba(0.5, 0.5, 0.5, 0.5)
-
             radius: 15
+
+            color: Qt.rgba(0.5, 0.5, 0.5, 0.7)
 
             Image {
                 anchors.fill: parent

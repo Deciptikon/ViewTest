@@ -14,5 +14,14 @@
         <file>GridOne.qml</file>
         <file>OptionsPage.qml</file>
         <file>image/icon-settings.png</file>
+        <file>image/icon-tractor.png</file>
+        <file>DrivePage.qml</file>
+        <file>image/icon-quick-settings.png</file>
+        <file>QiuckSettingsPage.qml</file>
+        <file>image/icon-cam.png</file>
+        <file>CameraPage.qml</file>
+        <file>FieldsPage.qml</file>
+        <file>image/icon-field-base.png</file>
+        <file>image/icon-no-image.png</file>
     </qresource>
 </RCC>
