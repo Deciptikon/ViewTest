@@ -36,6 +36,8 @@ Item {
 
     }
 
+
+
     GridView {
         id: gridView
 
@@ -49,6 +51,7 @@ Item {
         cellHeight: 220
 
         delegate: Rectangle {
+            id: delegatGridView
             width: 200
             height: 200
             radius: 15
@@ -71,10 +74,26 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: {
+//                onClicked: {
+//                    mainLoader.source = page
+//                }
+                onPressed: {
+                    delegatGridView.color = Qt.rgba(0.4, 0.4, 0.4, 0.9)
+                }
+                onReleased: {
+                    delegatGridView.color = Qt.rgba(0.5, 0.5, 0.5, 0.7)
                     mainLoader.source = page
+                }
+                onCanceled: {
+                    delegatGridView.color = Qt.rgba(0.5, 0.5, 0.5, 0.7)
                 }
             }
         }
+
+//        highlight: Rectangle {
+//            color: Qt.rgba(0.5, 0.5, 0.5, 0.9)
+//        }
+
+        focus: true
     }
 }
