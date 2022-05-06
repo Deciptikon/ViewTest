@@ -1,10 +1,19 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 
+
+
 Window {
 
     property real sizeInter: 32
     property real marginInter: 5
+
+//    Connections {
+//        target: Model
+
+//        function onSi
+//    }
+
 
     width: 800
     height: 480
@@ -34,7 +43,11 @@ Window {
         sizeIcons: sizeInter
         marginIcons: marginInter
 
-        onActionBtHome: mainLoader.source = "StackViewPage.qml"
+        onActionBtHome: {
+            TestModel.testMetod("ActionBtHome")
+            mainLoader.source = "StackViewPage.qml"
         //onReleaseButton: mainLoader.source = "StackViewPage.qml"
+        }
+
     }
 }

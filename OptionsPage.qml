@@ -3,6 +3,14 @@ import QtQuick 2.0
 Item {
     anchors.fill: parent
 
+    Connections {
+        target: TestModel
+
+        function onSignalSendToQML(str) {
+            testText.text = str
+        }
+    }
+
     Rectangle {
         id: testRectangleOptions
 
@@ -12,12 +20,31 @@ Item {
         anchors.centerIn: parent
         color: Qt.rgba(Math.random(), Math.random(), Math.random(), 0.7)//Qt.rgba(0.7, 0.7, 0.7, 0.7)
         Text {
+            id: testText
             anchors.centerIn: parent
             text: qsTr("Options Page")
             color: "black"
             font.pixelSize: 24
         }
     }
+    //TestModel.testMetod("ActionBtHome")
+    ImageButton {
+       id: btHome
 
+       width: 64
+       height: 64
+
+       anchors.verticalCenter: parent.verticalCenter
+       anchors.left: parent.left
+       anchors.leftMargin: 20
+
+       sourcePressed: "qrc:/image/bt-prev-pressed.png"
+       sourceReleased: "qrc:/image/bt-prev-release.png"
+
+       onReleasedButton: {
+           console.log("released button")
+           TestModel.slotTakeFromQML("<");
+       }
+    }
 
 }
