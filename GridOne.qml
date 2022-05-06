@@ -6,14 +6,14 @@ Item {
     ListModel {
         id: listModel
 
-        ListElement {name: "One"; page: ""}
-        ListElement {name: "Two"; page: ""}
-        ListElement {name: "Three"; page: ""}
-        ListElement {name: "Four"; page: ""}
-        ListElement {name: "Five"; page: ""}
-        ListElement {name: "Six"; page: ""}
-        ListElement {name: "Seven"; page: ""}
-        ListElement {name: "Options"; page: "OptionsPage.qml"}
+        ListElement {name: "One";   page: ""; imageSource: ""}
+        ListElement {name: "Two";   page: ""; imageSource: ""}
+        ListElement {name: "Three"; page: ""; imageSource: ""}
+        ListElement {name: "Four";  page: ""; imageSource: ""}
+        ListElement {name: "Five";  page: ""; imageSource: ""}
+        ListElement {name: "Six";   page: ""; imageSource: ""}
+        ListElement {name: "Seven"; page: ""; imageSource: ""}
+        ListElement {name: "Options"; page: "OptionsPage.qml"; imageSource: "qrc:/image/icon-settings.png"}
     }
 
     GridView {
@@ -31,14 +31,23 @@ Item {
             width: 200
             height: 200
 
-            color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
+            //color: Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
+            color: Qt.rgba(0.5, 0.5, 0.5, 0.5)
 
-            radius: 5
+            radius: 15
+
+            Image {
+                anchors.fill: parent
+                source: imageSource
+            }
 
             Text {
                 color: "black"
                 text: name
-                anchors.centerIn: parent
+                font.pixelSize: 18
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 5
+                anchors.horizontalCenter: parent.horizontalCenter
             }
 
             MouseArea {

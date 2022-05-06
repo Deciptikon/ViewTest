@@ -13,5 +13,6 @@
         <file>StackViewPage.qml</file>
         <file>GridOne.qml</file>
         <file>OptionsPage.qml</file>
+        <file>image/icon-settings.png</file>
     </qresource>
 </RCC>
