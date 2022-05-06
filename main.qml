@@ -17,9 +17,24 @@ Window {
         anchors.fill: parent
     }
 
+    Loader {
+        id: mainLoader
+
+        anchors {
+            top: statusBar.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        source: "StackViewPage.qml"
+    }
+
     TopBar {
         id: statusBar
         sizeIcons: sizeInter
         marginIcons: marginInter
+
+        onActionBtHome: mainLoader.source = "StackViewPage.qml"
+        //onReleaseButton: mainLoader.source = "StackViewPage.qml"
     }
 }

@@ -7,6 +7,8 @@ Item {
     property real sizeIcons//: 32
     property real marginIcons//: 50
 
+    signal actionBtHome()
+
     anchors.top:  parent.top
     anchors.left: parent.left
     anchors.right: parent.right
@@ -33,6 +35,7 @@ Item {
 
            onReleasedButton: {
                console.log("released button Home!!!")
+               actionBtHome()
            }
         }
     }

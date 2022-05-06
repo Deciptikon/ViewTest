@@ -10,5 +10,8 @@
         <file>image/bt-prev-pressed.png</file>
         <file>image/bt-prev-release.png</file>
         <file>ImageButton.qml</file>
+        <file>StackViewPage.qml</file>
+        <file>GridOne.qml</file>
+        <file>OptionsPage.qml</file>
     </qresource>
 </RCC>
