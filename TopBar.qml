@@ -4,8 +4,8 @@ import QtQuick.Controls 2.12
 Item {
     id: topBar
 
-    property real sizeIcons//: 32
-    property real marginIcons//: 50
+    property real sizeIcons
+    property real marginIcons
 
     signal actionBtHome()
 
@@ -18,7 +18,7 @@ Item {
     Rectangle {
         id: rectTopBar
         anchors.fill: parent
-        color: Qt.rgba(0.5, 0.5, 0.5, 0.5)//"#88888888"
+        color: Qt.rgba(0.5, 0.5, 0.5, 0.5)
 
         ImageButton {
            id: btHome

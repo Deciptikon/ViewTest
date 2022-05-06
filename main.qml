@@ -8,13 +8,6 @@ Window {
     property real sizeInter: 32
     property real marginInter: 5
 
-//    Connections {
-//        target: Model
-
-//        function onSi
-//    }
-
-
     width: 800
     height: 480
     visible: true
@@ -46,7 +39,6 @@ Window {
         onActionBtHome: {
             TestModel.testMetod("ActionBtHome")
             mainLoader.source = "StackViewPage.qml"
-        //onReleaseButton: mainLoader.source = "StackViewPage.qml"
         }
 
     }

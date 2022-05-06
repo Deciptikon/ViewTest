@@ -18,7 +18,7 @@ Item {
         height: parent.height/3
         radius: parent.width/20
         anchors.centerIn: parent
-        color: Qt.rgba(Math.random(), Math.random(), Math.random(), 0.7)//Qt.rgba(0.7, 0.7, 0.7, 0.7)
+        color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
         Text {
             id: testText
             anchors.centerIn: parent
@@ -27,7 +27,7 @@ Item {
             font.pixelSize: 24
         }
     }
-    //TestModel.testMetod("ActionBtHome")
+
     ImageButton {
        id: btHome
 
