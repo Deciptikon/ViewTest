@@ -2,6 +2,9 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.12
 
 Item {
+    property int lastNumItem
+    property int currentNumItem
+
     anchors.fill: parent
 
     ListModel {
@@ -30,6 +33,7 @@ Item {
         ListElement{
             name: "Test 2022"
             size: "435.43"
+            active: false
         }
         ListElement{
             name: "Test 4545"
@@ -57,39 +61,40 @@ Item {
         }
     }
 
+
+
     ListView {
         id: viewListField
         anchors.fill: parent
-
         model: listField
-
         delegate: Item {
-                    id: itemDelegateViewListField
+            property bool activePress: false
 
-                    height: 50
-
-
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        leftMargin: 5
-                        rightMargin: 5
-                        topMargin: 5
-                        bottomMargin: 5
-                    }
+            id: itemDelegateViewListField
+            height: activePress ? 150 : 50
+            width: parent.width
+            anchors {
+                leftMargin: 5
+                rightMargin: 5
+                topMargin: 5
+                bottomMargin: 5
+            }
 
             Rectangle {
                 id: delegateViewListField
-                height: parent.height - 5
+                height: 45
                 width: parent.width
                 radius: 10
-                anchors.centerIn: parent
+                anchors.top: parent.top
+                anchors.topMargin: 5
 
                 color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
 
                 Column {
+                    id: textColumn
                     anchors.fill: parent
                     anchors.leftMargin: 10
+                    anchors.topMargin: 5
 
                     Text {
                         text: "Name: " + name
@@ -109,27 +114,46 @@ Item {
                     }
                     onReleased: {
                         delegateViewListField.color = Qt.rgba(0.7, 0.7, 0.7, 0.7)
+                        console.log(index)
+
+                        currentNumItem = index
+
+                        if(lastNumItem < 0) {
+                            activePress = true
+                            lastNumItem = currentNumItem
+                            return
+                        }
+
+                        if(lastNumItem == currentNumItem) {
+                            activePress = false
+                            lastNumItem = currentNumItem = -1
+                        } else {
+                            viewListField.itemAtIndex(lastNumItem).activePress = false
+                            activePress = true
+                            lastNumItem = currentNumItem
+                        }
+
+//                        viewListField.itemAtIndex(numItem).activePress = false
+//                        numItem = index
+//                        activePress = true
+
                     }
                     onCanceled: {
                         delegateViewListField.color = Qt.rgba(0.7, 0.7, 0.7, 0.7)
                     }
                 }
             }
+
+            Rectangle {
+                id: actionDelegateViewListField
+                width: delegateViewListField.width
+                height: 100
+                radius: 10
+                anchors.top: delegateViewListField.bottom
+                color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
+                visible: activePress
+            }
+
         }
     }
-
-//    Rectangle {
-//        width: parent.width/2
-//        height: parent.height/2
-//        radius: parent.width/20
-//        anchors.centerIn: parent
-//        color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
-//        Text {
-//            id: testText
-//            anchors.centerIn: parent
-//            text: qsTr("Fields Page")
-//            color: "black"
-//            font.pixelSize: 40
-//        }
-//    }
 }

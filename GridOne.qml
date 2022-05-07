@@ -30,7 +30,10 @@ Item {
             page: "OptionsPage.qml";
             imageSource: "qrc:/image/icon-settings.png"
         }
-        ListElement {name: "Six";   page: ""; imageSource: "qrc:/image/icon-no-image.png"}
+        ListElement {
+            name: "Info";
+            page: "InfoPage.qml";
+            imageSource: "qrc:/image/icon-info.png"}
         ListElement {name: "Seven"; page: ""; imageSource: "qrc:/image/icon-no-image.png"}
         ListElement {name: "--8--"; page: ""; imageSource: "qrc:/image/icon-no-image.png"}
 
