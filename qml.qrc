@@ -25,5 +25,6 @@
         <file>image/icon-no-image.png</file>
         <file>image/icon-info.png</file>
         <file>InfoPage.qml</file>
+        <file>TextButton.qml</file>
     </qresource>
 </RCC>

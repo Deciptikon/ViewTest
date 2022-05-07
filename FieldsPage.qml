@@ -2,8 +2,8 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.12
 
 Item {
-    property int lastNumItem
-    property int currentNumItem
+    property int lastNumItem: -1
+    property int currentNumItem: -1
 
     anchors.fill: parent
 
@@ -33,7 +33,6 @@ Item {
         ListElement{
             name: "Test 2022"
             size: "435.43"
-            active: false
         }
         ListElement{
             name: "Test 4545"
@@ -61,18 +60,23 @@ Item {
         }
     }
 
-
-
     ListView {
         id: viewListField
-        anchors.fill: parent
+        anchors {
+            top: parent.top
+            bottom: bottomMenu.top
+            left: parent.left
+            right: parent.right
+        }
+
         model: listField
         delegate: Item {
+
             property bool activePress: false
 
             id: itemDelegateViewListField
-            height: activePress ? 150 : 50
-            width: parent.width
+            height: activePress ? actionDelegateViewListField.height + 50 : 50
+            width: viewListField.width
             anchors {
                 leftMargin: 5
                 rightMargin: 5
@@ -90,11 +94,48 @@ Item {
 
                 color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
 
+                TextButton {
+                    id: btDel
+                    height: parent.height - 5
+                    width: 60
+                    radiusButton: 5
+
+                    anchors.right: parent.right
+                    anchors.rightMargin: 5
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    textButton: qsTr("delete")
+                    colorTextButton: Qt.rgba(1, 1, 1, 1)
+
+                    colorPressed: Qt.rgba(0.5, 0.5, 0.5, 0.9)
+                    colorReleased: Qt.rgba(0.3, 0.3, 0.3, 0.9)
+
+                    onReleasedButton: {
+
+                        currentNumItem = index
+                        if(currentNumItem < lastNumItem) {
+                            if(currentNumItem == lastNumItem - 1) {
+                                --lastNumItem
+                            } else {
+                                viewListField.itemAtIndex(lastNumItem).activePress = false
+                                viewListField.itemAtIndex(--lastNumItem).activePress = true
+                            }
+                        } else if (currentNumItem == lastNumItem) {
+                            viewListField.itemAtIndex(lastNumItem).activePress = false
+                            lastNumItem = -1
+                        }
+                        listField.remove(index)
+                    }
+                }
+
                 Column {
                     id: textColumn
-                    anchors.fill: parent
+                    width: parent.width/2
+                    height: parent.height
+                    anchors.left: parent.left
                     anchors.leftMargin: 10
-                    anchors.topMargin: 5
+                    anchors.verticalCenter: parent.verticalCenter
+                    //anchors.topMargin: 5
 
                     Text {
                         text: "Name: " + name
@@ -107,7 +148,13 @@ Item {
                 }
 
                 MouseArea {
-                    anchors.fill: parent
+                    //anchors.fill: parent
+                    anchors {
+                        left: parent.left
+                        right: btDel.left
+                        top: parent.top
+                        bottom: parent.bottom
+                    }
 
                     onPressed: {
                         delegateViewListField.color = Qt.rgba(0.7, 0.7, 0.7, 0.9)
@@ -117,7 +164,6 @@ Item {
                         console.log(index)
 
                         currentNumItem = index
-
                         if(lastNumItem < 0) {
                             activePress = true
                             lastNumItem = currentNumItem
@@ -128,15 +174,15 @@ Item {
                             activePress = false
                             lastNumItem = currentNumItem = -1
                         } else {
+                            if(lastNumItem >= viewListField.count) {
+                                activePress = true
+                                lastNumItem = currentNumItem
+                                return
+                            }
                             viewListField.itemAtIndex(lastNumItem).activePress = false
                             activePress = true
                             lastNumItem = currentNumItem
                         }
-
-//                        viewListField.itemAtIndex(numItem).activePress = false
-//                        numItem = index
-//                        activePress = true
-
                     }
                     onCanceled: {
                         delegateViewListField.color = Qt.rgba(0.7, 0.7, 0.7, 0.7)
@@ -153,7 +199,46 @@ Item {
                 color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
                 visible: activePress
             }
+        }
+    }
 
+    Item {
+        id: bottomMenu
+        width: parent.width
+        height: 50
+        anchors.bottom: parent.bottom
+
+        Row {
+
+            TextButton {
+                id: btAdd
+                height: bottomMenu.height
+                width: bottomMenu.width/2
+
+                textButton: qsTr("+ + +")
+
+                colorPressed: Qt.rgba(0.5, 0.5, 0.5, 1)
+                colorReleased: Qt.rgba(0.7, 0.7, 0.7, 1)
+
+                onReleasedButton: {
+                    listField.append({name: "Added Field ++++++", size: "over 100500"})
+                }
+            }
+
+            TextButton {
+                id: btClear
+                height: bottomMenu.height
+                width: bottomMenu.width/2
+
+                textButton: qsTr("Clear all")
+
+                colorPressed: Qt.rgba(0.5, 0.5, 0.5, 1)
+                colorReleased: Qt.rgba(0.7, 0.7, 0.7, 1)
+
+                onReleasedButton: {
+                    listField.clear()//listField.append({name: "Added Field", size: "over 100500"})
+                }
+            }
         }
     }
 }
