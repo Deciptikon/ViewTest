@@ -165,7 +165,7 @@ Item {
                     }
                     onReleased: {
                         delegateViewListField.color = Qt.rgba(0.7, 0.7, 0.7, 0.7)
-                        console.log(index)
+                        console.log(index, pathToData)
 
                         currentNumItem = index
                         if(lastNumItem < 0) {
@@ -202,6 +202,11 @@ Item {
                 anchors.top: delegateViewListField.bottom
                 color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
                 visible: activePress
+                Text {
+                    anchors.centerIn: parent
+                    text: "P R E V I E W"
+                    font.pixelSize: 40
+                }
             }
         }
     }
@@ -226,7 +231,9 @@ Item {
 
                 onReleasedButton: {
                     //listField.append({name: "Added Field ++++++", size: "over 100500"})
-                    fieldDataBase.inserIntoTable("fnameField.text" + viewListField.count, "232323", "nikField.text")
+                    fieldDataBase.inserIntoTable("fnameField.text" + viewListField.count,
+                                                 "232323",
+                                                 "fields/" + viewListField.count + ".bin")
                     fieldModel.updateModel()
                 }
             }
