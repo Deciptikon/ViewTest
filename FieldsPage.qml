@@ -203,9 +203,16 @@ Item {
                 color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
                 visible: activePress
                 Text {
+                    id: textPreview
                     anchors.centerIn: parent
                     text: "P R E V I E W"
                     font.pixelSize: 40
+                }
+                Text {
+                    id: textPathToData
+                    text: pathToData
+                    anchors.top: textPreview.bottom
+                    anchors.horizontalCenter: textPreview.horizontalCenter
                 }
             }
         }
