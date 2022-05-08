@@ -175,6 +175,7 @@ Item {
         Row {
 
             TextButton {
+
                 id: btAdd
                 height: bottomMenu.height
                 width: bottomMenu.width/2
