@@ -44,7 +44,12 @@ Item {
                 id: rectDelegateSettings
 
                 anchors.fill: parent
-                anchors.margins: 5
+                anchors {
+                    topMargin: 5
+                    leftMargin: 5
+                    rightMargin: 5
+                }
+
 
                 radius: 10
 
@@ -87,6 +92,8 @@ Item {
                         textButton: "button" + index
                         onReleasedButton: {
                             console.log("press button")
+                            name = "--------"
+
                         }
                     }
                 }

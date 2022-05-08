@@ -26,20 +26,18 @@ Item {
             id: itemDelegateViewListField
             height: activePress ? actionDelegateViewListField.height + 50 : 50
             width: viewListField.width
-            anchors {
-                leftMargin: 5
-                rightMargin: 5
-                topMargin: 5
-                bottomMargin: 5
-            }
 
             Rectangle {
                 id: delegateViewListField
+
                 height: 45
-                width: parent.width
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                    margins: 5
+                }
                 radius: 10
-                anchors.top: parent.top
-                anchors.topMargin: 5
 
                 color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
 
@@ -149,6 +147,7 @@ Item {
                 height: 100
                 radius: 10
                 anchors.top: delegateViewListField.bottom
+                anchors.horizontalCenter: delegateViewListField.horizontalCenter
                 color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
                 visible: activePress
                 Text {
