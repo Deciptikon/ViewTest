@@ -69,7 +69,7 @@ Item {
             right: parent.right
         }
 
-        model: listField
+        model: fieldModel//listField
         delegate: Item {
 
             property bool activePress: false
@@ -139,11 +139,11 @@ Item {
                     //anchors.topMargin: 5
 
                     Text {
-                        text: "Name: " + name
+                        text: "Name: " + fname
                         font.pixelSize: 16
                     }
                     Text {
-                        text: "Size: " + size + " Acre"
+                        text: "Size: " + sname + " Acre"
                         font.pixelSize: 16
                     }
                 }
@@ -222,7 +222,9 @@ Item {
                 colorReleased: Qt.rgba(0.7, 0.7, 0.7, 1)
 
                 onReleasedButton: {
-                    listField.append({name: "Added Field ++++++", size: "over 100500"})
+                    //listField.append({name: "Added Field ++++++", size: "over 100500"})
+                    fieldDataBase.inserIntoTable("fnameField.text", "232323", "nikField.text")
+                    fieldModel.updateModel() // И обновляем модель данных с новой записью
                 }
             }
 

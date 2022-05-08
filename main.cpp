@@ -3,6 +3,8 @@
 #include <QQmlContext>
 
 #include "model.h"
+#include "databasefield.h"
+#include "fieldmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,12 +16,17 @@ int main(int argc, char *argv[])
 
     Model model;
 
+    DataBaseField dbField;
+    dbField.connectToDataBase();
+
+    FieldModel *fieldModel = new FieldModel();
 
     QQmlApplicationEngine engine;
 
     QQmlContext *context = engine.rootContext();
     context->setContextProperty("TestModel", &model);
-
+    context->setContextProperty("fieldModel", fieldModel);
+    context->setContextProperty("fieldDataBase", &dbField);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

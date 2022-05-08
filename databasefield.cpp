@@ -81,8 +81,8 @@ bool DataBaseField::removeRecord(const int id)
 bool DataBaseField::openDataBase()
 {
     /* База данных открывается по заданному пути
-         * и имени базы данных, если она существует
-         * */
+     * и имени базы данных, если она существует
+     * */
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setHostName(DATABASE_HOSTNAME);
     db.setDatabaseName("C:/example/" DATABASE_NAME);
