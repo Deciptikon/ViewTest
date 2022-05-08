@@ -7,58 +7,7 @@ Item {
 
     anchors.fill: parent
 
-    ListModel {
-        id: listField
 
-        ListElement{
-            name: "Field 1"
-            size: "132.00"
-        }
-        ListElement{
-            name: "Field 2"
-            size: "1052.3"
-        }
-        ListElement{
-            name: "Test field"
-            size: "95.23"
-        }
-        ListElement{
-            name: "Old field"
-            size: "8462.5"
-        }
-        ListElement{
-            name: "The best field"
-            size: "1578.65"
-        }
-        ListElement{
-            name: "Test 2022"
-            size: "435.43"
-        }
-        ListElement{
-            name: "Test 4545"
-            size: "33.433"
-        }
-        ListElement{
-            name: "Test 42"
-            size: "952.323"
-        }
-        ListElement{
-            name: "Test 999"
-            size: "10000.00"
-        }
-        ListElement{
-            name: "Test 666"
-            size: "большое поле"
-        }
-        ListElement{
-            name: "Test 777"
-            size: "777.77"
-        }
-        ListElement{
-            name: "Test 20"
-            size: "32.323"
-        }
-    }
 
     ListView {
         id: viewListField
@@ -69,7 +18,7 @@ Item {
             right: parent.right
         }
 
-        model: fieldModel//listField
+        model: fieldModel
         delegate: Item {
 
             property bool activePress: false
