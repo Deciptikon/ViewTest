@@ -10,10 +10,10 @@ class FieldModel : public QSqlQueryModel
 public:
 
     enum Roles {
-        IdRole = Qt::UserRole + 1,      // id
-        FNameRole,                      // имя
-        SNameRole,                      // фамилия
-        NikRole                         // ник
+        IdRole = Qt::UserRole + 1,     // id, всё остальное обязательно!!! ниже
+        NameRole,                      // Имя
+        SizeRole,                      // Размер, в м**2
+        PathToDataRole                 // Путь к файлу(или имя файла) с данными трактории и тд
     };
 
     explicit FieldModel(QObject *parent = nullptr);

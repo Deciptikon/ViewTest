@@ -125,7 +125,10 @@ Item {
                             viewListField.itemAtIndex(lastNumItem).activePress = false
                             lastNumItem = -1
                         }
-                        listField.remove(index)
+
+                        //listField.remove(index)
+                        fieldDataBase.removeRecord(fieldModel.getId(currentNumItem))
+                        fieldModel.updateModel();  // Обновляем модель данных
                     }
                 }
 
@@ -139,11 +142,11 @@ Item {
                     //anchors.topMargin: 5
 
                     Text {
-                        text: "Name: " + fname
+                        text: "Name: " + name
                         font.pixelSize: 16
                     }
                     Text {
-                        text: "Size: " + sname + " Acre"
+                        text: "Size: " + size + " m2"
                         font.pixelSize: 16
                     }
                 }
@@ -223,8 +226,8 @@ Item {
 
                 onReleasedButton: {
                     //listField.append({name: "Added Field ++++++", size: "over 100500"})
-                    fieldDataBase.inserIntoTable("fnameField.text", "232323", "nikField.text")
-                    fieldModel.updateModel() // И обновляем модель данных с новой записью
+                    fieldDataBase.inserIntoTable("fnameField.text" + viewListField.count, "232323", "nikField.text")
+                    fieldModel.updateModel()
                 }
             }
 
@@ -233,13 +236,13 @@ Item {
                 height: bottomMenu.height
                 width: bottomMenu.width/2
 
-                textButton: qsTr("Clear all")
+                textButton: qsTr("...")
 
                 colorPressed: Qt.rgba(0.5, 0.5, 0.5, 1)
                 colorReleased: Qt.rgba(0.7, 0.7, 0.7, 1)
 
                 onReleasedButton: {
-                    listField.clear()
+                    //listField.clear()
                 }
             }
         }

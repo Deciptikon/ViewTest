@@ -7,9 +7,14 @@ DataBaseField::DataBaseField(QObject *parent) : QObject(parent)
 
 void DataBaseField::connectToDataBase()
 {
+    // проверяем существует ли директория, и создаем по необходимости (локально)
+    if(!QDir(DATABASE_FOLDER).exists()) {//DATABASE_PATH DATABASE_FOLDER
+        QString fld = DATABASE_FOLDER;
+        QDir().mkdir(fld.remove(fld.length() - 1, 1));
+    }
     // Перед подключением к базе данных производим проверку на её существование.
     // В зависимости от результата производим открытие базы данных или её восстановление
-    if(QFile("C:/example/" DATABASE_NAME).exists()){
+    if(QFile(DATABASE_FOLDER DATABASE_NAME).exists()){//DATABASE_PATH
         this->openDataBase();
     } else {
         this->restoreDataBase();
@@ -26,15 +31,15 @@ bool DataBaseField::inserIntoTable(const QVariantList &data)
      * которые потом связываются методом bindValue
      * для подстановки данных из QVariantList
      * */
-    query.prepare("INSERT INTO " TABLE " ( " TABLE_FNAME ", "
-                                             TABLE_SNAME ", "
-                                             TABLE_NIK " ) "
-                      "VALUES (:FName, :SName, :Nik)");
-    query.bindValue(":FName",       data[0].toString());
-    query.bindValue(":SName",       data[1].toString());
-    query.bindValue(":Nik",         data[2].toString());
+    query.prepare("INSERT INTO " TABLE " ( " TABLE_NAME ", "
+                                             TABLE_SIZE ", "
+                                             TABLE_PATHTODATA " ) "
+                     "VALUES (:Name, :Size, :PathToData)");
+    query.bindValue(":Name",       data[0].toString());
+    query.bindValue(":Size",       data[1].toString());
+    query.bindValue(":PathToData",         data[2].toString());
 
-    // После чего выполняется запросом методом exec()
+    // Запрос методом exec()
     if(!query.exec()){
         qDebug() << "error insert into " << TABLE;
         qDebug() << query.lastError().text();
@@ -45,12 +50,12 @@ bool DataBaseField::inserIntoTable(const QVariantList &data)
     return false;
 }
 
-bool DataBaseField::inserIntoTable(const QString &fname, const QString &sname, const QString &nik)
+bool DataBaseField::inserIntoTable(const QString &name, const QString &size, const QString &path)
 {
     QVariantList data;
-    data.append(fname);
-    data.append(sname);
-    data.append(nik);
+    data.append(name);
+    data.append(size);
+    data.append(path);
 
     if(inserIntoTable(data))
         return true;
@@ -85,7 +90,7 @@ bool DataBaseField::openDataBase()
      * */
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setHostName(DATABASE_HOSTNAME);
-    db.setDatabaseName("C:/example/" DATABASE_NAME);
+    db.setDatabaseName( DATABASE_FOLDER DATABASE_NAME);//DATABASE_PATH
     if(db.open()){
         return true;
     } else {
@@ -117,9 +122,9 @@ bool DataBaseField::createTable()
     QSqlQuery query;
     if(!query.exec( "CREATE TABLE " TABLE " ("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    TABLE_FNAME     " VARCHAR(255)    NOT NULL,"
-                    TABLE_SNAME     " VARCHAR(255)    NOT NULL,"
-                    TABLE_NIK       " VARCHAR(255)    NOT NULL"
+                    TABLE_NAME       " VARCHAR(255)    NOT NULL,"
+                    TABLE_SIZE       " VARCHAR(255)    NOT NULL,"
+                    TABLE_PATHTODATA " VARCHAR(255)    NOT NULL"
                     " )"
                     )){
         qDebug() << "DataBase: error of create " << TABLE;

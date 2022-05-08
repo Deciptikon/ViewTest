@@ -22,16 +22,16 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> FieldModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[IdRole]    = "id";
-    roles[FNameRole] = "fname";
-    roles[SNameRole] = "sname";
-    roles[NikRole]   = "nik";
+    roles[IdRole]           = "id";
+    roles[NameRole]         = "name";
+    roles[SizeRole]         = "size";
+    roles[PathToDataRole]   = "pathToData";
     return roles;
 }
 
 void FieldModel::updateModel()
 {
-    this->setQuery("SELECT id, " TABLE_FNAME ", " TABLE_SNAME ", " TABLE_NIK " FROM " TABLE);
+    this->setQuery("SELECT id, " TABLE_NAME ", " TABLE_SIZE ", " TABLE_PATHTODATA " FROM " TABLE);
 }
 
 int FieldModel::getId(int row)

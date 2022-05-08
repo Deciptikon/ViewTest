@@ -7,17 +7,20 @@
 #include <QSqlError>
 #include <QSqlDatabase>
 #include <QFile>
+#include <QDir>
 #include <QDate>
 #include <QDebug>
 
 
-#define DATABASE_HOSTNAME   "NameDataBase"
-#define DATABASE_NAME       "Name.db"
+#define DATABASE_HOSTNAME   "FieldDataBase"
+#define DATABASE_NAME       "Fields.db"
+#define DATABASE_PATH       "C:/"
+#define DATABASE_FOLDER     "fieldsdb/"
 
-#define TABLE               "NameTable"         // Название таблицы
-#define TABLE_FNAME         "FisrtName"         // Вторая колонка
-#define TABLE_SNAME         "SurName"           // Третья колонка
-#define TABLE_NIK           "Nik"               // Четвертая колонка
+#define TABLE               "FieldsTable"   // Название таблицы
+#define TABLE_NAME          "Name"          // Вторая колонка
+#define TABLE_SIZE          "Size"          // Третья колонка
+#define TABLE_PATHTODATA    "PathToData"    // Четвертая колонка
 
 class DataBaseField : public QObject
 {
