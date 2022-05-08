@@ -69,7 +69,7 @@ Item {
             right: parent.right
         }
 
-        model: listField
+        model: fieldModel//listField
         delegate: Item {
 
             property bool activePress: false
@@ -112,6 +112,7 @@ Item {
 
                     onReleasedButton: {
 
+                        /// здесь есть баг))))
                         currentNumItem = index
                         if(currentNumItem < lastNumItem) {
                             if(currentNumItem == lastNumItem - 1) {
