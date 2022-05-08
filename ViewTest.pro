@@ -1,4 +1,4 @@
-QT += quick
+QT += quick sql
 
 CONFIG += c++11
 
@@ -7,8 +7,8 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        databasefield.cpp \
         fieldmodel.cpp \
-        fieldobject.cpp \
         main.cpp \
         model.cpp
 
@@ -28,6 +28,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
+    databasefield.h \
     fieldmodel.h \
-    fieldobject.h \
     model.h

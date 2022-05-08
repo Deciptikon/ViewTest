@@ -69,7 +69,7 @@ Item {
             right: parent.right
         }
 
-        model: fieldModel//listField
+        model: listField
         delegate: Item {
 
             property bool activePress: false
@@ -237,7 +237,7 @@ Item {
                 colorReleased: Qt.rgba(0.7, 0.7, 0.7, 1)
 
                 onReleasedButton: {
-                    listField.clear()//listField.append({name: "Added Field", size: "over 100500"})
+                    listField.clear()
                 }
             }
         }
