@@ -71,10 +71,10 @@ Item {
                         text: title
                         font.pixelSize: 16
                     }
-                    Text {
-                        text: value
-                        font.pixelSize: 16
-                    }
+//                    Text {
+//                        text: value
+//                        font.pixelSize: 16
+//                    }
                 }
                 Item {
                     id: itemInputData
@@ -83,32 +83,42 @@ Item {
                     anchors.right: rectDelegateSettings.right
                     anchors.verticalCenter: rectDelegateSettings.verticalCenter
 
-                    TextButton {
-                        id: btTest
-                        width: 100
-                        height: 30
-                        radiusButton: 5
+                    DoubleEditor {
+                        id: doubleEdit
                         anchors.right: parent.right
-                        anchors.rightMargin: 5
                         anchors.verticalCenter: parent.verticalCenter
-                        textButton: "button" + index
-                        onReleasedButton: {
-                            console.log("press button")
-
-                            value = Math.ceil(Math.random()*1000)
-                            console.log(value)
-
-                            if(typeEdit == TypeEdit.BOOL_EDIT) {
-                                console.log("тип редактирования bool")
-                            }
-                            if(typeEdit == TypeEdit.DOUBLE_EDIT) {
-                                console.log("тип редактирования double")
-                            }
-                            if(typeEdit == TypeEdit.STRING_EDIT) {
-                                console.log("тип редактирования string")
-                            }
-                        }
+                        maxValue: 1000
+                        stepEdit: 10
+                        currentValue: value
                     }
+
+//                    TextButton {
+//                        id: btTest
+//                        width: 100
+//                        height: 30
+//                        radiusButton: 5
+//                        anchors.right: parent.right
+//                        anchors.rightMargin: 5
+//                        anchors.verticalCenter: parent.verticalCenter
+//                        textButton: "rndEdit" + index
+//                        onReleasedButton: {
+//                            console.log("press button")
+
+//                            value = Math.ceil(Math.random()*1000)
+//                            console.log(value)
+
+//                            if(typeEdit == TypeEdit.BOOL_EDIT) {
+//                                console.log("тип редактирования bool")
+//                            }
+//                            if(typeEdit == TypeEdit.DOUBLE_EDIT) {
+//                                console.log("тип редактирования double")
+//                            }
+//                            if(typeEdit == TypeEdit.STRING_EDIT) {
+//                                console.log("тип редактирования string")
+//                            }
+//                        }
+//                    }
+
                 }
             }
         }

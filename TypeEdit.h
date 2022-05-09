@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+// ENUM для использования как в с++ так и в qml
 class TypeEdit : public QObject
 {
     Q_OBJECT
