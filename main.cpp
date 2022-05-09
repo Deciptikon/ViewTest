@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "appsettings.h"
 #include "model.h"
 #include "databasefield.h"
 #include "fieldmodel.h"
@@ -11,6 +12,8 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
+
+    AppSettings settings;
 
     QGuiApplication app(argc, argv);
 
