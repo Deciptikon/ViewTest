@@ -10,22 +10,25 @@
 #include <QList>
 #include <QPair>
 
+#include "TypeEdit.h"
+
+
 #define ORGANIZATION_NAME    "Deciptikon"
 #define ORGANIZATION_DOMAIN  "vk.com/deciptikon"
 #define APPLICATION_NAME     "AgroSlave"
 
 #define TEST_NAME            "testName"
 
-enum TypeEdit {
-    BOOL_EDIT,
-    DOUBLE_EDIT,
-    STRING_EDIT
-};
+//enum TypeEdit {
+//    BOOL_EDIT,
+//    DOUBLE_EDIT,
+//    STRING_EDIT
+//};
 
 struct SettingsData {
     QString  key;
     QString  title;
-    TypeEdit typeEdit;
+    TypeEdit::State typeEdit;
 };
 
 class AppSettings : public QAbstractListModel

@@ -29,6 +29,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
+    TypeEdit.h \
     appsettings.h \
     databasefield.h \
     fieldmodel.h \

@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "TypeEdit.h"
 #include "appsettings.h"
 #include "model.h"
 #include "databasefield.h"
@@ -33,6 +34,8 @@ int main(int argc, char *argv[])
     context->setContextProperty("fieldModel", fieldModel);
     context->setContextProperty("fieldDataBase", &dbField);
     context->setContextProperty("appSettings", &settings);
+
+    qmlRegisterType<TypeEdit>("TypeEdit", 1, 0, "TypeEdit");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

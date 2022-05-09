@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.12
 
+import TypeEdit 1.0 // способ редактирования настроек
+
 Item {
     anchors.fill: parent
 
@@ -98,8 +100,16 @@ Item {
                             //console.log(size)
                             value = Math.ceil(Math.random()*1000)
                             console.log(value)
-                            console.log("тип редактирвоания " + typeEdit)
 
+                            if(typeEdit == TypeEdit.BOOL_EDIT) {
+                                console.log("тип редактирования bool")
+                            }
+                            if(typeEdit == TypeEdit.DOUBLE_EDIT) {
+                                console.log("тип редактирования double")
+                            }
+                            if(typeEdit == TypeEdit.STRING_EDIT) {
+                                console.log("тип редактирования string")
+                            }
                         }
                     }
                 }

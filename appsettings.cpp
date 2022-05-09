@@ -12,6 +12,7 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     //QPair<QString, QString> data;
     SettingsData data;
 
+
     // <key, title, typeEdit> (ключ для записи/чтения настроек и заголовок для view)
     data = {"widthWindow", "Width general window", TypeEdit::DOUBLE_EDIT};
     listKeys.append(data);
@@ -50,18 +51,18 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
         return settings.value(key, "");
     }
     case TypeEditRole: {
-        TypeEdit type = listKeys.at(index.row()).typeEdit;
-        QString str;
-        if(type == TypeEdit::BOOL_EDIT) {
-            str = "bool";
-        }
-        if(type == TypeEdit::DOUBLE_EDIT) {
-            str = "double";
-        }
-        if(type == TypeEdit::STRING_EDIT) {
-            str = "string";
-        }
-        return str;// qml кажется не поддерживает enum ????
+//        TypeEdit::State type = listKeys.at(index.row()).typeEdit;
+//        QString str;
+//        if(type == TypeEdit::BOOL_EDIT) {
+//            str = "bool";
+//        }
+//        if(type == TypeEdit::DOUBLE_EDIT) {
+//            str = "double";
+//        }
+//        if(type == TypeEdit::STRING_EDIT) {
+//            str = "string";
+//        }
+        return listKeys.at(index.row()).typeEdit;// qml кажется не поддерживает enum ????
     }
     default: {
         return QVariant();
