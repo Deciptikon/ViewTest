@@ -17,6 +17,7 @@ Item {
             left: parent.left
             right: parent.right
         }
+        clip: true // обрезка за пределами окна
 
         model: fieldModel
         delegate: Item {
@@ -182,8 +183,8 @@ Item {
 
                 textButton: qsTr("+ + +")
 
-                colorPressed: Qt.rgba(0.5, 0.5, 0.5, 1)
-                colorReleased: Qt.rgba(0.7, 0.7, 0.7, 1)
+                colorPressed: Qt.rgba(0.5, 0.5, 0.5, 0.7)
+                colorReleased: Qt.rgba(0.7, 0.7, 0.7, 0.7)
 
                 onReleasedButton: {
                     //listField.append({name: "Added Field ++++++", size: "over 100500"})
@@ -201,8 +202,8 @@ Item {
 
                 textButton: qsTr("...")
 
-                colorPressed: Qt.rgba(0.5, 0.5, 0.5, 1)
-                colorReleased: Qt.rgba(0.7, 0.7, 0.7, 1)
+                colorPressed: Qt.rgba(0.5, 0.5, 0.5, 0.7)
+                colorReleased: Qt.rgba(0.7, 0.7, 0.7, 0.7)
 
                 onReleasedButton: {
                     //listField.clear()

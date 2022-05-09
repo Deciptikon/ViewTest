@@ -9,6 +9,7 @@ class TypeEdit : public QObject
     Q_OBJECT
 public:
     enum State {
+        NONE_EDIT,
         BOOL_EDIT,
         DOUBLE_EDIT,
         STRING_EDIT

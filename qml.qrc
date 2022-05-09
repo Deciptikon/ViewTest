@@ -27,5 +27,6 @@
         <file>InfoPage.qml</file>
         <file>TextButton.qml</file>
         <file>DoubleValueEditor.qml</file>
+        <file>BoolValueEditior.qml</file>
     </qresource>
 </RCC>

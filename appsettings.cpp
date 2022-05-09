@@ -14,6 +14,9 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
 
 
     // <key, title, typeEdit> (ключ для записи/чтения настроек и заголовок для view)
+    data = {"", "Общие настройки окна", TypeEdit::NONE_EDIT};
+    listKeys.append(data);
+
     data = {"widthWindow", "Width general window", TypeEdit::DOUBLE_EDIT};
     listKeys.append(data);
 
@@ -21,6 +24,12 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     listKeys.append(data);
 
     data = {"colorWindow", "Color general window", TypeEdit::STRING_EDIT};
+    listKeys.append(data);
+
+    data = {"", "Настройки сохранения траектрии", TypeEdit::NONE_EDIT};
+    listKeys.append(data);
+
+    data = {"flagSaveTraectory", "Сохранять траекторию на устройстве?", TypeEdit::BOOL_EDIT};
     listKeys.append(data);
 }
 
@@ -35,7 +44,7 @@ int AppSettings::rowCount(const QModelIndex &parent) const
 
 QVariant AppSettings::data(const QModelIndex &index, int role) const
 {
-    qDebug() << "AppSettings::data(const QModelIndex &index, int role) const";
+    qDebug() << "AppSettings::data(index =" << index << ", role =" << role <<" ) const";
     if (!index.isValid()) {
         return QVariant();
     }
@@ -47,11 +56,40 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
     case ValueRole: {
         QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
         QString key = listKeys.at(index.row()).key;
+        TypeEdit::State type = listKeys.at(index.row()).typeEdit;
         // значение по ключу из пары <ключ, заголовок, тип редактирования>
-        return settings.value(key, "");
+        if(type == TypeEdit::NONE_EDIT) {
+            qDebug() << "none";
+            return QVariant();
+        }
+        if(type == TypeEdit::BOOL_EDIT) {
+            bool val = settings.value(key, false).Bool;
+            qDebug() << val;
+            return QVariant(val);
+        }
+        if(type == TypeEdit::DOUBLE_EDIT) {
+            double val = settings.value(key, 0).Double;
+            qDebug() << val;
+            return settings.value(key, 0).Double;
+        }
+        if(type == TypeEdit::STRING_EDIT) {
+            QString val(settings.value(key, "").String);
+            qDebug() << val;
+            return QVariant(val);
+        }
+
     }
-    case TypeEditRole: {
-        return listKeys.at(index.row()).typeEdit;
+    case IsNoneEditRole: {
+        return listKeys.at(index.row()).typeEdit == TypeEdit::NONE_EDIT ? true: false;
+    }
+    case IsBoolEditRole: {
+        return listKeys.at(index.row()).typeEdit == TypeEdit::BOOL_EDIT ? true: false;
+    }
+    case IsDoubleEditRole: {
+        return listKeys.at(index.row()).typeEdit == TypeEdit::DOUBLE_EDIT ? true: false;
+    }
+    case IsStringEditRole: {
+        return listKeys.at(index.row()).typeEdit == TypeEdit::STRING_EDIT ? true: false;
     }
     default: {
         return QVariant();
@@ -62,9 +100,12 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> AppSettings::roleNames() const
 {
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
-    roles[TitleRole]    = "title";
-    roles[ValueRole]    = "value";
-    roles[TypeEditRole] = "typeEdit";
+    roles[TitleRole]        = "title";
+    roles[ValueRole]        = "value";
+    roles[IsNoneEditRole]   = "isNoneEdit";
+    roles[IsBoolEditRole]   = "isBoolEdit";
+    roles[IsDoubleEditRole] = "isDoubleEdit";
+    roles[IsStringEditRole] = "isStringEdit";
 
     return roles;
 }

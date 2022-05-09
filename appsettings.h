@@ -29,10 +29,13 @@ class AppSettings : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    enum Roles {
+    enum Roles {// роли для использования в qml
             TitleRole = Qt::UserRole + 1,
             ValueRole,
-            TypeEditRole
+            IsNoneEditRole,
+            IsBoolEditRole,
+            IsDoubleEditRole,
+            IsStringEditRole
         };
 
     explicit AppSettings(QObject *parent = nullptr);

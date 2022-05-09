@@ -34,6 +34,7 @@ Item {
     ListView {
         id: viewListSettings
         anchors.fill: parent
+        clip: true // обрезка за пределами окна
 
         model: appSettings//listSettings
         delegate: Item {
@@ -84,6 +85,9 @@ Item {
                     anchors.right: rectDelegateSettings.right
                     anchors.verticalCenter: rectDelegateSettings.verticalCenter
 
+                    visible: !isNoneEdit
+                    enabled: !isNoneEdit
+
                     DoubleValueEditor {
                         id: dbEdit
                         width: 120
@@ -96,9 +100,10 @@ Item {
 
                         maxValueDouble: 1000
                         stepEditValueDouble: 10
-                        currentValueDouble: value
+                        currentValueDouble: isDoubleEdit ? value : 490
 
-                        visible: isDoubleValueEdit
+                        visible: isDoubleEdit
+                        enabled: isDoubleEdit
 
                         onMyCurrentValueDoubleChanged: {
                             value = currentValueDouble
@@ -106,6 +111,25 @@ Item {
                         // здесь можно добавить кнопку установки значения,
                         // и перенести в неё код из onMyCurrentValueDoubleChanged
                         // если не нужно сохранять настройки при каждом изменении
+                    }
+
+                    BoolValueEditior {
+                        id: bEdit
+                        width: height
+                        height: 36
+
+                        anchors.right: parent.right
+                        anchors.rightMargin: 5
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        currentStateBool: isBoolEdit ? value : false
+
+                        visible: isBoolEdit
+                        enabled: isBoolEdit
+
+                        onMyCurrentStateBoolChanged: {
+                            value = currentStateBool
+                        }
                     }
 
 //                    TextButton {

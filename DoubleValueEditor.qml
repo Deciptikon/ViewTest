@@ -24,15 +24,6 @@ Item {
 
     signal myCurrentValueDoubleChanged()
 
-//    Connections {
-//        target: btOut
-
-//        function onCurrentValueChanged() {
-//            viewText.text = currentValue
-//        }
-//    }
-
-
     TextButton {
         id: btOut
         anchors.left: parent.left

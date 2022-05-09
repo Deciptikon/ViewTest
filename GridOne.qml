@@ -53,6 +53,8 @@ Item {
         cellWidth: 240
         cellHeight: 220
 
+        //clip: true // обрезка за пределами окна
+
         delegate: Rectangle {
             id: delegatGridView
             width: 200
