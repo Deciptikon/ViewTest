@@ -16,13 +16,26 @@
 
 #define TEST_NAME            "testName"
 
+enum TypeEdit {
+    BOOL_EDIT,
+    DOUBLE_EDIT,
+    STRING_EDIT
+};
+
+struct SettingsData {
+    QString  key;
+    QString  title;
+    TypeEdit typeEdit;
+};
+
 class AppSettings : public QAbstractListModel
 {
     Q_OBJECT
 public:
     enum Roles {
             TitleRole = Qt::UserRole + 1,
-            ValueRole
+            ValueRole,
+            TypeEditRole
         };
 
     explicit AppSettings(QObject *parent = nullptr);
@@ -49,9 +62,7 @@ public slots:
     void setValue(const QString key, QVariant value);
 
 private:
-    //QSettings settings;
-
-    QList< QPair<QString, QString> > listKeys; // список пар <ключ, заголовок>
+    QList< SettingsData > listKeys; // список пар <ключ, заголовок>
 };
 
 #endif // APPSETTINGS_H

@@ -96,7 +96,9 @@ Item {
                             //appSettings.setValue("Option1", "99999999")
                             //size = appSettings.getValue("Option1")
                             //console.log(size)
-                            value = "228" + index
+                            value = Math.ceil(Math.random()*1000)
+                            console.log(value)
+                            console.log("тип редактирвоания " + typeEdit)
 
                         }
                     }

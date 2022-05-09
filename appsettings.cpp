@@ -8,16 +8,19 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     QCoreApplication::setApplicationName(APPLICATION_NAME);
 
     qDebug() << "получение настроек";
-    //QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
 
-    QPair<QString, QString> data1{"widthWindow", "Width general window"};
-    listKeys.append(data1);
+    //QPair<QString, QString> data;
+    SettingsData data;
 
-    QPair<QString, QString> data2{"heightWindow", "Height general window"};
-    listKeys.append(data2);
+    // <key, title, typeEdit> (ключ для записи/чтения настроек и заголовок для view)
+    data = {"widthWindow", "Width general window", TypeEdit::DOUBLE_EDIT};
+    listKeys.append(data);
 
-    QPair<QString, QString> data3{"colorWindow", "Color general window"};
-    listKeys.append(data3);
+    data = {"heightWindow", "Height general window", TypeEdit::DOUBLE_EDIT};
+    listKeys.append(data);
+
+    data = {"colorWindow", "Color general window", TypeEdit::STRING_EDIT};
+    listKeys.append(data);
 }
 
 int AppSettings::rowCount(const QModelIndex &parent) const
@@ -38,17 +41,27 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case TitleRole: {
-        //qDebug() << "case TitleRole";
-        QString r = listKeys.at(index.row()).second;
-        qDebug() << "case TitleRole; " << r;
-        return r;// заголовок из пары <ключ, заголовок>
+        return listKeys.at(index.row()).title;// заголовок из пары <ключ, заголовок>
     }
     case ValueRole: {
-        //qDebug() << "case ValueRole";
         QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-        QVariant r = settings.value(listKeys.at(index.row()).first, "");
-        qDebug() << "case ValueRole: " << r.toString();
-        return r;// значение по ключу из пары <ключ, заголовок>
+        QString key = listKeys.at(index.row()).key;
+        // значение по ключу из пары <ключ, заголовок, тип редактирования>
+        return settings.value(key, "");
+    }
+    case TypeEditRole: {
+        TypeEdit type = listKeys.at(index.row()).typeEdit;
+        QString str;
+        if(type == TypeEdit::BOOL_EDIT) {
+            str = "bool";
+        }
+        if(type == TypeEdit::DOUBLE_EDIT) {
+            str = "double";
+        }
+        if(type == TypeEdit::STRING_EDIT) {
+            str = "string";
+        }
+        return str;// qml кажется не поддерживает enum ????
     }
     default: {
         return QVariant();
@@ -59,49 +72,41 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> AppSettings::roleNames() const
 {
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
-    roles[TitleRole] = "title";
-    roles[ValueRole] = "value";
+    roles[TitleRole]    = "title";
+    roles[ValueRole]    = "value";
+    roles[TypeEditRole] = "typeEdit";
 
     return roles;
 }
 
 bool AppSettings::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    //qDebug() << "setData()";
     if (!index.isValid()) {
         return false;
     }
-
-    switch (role) {
-    case TitleRole: {
-        return false;   // Не меняем title из view
-    }
-    case ValueRole: {
-        qDebug() << "setData() case ValueRole:" << value;
-
-        QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-
-        QString key = listKeys.at(index.row()).first;// ключ по индексу
-        settings.setValue( key, value.toString());// устанавливаем значение по ключу
-        settings.sync(); // синхронизируемся и получаем статус
-
-        if(settings.status() == QSettings::NoError) { // если ошибок нет, возвращаем true
-            //emit settingsChanged(); // излучаем сигнал о изменении
-            //return true;
-            qDebug() << "settings.status() == QSettings::NoError";
-        } else {
-            qDebug() << "settings.status() != QSettings::NoError";
-            return false;
-        }
-    }
-    default: {
+    if(role != ValueRole) {
         return false;
     }
+
+    qDebug() << "setData() case ValueRole:" << value;
+
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    QString key = listKeys.at(index.row()).key;// ключ по индексу
+    settings.setValue( key, value.toString());// устанавливаем значение по ключу
+    settings.sync(); // синхронизируемся и получаем статус
+
+    if(settings.status() == QSettings::NoError) { // если ошибок нет, возвращаем true
+        qDebug() << "QSettings::NoError";
+        // испускаем сигнал о изменившихся данных для обновления view
+        emit dataChanged(index, index, QVector<int>() << role);
+        qDebug() << "dataChanged(index, index, QVector<int>() << role)";
+        return true;
+    } else {
+        qDebug() << "QSettings::Error";
+        // здесь можно излучить сигнал с ошибкой и отобразить на view
+        return false;
     }
-
-    emit dataChanged(index, index, QVector<int>() << role);
-
-    return true;
 }
 
 Qt::ItemFlags AppSettings::flags(const QModelIndex &index) const
@@ -122,8 +127,6 @@ Qt::ItemFlags AppSettings::flags(const QModelIndex &index) const
 //    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
 //    emit dataChanged(index, index);
 //}
-
-
 
 QVariant AppSettings::getValue(const QString key)
 {
@@ -161,8 +164,7 @@ void AppSettings::setValue(QString key, QVariant value)
     settings.setValue(key, value);
     settings.sync();
     if(settings.status() == QSettings::NoError) {
-        //emit settingsChanged();
-
+        // это нужно поправить)))) сигнал должен излучаться что бы view отражала изменения
         //emit dataChanged(index, index, QVector<int>() << Roles::ValueRole);
     }
 }
