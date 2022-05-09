@@ -39,6 +39,8 @@ Item {
         delegate: Item {
             id: itemDelegateSettings
 
+            property bool isDoubleValueEdit: true
+
             width: viewListSettings.width
             height: 50
 
@@ -51,8 +53,6 @@ Item {
                     leftMargin: 5
                     rightMargin: 5
                 }
-
-
                 radius: 10
 
                 color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
@@ -75,6 +75,7 @@ Item {
 //                        text: value
 //                        font.pixelSize: 16
 //                    }
+
                 }
                 Item {
                     id: itemInputData
@@ -83,13 +84,28 @@ Item {
                     anchors.right: rectDelegateSettings.right
                     anchors.verticalCenter: rectDelegateSettings.verticalCenter
 
-                    DoubleEditor {
-                        id: doubleEdit
+                    DoubleValueEditor {
+                        id: dbEdit
+                        width: 120
+                        height: 36
+                        radiusDoubleEditor: 5
+
                         anchors.right: parent.right
+                        anchors.rightMargin: 5
                         anchors.verticalCenter: parent.verticalCenter
-                        maxValue: 1000
-                        stepEdit: 10
-                        currentValue: value
+
+                        maxValueDouble: 1000
+                        stepEditValueDouble: 10
+                        currentValueDouble: value
+
+                        visible: isDoubleValueEdit
+
+                        onMyCurrentValueDoubleChanged: {
+                            value = currentValueDouble
+                        }
+                        // здесь можно добавить кнопку установки значения,
+                        // и перенести в неё код из onMyCurrentValueDoubleChanged
+                        // если не нужно сохранять настройки при каждом изменении
                     }
 
 //                    TextButton {

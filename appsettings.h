@@ -19,12 +19,6 @@
 
 #define TEST_NAME            "testName"
 
-//enum TypeEdit {
-//    BOOL_EDIT,
-//    DOUBLE_EDIT,
-//    STRING_EDIT
-//};
-
 struct SettingsData {
     QString  key;
     QString  title;

@@ -26,6 +26,6 @@
         <file>image/icon-info.png</file>
         <file>InfoPage.qml</file>
         <file>TextButton.qml</file>
-        <file>DoubleEditor.qml</file>
+        <file>DoubleValueEditor.qml</file>
     </qresource>
 </RCC>
