@@ -94,10 +94,7 @@ Item {
                         textButton: "button" + index
                         onReleasedButton: {
                             console.log("press button")
-                            //name = "--------"
-                            //appSettings.setValue("Option1", "99999999")
-                            //size = appSettings.getValue("Option1")
-                            //console.log(size)
+
                             value = Math.ceil(Math.random()*1000)
                             console.log(value)
 

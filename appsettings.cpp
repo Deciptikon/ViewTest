@@ -51,18 +51,7 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
         return settings.value(key, "");
     }
     case TypeEditRole: {
-//        TypeEdit::State type = listKeys.at(index.row()).typeEdit;
-//        QString str;
-//        if(type == TypeEdit::BOOL_EDIT) {
-//            str = "bool";
-//        }
-//        if(type == TypeEdit::DOUBLE_EDIT) {
-//            str = "double";
-//        }
-//        if(type == TypeEdit::STRING_EDIT) {
-//            str = "string";
-//        }
-        return listKeys.at(index.row()).typeEdit;// qml кажется не поддерживает enum ????
+        return listKeys.at(index.row()).typeEdit;
     }
     default: {
         return QVariant();
