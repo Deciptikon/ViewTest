@@ -21,10 +21,6 @@ public:
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 
 protected:
-    /* хешированная таблица ролей для колонок.
-     * Метод используется в дебрях базового класса QAbstractItemModel,
-     * от которого наследован класс QSqlQueryModel
-     * */
     QHash<int, QByteArray> roleNames() const;
 
 signals:

@@ -12,17 +12,19 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-
+    // настройки приложения
     AppSettings settings;
+    // Теперь можно получить их по ключу
+    //qreal s = settings.getValueQreal(TEST_NAME);
 
     QGuiApplication app(argc, argv);
 
     Model model;
 
-    DataBaseField dbField;
+    DataBaseField dbField;// база данных
     dbField.connectToDataBase();
 
-    FieldModel *fieldModel = new FieldModel();
+    FieldModel *fieldModel = new FieldModel();// модель для отображения базы данных
 
     QQmlApplicationEngine engine;
 
@@ -30,7 +32,7 @@ int main(int argc, char *argv[])
     context->setContextProperty("TestModel", &model);
     context->setContextProperty("fieldModel", fieldModel);
     context->setContextProperty("fieldDataBase", &dbField);
-
+    context->setContextProperty("appSettings", &settings);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

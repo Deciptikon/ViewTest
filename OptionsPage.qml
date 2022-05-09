@@ -13,7 +13,7 @@ Item {
         }
         ListElement{
             name: "Option2"
-            size: "1052.3"
+            size: "51"//appSettings.getValueString("Option2")
         }
         ListElement{
             name: "Option3"
@@ -33,7 +33,7 @@ Item {
         id: viewListSettings
         anchors.fill: parent
 
-        model: listSettings
+        model: appSettings//listSettings
         delegate: Item {
             id: itemDelegateSettings
 
@@ -66,11 +66,11 @@ Item {
                     }
 
                     Text {
-                        text: name
+                        text: title
                         font.pixelSize: 16
                     }
                     Text {
-                        text: size
+                        text: value
                         font.pixelSize: 16
                     }
                 }
@@ -92,7 +92,11 @@ Item {
                         textButton: "button" + index
                         onReleasedButton: {
                             console.log("press button")
-                            name = "--------"
+                            //name = "--------"
+                            //appSettings.setValue("Option1", "99999999")
+                            //size = appSettings.getValue("Option1")
+                            //console.log(size)
+                            value = "228" + index
 
                         }
                     }
