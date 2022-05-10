@@ -15,7 +15,7 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     // key      - ключ для записи/чтения настроек
     // title    - заголовок для делегата view
     // typeEdit - тип редактирования значений настроек по ключу key
-    data = {"", "Общие настройки окна", TypeEdit::NONE_EDIT};
+    data = {"", "Общие настройки приложения", TypeEdit::NONE_EDIT};
     listKeys.append(data);
 
     data = {"widthWindow", "Width basic window", TypeEdit::DOUBLE_EDIT};
@@ -27,7 +27,7 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     data = {"colorWindow", "Color basic window", TypeEdit::STRING_EDIT};
     listKeys.append(data);
 
-    data = {"", "Настройки сохранения траектрии", TypeEdit::NONE_EDIT};
+    data = {"", "Настройки сохранения траектории", TypeEdit::NONE_EDIT};
     listKeys.append(data);
 
     data = {"flagSaveTraectory", "Сохранять траекторию на устройстве?", TypeEdit::BOOL_EDIT};

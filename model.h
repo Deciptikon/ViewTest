@@ -19,12 +19,16 @@ signals:
 
     void signalStateGPStoQML(bool state);
     void signalStateI2CtoQML(bool state);
+    void signalStateGyrotoQML(bool state);
+    void signalStateCamtoQML(bool state);
 
 public slots:
     void slotTakeFromQML(QString str);
 
     void slotUpdateTimerGPS();
     void slotUpdateTimerI2C();
+    void slotUpdateTimerGyro();
+    void slotUpdateTimerCam();
 
 private:
     QString testData;
@@ -34,6 +38,12 @@ private:
 
     QTimer *timerI2C;
     bool stateI2C = false;
+
+    QTimer *timerGyro;
+    bool stateGyro = false;
+
+    QTimer *timerCam;
+    bool stateCam = false;
 };
 
 #endif // MODEL_H

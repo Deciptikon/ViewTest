@@ -37,5 +37,9 @@
         <file>StateIcon.qml</file>
         <file>image/state-wheel-active.png</file>
         <file>image/state-wheel-passive.png</file>
+        <file>image/state-gyro-active.png</file>
+        <file>image/state-gyro-passive.png</file>
+        <file>image/state-camera-active.png</file>
+        <file>image/state-camera-passive.png</file>
     </qresource>
 </RCC>

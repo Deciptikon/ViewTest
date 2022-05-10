@@ -12,6 +12,14 @@ Model::Model(QObject *parent) : QObject(parent)
     timerI2C = new QTimer();
     connect(timerI2C, SIGNAL(timeout()), this, SLOT(slotUpdateTimerI2C()) );
     timerI2C->start(4150);
+
+    timerGyro = new QTimer();
+    connect(timerGyro, SIGNAL(timeout()), this, SLOT(slotUpdateTimerGyro()) );
+    timerGyro->start(4823);
+
+    timerCam = new QTimer();
+    connect(timerCam, SIGNAL(timeout()), this, SLOT(slotUpdateTimerCam()) );
+    timerCam->start(3186);
 }
 
 void Model::testMetod(QString str)
@@ -41,4 +49,18 @@ void Model::slotUpdateTimerI2C()
     stateI2C = !stateI2C;
     qDebug() << "stateI2C =" << stateI2C;
     emit signalStateI2CtoQML(stateI2C);
+}
+
+void Model::slotUpdateTimerGyro()
+{
+    stateGyro = !stateGyro;
+    qDebug() << "stateGyro =" << stateGyro;
+    emit signalStateGyrotoQML(stateGyro);
+}
+
+void Model::slotUpdateTimerCam()
+{
+    stateCam = !stateCam;
+    qDebug() << "stateCam =" << stateCam;
+    emit signalStateCamtoQML(stateCam);
 }

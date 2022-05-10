@@ -47,9 +47,17 @@ Item {
                 console.log("function onSignalStateGPStoQML(state)")
                 stateGPS.stateIsActive = state
             }
-            function onSignalStateI2CtoQML(state) {// bool state
+            function onSignalStateI2CtoQML(state) {
                 console.log("function onSignalStateI2CtoQML(state)")
                 stateI2CWheel.stateIsActive = state
+            }
+            function onSignalStateGyrotoQML(state) {
+                console.log("function onSignalStateGyrotoQML(state)")
+                stateGyro.stateIsActive = state
+            }
+            function onSignalStateCamtoQML(state) {
+                console.log("function onSignalStateCamtoQML(state)")
+                stateCamera.stateIsActive = state
             }
         }
 
@@ -63,7 +71,7 @@ Item {
                 rightMargin: 15
                 verticalCenter: parent.verticalCenter
             }
-            widthBorderState: 1
+            widthBorderState: 0
 
             sourceImageActive:  "qrc:/image/state-gps-active.png"
             sourceImagePassive: "qrc:/image/state-gps-passive.png"
@@ -78,10 +86,40 @@ Item {
                 rightMargin: 15
                 verticalCenter: parent.verticalCenter
             }
-            widthBorderState: 1
+            widthBorderState: 0
 
             sourceImageActive:  "qrc:/image/state-wheel-active.png"
             sourceImagePassive: "qrc:/image/state-wheel-passive.png"
+        }
+        StateIcon {
+            id: stateGyro
+
+            width: sizeIcons
+            height: sizeIcons
+            anchors {
+                right: stateI2CWheel.left
+                rightMargin: 15
+                verticalCenter: parent.verticalCenter
+            }
+            widthBorderState: 0
+
+            sourceImageActive:  "qrc:/image/state-gyro-active.png"
+            sourceImagePassive: "qrc:/image/state-gyro-passive.png"
+        }
+        StateIcon {
+            id: stateCamera
+
+            width: sizeIcons
+            height: sizeIcons
+            anchors {
+                right: stateGyro.left
+                rightMargin: 15
+                verticalCenter: parent.verticalCenter
+            }
+            widthBorderState: 0
+
+            sourceImageActive:  "qrc:/image/state-camera-active.png"
+            sourceImagePassive: "qrc:/image/state-camera-passive.png"
         }
     }
 }
