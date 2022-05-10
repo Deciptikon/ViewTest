@@ -28,7 +28,7 @@ Item {
 
            anchors.verticalCenter: parent.verticalCenter
            anchors.left: parent.left
-           anchors.leftMargin: 2*marginIcons
+           anchors.leftMargin: 15
 
            sourcePressed: "qrc:/image/bt-home-pressed.png"
            sourceReleased: "qrc:/image/bt-home-release.png"
