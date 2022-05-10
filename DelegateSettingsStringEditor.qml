@@ -28,7 +28,7 @@ Item {
         TextInput {
             id: txtInput
             anchors.fill: parent
-            anchors.topMargin: 2
+            anchors.topMargin: 5
             anchors.rightMargin: 2
             anchors.leftMargin: 2
 
@@ -55,7 +55,7 @@ Item {
         colorBorder: Qt.rgba(0.2, 0.2, 0.2, 1)
 
         textButton: "set"
-        sizeTextButton: 16
+        sizeTextButton: 18
         onReleasedButton: {
             value = txtInput.text
         }
