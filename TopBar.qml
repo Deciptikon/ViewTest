@@ -74,7 +74,7 @@ Item {
             width: sizeIcons
             height: sizeIcons
             anchors {
-                right: parent.right
+                right: stateGPS.left
                 rightMargin: 15
                 verticalCenter: parent.verticalCenter
             }
