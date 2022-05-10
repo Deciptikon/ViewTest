@@ -39,8 +39,6 @@ Item {
 
     }
 
-
-
     GridView {
         id: gridView
 
@@ -79,9 +77,7 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-//                onClicked: {
-//                    mainLoader.source = page
-//                }
+
                 onPressed: {
                     delegatGridView.color = Qt.rgba(0.4, 0.4, 0.4, 0.9)
                 }
@@ -94,10 +90,6 @@ Item {
                 }
             }
         }
-
-//        highlight: Rectangle {
-//            color: Qt.rgba(0.5, 0.5, 0.5, 0.9)
-//        }
 
         focus: true
     }

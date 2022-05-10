@@ -1,35 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.12
 
-import TypeEdit 1.0 // способ редактирования настроек
+import TypeEdit 1.0 // ENUM способ редактирования настроек
 
 Item {
     anchors.fill: parent
-
-    ListModel {
-        id: listSettings
-
-        ListElement{
-            name: "Option1"
-            size: "132.00"
-        }
-        ListElement{
-            name: "Option2"
-            size: "51"//appSettings.getValueString("Option2")
-        }
-        ListElement{
-            name: "Option3"
-            size: "95.23"
-        }
-        ListElement{
-            name: "Option4"
-            size: "8462.5"
-        }
-        ListElement{
-            name: "Option5"
-            size: "1578.65"
-        }
-    }
 
     ListView {
         id: viewListSettings

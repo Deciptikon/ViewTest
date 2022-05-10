@@ -7,13 +7,14 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setApplicationName(APPLICATION_NAME);
 
-    qDebug() << "получение настроек";
 
-    //QPair<QString, QString> data;
+    // формирования списка настроек
     SettingsData data;
 
-
-    // <key, title, typeEdit> (ключ для записи/чтения настроек и заголовок для view)
+    // <key, title, typeEdit>
+    // key      - ключ для записи/чтения настроек
+    // title    - заголовок для делегата view
+    // typeEdit - тип редактирования значений настроек по ключу key
     data = {"", "Общие настройки окна", TypeEdit::NONE_EDIT};
     listKeys.append(data);
 
@@ -63,7 +64,7 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
         QVariant var = settings.value(key);
         qDebug() << "getData(index =" << index.row() << ", role =" << role <<" ) = " << var;
         if(listKeys.at(index.row()).typeEdit == TypeEdit::BOOL_EDIT) {
-            int q = var.toBool() ? 1 : 0;
+            int q = var.toBool() ? 1 : 0;// qml приведёт 0 к false
             return QVariant(q);
         }
         return var;
@@ -79,6 +80,7 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> AppSettings::roleNames() const
 {
+    // связь ролей с свойствами в qml
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
     roles[TitleRole]    = "title";
     roles[ValueRole]    = "value";
@@ -109,7 +111,6 @@ bool AppSettings::setData(const QModelIndex &index, const QVariant &value, int r
         qDebug() << " ";
         // испускаем сигнал о изменившихся данных для обновления view
         emit dataChanged(index, index, QVector<int>() << role);
-        //qDebug() << "dataChanged(index, index, QVector<int>() << role)";
         return true;
     } else {
         qDebug() << "QSettings::Error";
@@ -125,17 +126,6 @@ Qt::ItemFlags AppSettings::flags(const QModelIndex &index) const
 
     return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
 }
-
-//void AppSettings::add()
-//{
-//    beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
-//    m_data.append("new");
-//    endInsertRows();
-
-//    m_data[0] = QString("Size: %1").arg(m_data.size());
-//    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
-//    emit dataChanged(index, index);
-//}
 
 QVariant AppSettings::getValue(const QString key)
 {

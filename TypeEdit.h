@@ -9,10 +9,10 @@ class TypeEdit : public QObject
     Q_OBJECT
 public:
     enum State {
-        NONE_EDIT,
-        BOOL_EDIT,
-        DOUBLE_EDIT,
-        STRING_EDIT
+        NONE_EDIT,    // не редактируемое поле (просто заголовок)
+        BOOL_EDIT,    // читаемое и редактируемое как bool
+        DOUBLE_EDIT,  // как double
+        STRING_EDIT   // как string
     };
     Q_ENUM(State)
 };

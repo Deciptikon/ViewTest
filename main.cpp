@@ -15,8 +15,6 @@ int main(int argc, char *argv[])
 #endif
     // настройки приложения
     AppSettings settings;
-    // Теперь можно получить их по ключу
-    //qreal s = settings.getValueQreal(TEST_NAME);
 
     QGuiApplication app(argc, argv);
 
