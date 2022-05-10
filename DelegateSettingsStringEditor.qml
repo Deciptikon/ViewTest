@@ -55,7 +55,7 @@ Item {
         colorBorder: Qt.rgba(0.2, 0.2, 0.2, 1)
 
         textButton: "set"
-        sizeTextButton: sizeTextButtonDouble
+        sizeTextButton: 16
         onReleasedButton: {
             value = txtInput.text
         }

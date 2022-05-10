@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     QQmlContext *context = engine.rootContext();
-    context->setContextProperty("TestModel", &model);
+    context->setContextProperty("model", &model);
     context->setContextProperty("fieldModel", fieldModel);
     context->setContextProperty("fieldDataBase", &dbField);
     context->setContextProperty("appSettings", &settings);

@@ -4,6 +4,10 @@ Model::Model(QObject *parent) : QObject(parent)
 {
     qDebug() << "Constructor model";
     testData = ("|");
+
+    timerGPS = new QTimer();
+    connect(timerGPS, SIGNAL(timeout()), this, SLOT(slotUpdateTimerGPS()) );
+    timerGPS->start(5000);
 }
 
 void Model::testMetod(QString str)
@@ -19,4 +23,11 @@ void Model::slotTakeFromQML(QString str)
     }
     testData.append(str);
     emit signalSendToQML(testData);
+}
+
+void Model::slotUpdateTimerGPS()
+{
+    stateGPS = !stateGPS;
+    qDebug() << "stateGPS =" << stateGPS;
+    emit signalStateGPStoQML(stateGPS);
 }

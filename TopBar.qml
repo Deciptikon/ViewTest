@@ -38,6 +38,29 @@ Item {
                actionBtHome()
            }
         }
+
+        StateGPS {
+            id: stateGPS
+
+            width: sizeIcons
+            height: sizeIcons
+            anchors {
+                right: parent.right
+                rightMargin: 15
+                verticalCenter: parent.verticalCenter
+            }
+            widthBorderStateGPS: 2
+
+            // отражаем изменения состояни по сигналу из модели
+            Connections {
+                target: model
+
+                function onSignalStateGPStoQML(state) {// bool state
+                    console.log("function onSignalStateGPStoQML(state)")
+                    stateGPS.stateGPSActive = state
+                }
+            }
+        }
     }
 
 

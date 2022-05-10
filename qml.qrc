@@ -32,5 +32,8 @@
         <file>DelegateSettingsBoolEditor.qml</file>
         <file>DelegateSettingsDoubleEditor.qml</file>
         <file>DelegateSettingsStringEditor.qml</file>
+        <file>image/state-gps-active.png</file>
+        <file>image/state-gps-passive.png</file>
+        <file>StateGPS.qml</file>
     </qresource>
 </RCC>

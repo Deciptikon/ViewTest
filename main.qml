@@ -37,7 +37,7 @@ Window {
         marginIcons: marginInter
 
         onActionBtHome: {
-            TestModel.testMetod("ActionBtHome")
+            model.testMetod("ActionBtHome")
             mainLoader.source = "StackViewPage.qml"
         }
 
