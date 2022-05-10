@@ -17,13 +17,13 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     data = {"", "Общие настройки окна", TypeEdit::NONE_EDIT};
     listKeys.append(data);
 
-    data = {"widthWindow", "Width general window", TypeEdit::DOUBLE_EDIT};
+    data = {"widthWindow", "Width basic window", TypeEdit::DOUBLE_EDIT};
     listKeys.append(data);
 
-    data = {"heightWindow", "Height general window", TypeEdit::DOUBLE_EDIT};
+    data = {"heightWindow", "Height basic window", TypeEdit::DOUBLE_EDIT};
     listKeys.append(data);
 
-    data = {"colorWindow", "Color general window", TypeEdit::STRING_EDIT};
+    data = {"colorWindow", "Color basic window", TypeEdit::STRING_EDIT};
     listKeys.append(data);
 
     data = {"", "Настройки сохранения траектрии", TypeEdit::NONE_EDIT};

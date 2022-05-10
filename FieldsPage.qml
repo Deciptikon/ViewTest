@@ -174,12 +174,12 @@ Item {
         anchors.bottom: parent.bottom
 
         Row {
-
             TextButton {
 
                 id: btAdd
                 height: bottomMenu.height
                 width: bottomMenu.width/2
+                radiusButton: 5
 
                 textButton: qsTr("+ + +")
 
@@ -188,9 +188,12 @@ Item {
 
                 onReleasedButton: {
                     //listField.append({name: "Added Field ++++++", size: "over 100500"})
+                    // добавляем в базу данных
                     fieldDataBase.inserIntoTable("fnameField.text" + viewListField.count,
                                                  "232323",
                                                  "fields/" + viewListField.count + ".bin")
+
+                    // обновляем модель для отображения данных из базы данных
                     fieldModel.updateModel()
                 }
             }
@@ -199,6 +202,7 @@ Item {
                 id: btClear
                 height: bottomMenu.height
                 width: bottomMenu.width/2
+                radiusButton: 5
 
                 textButton: qsTr("...")
 

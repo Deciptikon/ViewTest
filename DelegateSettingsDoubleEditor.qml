@@ -24,9 +24,6 @@ Item {
         stepEditValueDouble: 10
         currentValueDouble: value
 
-//        visible: isDoubleEdit
-//        enabled: isDoubleEdit
-
         onMyCurrentValueDoubleChanged: {
             value = currentValueDouble
         }

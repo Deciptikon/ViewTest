@@ -16,14 +16,7 @@ Item {
     Rectangle {
         id: rectBtBool
 
-//        width: height
-//        height: parent.height - 5
-
-//        anchors.right: parent.right
-//        anchors.rightMargin: 10
-//        anchors.verticalCenter: parent.verticalCenter
         anchors.fill: parent
-
         radius: radiusButtonBool
 
         color: currentStateBool ? colorActiveBool : colorPassiveBool
@@ -39,21 +32,11 @@ Item {
             }
 
             onReleased: {
-
-
-//                if(currentStateBool) {
-//                    currentStateBool = false
-//                    console.log("value:  true --> false")
-//                } else {
-//                    currentStateBool = true
-//                    console.log("value:  false --> true")
-//                }
                 currentStateBool = !currentStateBool
                 console.log("currentStateBool =" + currentStateBool)
                 myCurrentStateBoolChanged()
 
                 rectBtBool.color = currentStateBool ? colorActiveBool : colorPassiveBool
-
             }
             onCanceled: {
                 rectBtBool.color = currentStateBool ? colorActiveBool : colorPassiveBool
