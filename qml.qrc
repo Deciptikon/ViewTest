@@ -34,6 +34,8 @@
         <file>DelegateSettingsStringEditor.qml</file>
         <file>image/state-gps-active.png</file>
         <file>image/state-gps-passive.png</file>
-        <file>StateGPS.qml</file>
+        <file>StateIcon.qml</file>
+        <file>image/state-wheel-active.png</file>
+        <file>image/state-wheel-passive.png</file>
     </qresource>
 </RCC>

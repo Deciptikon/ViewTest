@@ -39,7 +39,21 @@ Item {
            }
         }
 
-        StateGPS {
+        // отражаем изменения состояний по сигналу из модели
+        Connections {
+            target: model
+
+            function onSignalStateGPStoQML(state) {// bool state
+                console.log("function onSignalStateGPStoQML(state)")
+                stateGPS.stateIsActive = state
+            }
+            function onSignalStateI2CtoQML(state) {// bool state
+                console.log("function onSignalStateI2CtoQML(state)")
+                stateI2CWheel.stateIsActive = state
+            }
+        }
+
+        StateIcon {
             id: stateGPS
 
             width: sizeIcons
@@ -49,19 +63,25 @@ Item {
                 rightMargin: 15
                 verticalCenter: parent.verticalCenter
             }
-            widthBorderStateGPS: 2
+            widthBorderState: 1
 
-            // отражаем изменения состояни по сигналу из модели
-            Connections {
-                target: model
+            sourceImageActive:  "qrc:/image/state-gps-active.png"
+            sourceImagePassive: "qrc:/image/state-gps-passive.png"
+        }
+        StateIcon {
+            id: stateI2CWheel
 
-                function onSignalStateGPStoQML(state) {// bool state
-                    console.log("function onSignalStateGPStoQML(state)")
-                    stateGPS.stateGPSActive = state
-                }
+            width: sizeIcons
+            height: sizeIcons
+            anchors {
+                right: parent.right
+                rightMargin: 15
+                verticalCenter: parent.verticalCenter
             }
+            widthBorderState: 1
+
+            sourceImageActive:  "qrc:/image/state-wheel-active.png"
+            sourceImagePassive: "qrc:/image/state-wheel-passive.png"
         }
     }
-
-
 }
