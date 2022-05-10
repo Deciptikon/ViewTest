@@ -17,6 +17,7 @@ public:
 signals:
     void signalSendToQML(QString str);
 
+    // эти сигналы можно переименовать, но они не для демонстрации
     void signalStateGPStoQML(bool state);
     void signalStateI2CtoQML(bool state);
     void signalStateGyrotoQML(bool state);
@@ -25,6 +26,7 @@ signals:
 public slots:
     void slotTakeFromQML(QString str);
 
+    // слоты для демонстрации
     void slotUpdateTimerGPS();
     void slotUpdateTimerI2C();
     void slotUpdateTimerGyro();
@@ -33,6 +35,7 @@ public slots:
 private:
     QString testData;
 
+    // таймеры и состояния для демонстрации
     QTimer *timerGPS;
     bool stateGPS = false;
 

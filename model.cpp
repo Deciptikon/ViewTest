@@ -5,6 +5,7 @@ Model::Model(QObject *parent) : QObject(parent)
     qDebug() << "Constructor model";
     testData = ("|");
 
+    // таймеры и связи для демонстрации
     timerGPS = new QTimer();
     connect(timerGPS, SIGNAL(timeout()), this, SLOT(slotUpdateTimerGPS()) );
     timerGPS->start(5000);
@@ -37,6 +38,7 @@ void Model::slotTakeFromQML(QString str)
     emit signalSendToQML(testData);
 }
 
+// таймеры и состояния для демонстрации
 void Model::slotUpdateTimerGPS()
 {
     stateGPS = !stateGPS;
