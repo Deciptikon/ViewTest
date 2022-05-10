@@ -31,6 +31,9 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
 
     data = {"flagSaveTraectory", "Сохранять траекторию на устройстве?", TypeEdit::BOOL_EDIT};
     listKeys.append(data);
+
+    data = {"flagUpdateGPS", "Включить ориентацию по GPS?", TypeEdit::BOOL_EDIT};
+    listKeys.append(data);
 }
 
 int AppSettings::rowCount(const QModelIndex &parent) const
@@ -44,7 +47,7 @@ int AppSettings::rowCount(const QModelIndex &parent) const
 
 QVariant AppSettings::data(const QModelIndex &index, int role) const
 {
-    qDebug() << "AppSettings::data(index =" << index << ", role =" << role <<" ) const";
+
     if (!index.isValid()) {
         return QVariant();
     }
@@ -56,40 +59,17 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
     case ValueRole: {
         QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
         QString key = listKeys.at(index.row()).key;
-        TypeEdit::State type = listKeys.at(index.row()).typeEdit;
-        // значение по ключу из пары <ключ, заголовок, тип редактирования>
-        if(type == TypeEdit::NONE_EDIT) {
-            qDebug() << "none";
-            return QVariant();
+        // значение по ключу из <ключ, заголовок, тип редактирования>
+        QVariant var = settings.value(key);
+        qDebug() << "getData(index =" << index.row() << ", role =" << role <<" ) = " << var;
+        if(listKeys.at(index.row()).typeEdit == TypeEdit::BOOL_EDIT) {
+            int q = var.toBool() ? 1 : 0;
+            return QVariant(q);
         }
-        if(type == TypeEdit::BOOL_EDIT) {
-            bool val = settings.value(key, false).Bool;
-            qDebug() << val;
-            return QVariant(val);
-        }
-        if(type == TypeEdit::DOUBLE_EDIT) {
-            double val = settings.value(key, 0).Double;
-            qDebug() << val;
-            return settings.value(key, 0).Double;
-        }
-        if(type == TypeEdit::STRING_EDIT) {
-            QString val(settings.value(key, "").String);
-            qDebug() << val;
-            return QVariant(val);
-        }
-
+        return var;
     }
-    case IsNoneEditRole: {
-        return listKeys.at(index.row()).typeEdit == TypeEdit::NONE_EDIT ? true: false;
-    }
-    case IsBoolEditRole: {
-        return listKeys.at(index.row()).typeEdit == TypeEdit::BOOL_EDIT ? true: false;
-    }
-    case IsDoubleEditRole: {
-        return listKeys.at(index.row()).typeEdit == TypeEdit::DOUBLE_EDIT ? true: false;
-    }
-    case IsStringEditRole: {
-        return listKeys.at(index.row()).typeEdit == TypeEdit::STRING_EDIT ? true: false;
+    case TypeEditRole: {
+        return listKeys.at(index.row()).typeEdit;
     }
     default: {
         return QVariant();
@@ -100,12 +80,9 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> AppSettings::roleNames() const
 {
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
-    roles[TitleRole]        = "title";
-    roles[ValueRole]        = "value";
-    roles[IsNoneEditRole]   = "isNoneEdit";
-    roles[IsBoolEditRole]   = "isBoolEdit";
-    roles[IsDoubleEditRole] = "isDoubleEdit";
-    roles[IsStringEditRole] = "isStringEdit";
+    roles[TitleRole]    = "title";
+    roles[ValueRole]    = "value";
+    roles[TypeEditRole] = "typeEdit";
 
     return roles;
 }
@@ -119,19 +96,20 @@ bool AppSettings::setData(const QModelIndex &index, const QVariant &value, int r
         return false;
     }
 
-    qDebug() << "setData() case ValueRole:" << value;
+    qDebug() << "setData() value:" << value;
 
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
 
     QString key = listKeys.at(index.row()).key;// ключ по индексу
-    settings.setValue( key, value.toString());// устанавливаем значение по ключу
+    settings.setValue( key, value);// устанавливаем значение по ключу
     settings.sync(); // синхронизируемся и получаем статус
 
     if(settings.status() == QSettings::NoError) { // если ошибок нет, возвращаем true
         qDebug() << "QSettings::NoError";
+        qDebug() << " ";
         // испускаем сигнал о изменившихся данных для обновления view
         emit dataChanged(index, index, QVector<int>() << role);
-        qDebug() << "dataChanged(index, index, QVector<int>() << role)";
+        //qDebug() << "dataChanged(index, index, QVector<int>() << role)";
         return true;
     } else {
         qDebug() << "QSettings::Error";

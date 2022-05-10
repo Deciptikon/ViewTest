@@ -32,10 +32,7 @@ public:
     enum Roles {// роли для использования в qml
             TitleRole = Qt::UserRole + 1,
             ValueRole,
-            IsNoneEditRole,
-            IsBoolEditRole,
-            IsDoubleEditRole,
-            IsStringEditRole
+            TypeEditRole,
         };
 
     explicit AppSettings(QObject *parent = nullptr);

@@ -28,5 +28,9 @@
         <file>TextButton.qml</file>
         <file>DoubleValueEditor.qml</file>
         <file>BoolValueEditior.qml</file>
+        <file>DelegateSettingsNoneEditor.qml</file>
+        <file>DelegateSettingsBoolEditor.qml</file>
+        <file>DelegateSettingsDoubleEditor.qml</file>
+        <file>DelegateSettingsStringEditor.qml</file>
     </qresource>
 </RCC>

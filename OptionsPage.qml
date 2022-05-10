@@ -36,131 +36,34 @@ Item {
         anchors.fill: parent
         clip: true // обрезка за пределами окна
 
-        model: appSettings//listSettings
+        model: appSettings
         delegate: Item {
             id: itemDelegateSettings
-
-            property bool isDoubleValueEdit: true
-
-            width: viewListSettings.width
             height: 50
+            width: viewListSettings.width
 
             Rectangle {
-                id: rectDelegateSettings
-
-                anchors.fill: parent
-                anchors {
-                    topMargin: 5
-                    leftMargin: 5
-                    rightMargin: 5
-                }
                 radius: 10
+                anchors.fill: parent
+                anchors.topMargin: 5
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
 
                 color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
 
-                Column {
-                    anchors {
-                        left: parent.left
-                        right: itemInputData.left
-                        top: parent.top
-                        bottom: parent.bottom
-
-                        leftMargin: 5
-                    }
-
-                    Text {
-                        text: title
-                        font.pixelSize: 16
-                    }
-//                    Text {
-//                        text: value
-//                        font.pixelSize: 16
-//                    }
-
-                }
-                Item {
-                    id: itemInputData
-                    width: rectDelegateSettings.width/2
-                    height: rectDelegateSettings.height
-                    anchors.right: rectDelegateSettings.right
-                    anchors.verticalCenter: rectDelegateSettings.verticalCenter
-
-                    visible: !isNoneEdit
-                    enabled: !isNoneEdit
-
-                    DoubleValueEditor {
-                        id: dbEdit
-                        width: 120
-                        height: 36
-                        radiusDoubleEditor: 5
-
-                        anchors.right: parent.right
-                        anchors.rightMargin: 5
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        maxValueDouble: 1000
-                        stepEditValueDouble: 10
-                        currentValueDouble: isDoubleEdit ? value : 490
-
-                        visible: isDoubleEdit
-                        enabled: isDoubleEdit
-
-                        onMyCurrentValueDoubleChanged: {
-                            value = currentValueDouble
-                        }
-                        // здесь можно добавить кнопку установки значения,
-                        // и перенести в неё код из onMyCurrentValueDoubleChanged
-                        // если не нужно сохранять настройки при каждом изменении
-                    }
-
-                    BoolValueEditior {
-                        id: bEdit
-                        width: height
-                        height: 36
-
-                        anchors.right: parent.right
-                        anchors.rightMargin: 5
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        currentStateBool: isBoolEdit ? value : false
-
-                        visible: isBoolEdit
-                        enabled: isBoolEdit
-
-                        onMyCurrentStateBoolChanged: {
-                            value = currentStateBool
-                        }
-                    }
-
-//                    TextButton {
-//                        id: btTest
-//                        width: 100
-//                        height: 30
-//                        radiusButton: 5
-//                        anchors.right: parent.right
-//                        anchors.rightMargin: 5
-//                        anchors.verticalCenter: parent.verticalCenter
-//                        textButton: "rndEdit" + index
-//                        onReleasedButton: {
-//                            console.log("press button")
-
-//                            value = Math.ceil(Math.random()*1000)
-//                            console.log(value)
-
-//                            if(typeEdit == TypeEdit.BOOL_EDIT) {
-//                                console.log("тип редактирования bool")
-//                            }
-//                            if(typeEdit == TypeEdit.DOUBLE_EDIT) {
-//                                console.log("тип редактирования double")
-//                            }
-//                            if(typeEdit == TypeEdit.STRING_EDIT) {
-//                                console.log("тип редактирования string")
-//                            }
-//                        }
-//                    }
-
+                Loader {
+                    id: loaderSettings
+                    anchors.fill: parent
+                    source: switch(typeEdit) {
+                            case TypeEdit.NONE_EDIT:   return "DelegateSettingsNoneEditor.qml"
+                            case TypeEdit.BOOL_EDIT:   return "DelegateSettingsBoolEditor.qml"
+                            case TypeEdit.DOUBLE_EDIT: return "DelegateSettingsDoubleEditor.qml"
+                            case TypeEdit.STRING_EDIT: return "DelegateSettingsStringEditor.qml"
+                            }
                 }
             }
         }
     }
 }
+
+

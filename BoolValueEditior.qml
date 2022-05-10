@@ -2,9 +2,9 @@ import QtQuick 2.0
 
 Item {
     id: bEdt
-    property bool currentStateBool: false
+    property bool currentStateBool: value
 
-    property int radiusButtonBool: 5
+    property real radiusButtonBool: 5
 
     property color colorActiveBool: Qt.rgba(0.2, 0.2, 0.2, 1)
     property color colorPressedBool: Qt.rgba(0.7, 0.7, 0.7, 1)
@@ -13,31 +13,51 @@ Item {
 
     signal myCurrentStateBoolChanged()
 
-//    Connections {
-//        target: bEdt
+    Rectangle {
+        id: rectBtBool
 
-//        function myCurrentStateBoolChanged() {
-//            btTxtEdt.colorReleased = currentStateBool ? colorActiveBool : colorPassiveBool
-//        }
-//    }
+//        width: height
+//        height: parent.height - 5
 
-    TextButton {
-        id: btTxtEdt
+//        anchors.right: parent.right
+//        anchors.rightMargin: 10
+//        anchors.verticalCenter: parent.verticalCenter
         anchors.fill: parent
 
-        radiusButton: radiusButtonBool
+        radius: radiusButtonBool
 
-        textButton: ""
+        color: currentStateBool ? colorActiveBool : colorPassiveBool
 
-        colorReleased: currentStateBool ? colorActiveBool : colorPassiveBool
-        colorPressed: colorPressedBool
+        border.color: colorActiveBool
+        border.width: 2
 
-        colorBorder: colorActiveBool
-        widthBorderButton: 2
+        MouseArea {
+            anchors.fill: parent
 
-        onReleasedButton: {
-            currentStateBool = !currentStateBool
-            myCurrentStateBoolChanged()
+            onPressed: {
+                rectBtBool.color = Qt.rgba(0.7, 0.7, 0.7, 1)
+            }
+
+            onReleased: {
+
+
+//                if(currentStateBool) {
+//                    currentStateBool = false
+//                    console.log("value:  true --> false")
+//                } else {
+//                    currentStateBool = true
+//                    console.log("value:  false --> true")
+//                }
+                currentStateBool = !currentStateBool
+                console.log("currentStateBool =" + currentStateBool)
+                myCurrentStateBoolChanged()
+
+                rectBtBool.color = currentStateBool ? colorActiveBool : colorPassiveBool
+
+            }
+            onCanceled: {
+                rectBtBool.color = currentStateBool ? colorActiveBool : colorPassiveBool
+            }
         }
     }
 }
