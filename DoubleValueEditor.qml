@@ -32,6 +32,9 @@ Item {
         height: parent.height
         radiusButton: radiusDoubleEditor
 
+        widthBorderButton: 2
+        colorBorder: Qt.rgba(0.2, 0.2, 0.2, 1)
+
         textButton: "-"
         sizeTextButton: sizeTextButtonDouble
         onReleasedButton: {
@@ -53,14 +56,32 @@ Item {
         }
     }
 
-    Text {
-        id: viewText
+    Rectangle {
+        height: btOut.height
+        anchors {
+            left: btOut.right
+            right: btIn.left
+            leftMargin: 5
+            rightMargin: 5
+            verticalCenter: btOut.verticalCenter
+        }
+        radius: 5
+        color: colorReleasedDouble
 
-        anchors.centerIn: parent
+        border.width: 2
+        border.color: Qt.rgba(0.2, 0.2, 0.2, 1)
 
-        text: currentValueDouble
-        font.pixelSize: sizeTextViewDouble
-        color: colorTextViewDouble
+        clip: true
+
+        Text {
+            id: viewText
+
+            anchors.centerIn: parent
+
+            text: currentValueDouble
+            font.pixelSize: sizeTextViewDouble
+            color: colorTextViewDouble
+        }
     }
 
     TextButton {
@@ -70,6 +91,9 @@ Item {
         width: parent.height
         height: parent.height
         radiusButton: radiusDoubleEditor
+
+        widthBorderButton: 2
+        colorBorder: Qt.rgba(0.2, 0.2, 0.2, 1)
 
         textButton: "+"
         sizeTextButton: sizeTextButtonDouble

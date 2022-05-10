@@ -12,12 +12,12 @@ Item {
     }
     DoubleValueEditor {
         id: dbEdit
-        width: 120
+        width: 196
         height: parent.height - 5
         radiusDoubleEditor: 5
 
         anchors.right: parent.right
-        anchors.rightMargin: 5
+        anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
 
         maxValueDouble: 1000
