@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QTimer>
+//#include <QColor>
 
 class Model : public QObject
 {
@@ -33,6 +34,9 @@ public slots:
     void slotUpdateTimerCam();
 
 private:
+    //QColor colorStatusBar;//тестовый
+
+
     QString testData;
 
     // таймеры и состояния для демонстрации
