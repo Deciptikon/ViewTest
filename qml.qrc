@@ -17,7 +17,7 @@
         <file>image/icon-tractor.png</file>
         <file>DrivePage.qml</file>
         <file>image/icon-quick-settings.png</file>
-        <file>QiuckSettingsPage.qml</file>
+        <file>QuickSettingsPage.qml</file>
         <file>image/icon-cam.png</file>
         <file>CameraPage.qml</file>
         <file>FieldsPage.qml</file>

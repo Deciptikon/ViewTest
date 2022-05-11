@@ -8,7 +8,7 @@ Item {
 
         ListElement {
             name: "Quick Settings";
-            page: "QiuckSettingsPage.qml";
+            page: "QuickSettingsPage.qml";
             imageSource: "qrc:/image/icon-quick-settings.png"
         }
         ListElement {
