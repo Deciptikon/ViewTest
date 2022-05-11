@@ -41,5 +41,8 @@
         <file>image/state-gyro-passive.png</file>
         <file>image/state-camera-active.png</file>
         <file>image/state-camera-passive.png</file>
+        <file>QuickSettingsOne.qml</file>
+        <file>QuickSettingsTwo.qml</file>
+        <file>QuickSettingsThree.qml</file>
     </qresource>
 </RCC>

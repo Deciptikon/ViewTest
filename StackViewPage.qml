@@ -7,6 +7,8 @@ Item {
     StackView {
         id: stackview
         anchors.fill: parent
-        initialItem: "GridOne.qml"
+        initialItem: "QuickSettingsPageOne.qml"
+
+
     }
 }

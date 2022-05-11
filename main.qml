@@ -28,7 +28,7 @@ Window {
             right: parent.right
             bottom: parent.bottom
         }
-        source: "StackViewPage.qml"
+        source: "GridOne.qml"//"StackViewPage.qml"
     }
 
     TopBar {
@@ -38,7 +38,7 @@ Window {
 
         onActionBtHome: {
             model.testMetod("ActionBtHome")
-            mainLoader.source = "StackViewPage.qml"
+            mainLoader.source = "GridOne.qml"
         }
 
     }
