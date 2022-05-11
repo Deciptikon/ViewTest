@@ -28,7 +28,7 @@ Window {
             right: parent.right
             bottom: parent.bottom
         }
-        source: "GridOne.qml"//"StackViewPage.qml"
+        source: "GridOne.qml"
     }
 
     TopBar {
