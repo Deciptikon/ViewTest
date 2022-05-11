@@ -1,21 +1,50 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.12
 
 Item {
     anchors.fill: parent
 
 
     Rectangle {
-        width: parent.width/2
-        height: parent.height/2
-        radius: parent.width/20
-        anchors.centerIn: parent
+        anchors.fill: parent
+        anchors.margins: 5
+
+        radius: 20
+
         color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
+
+        clip: true
+
         Text {
-            id: testText
-            anchors.centerIn: parent
-            text: qsTr("Info Page")
-            color: "black"
-            font.pixelSize: 40
+
+            width: 200
+            height: 200
+            anchors.top: parent.top
+            anchors.topMargin: 50
+            anchors.horizontalCenter: parent.horizontalCenter
+            wrapMode: Text.WordWrap
+            font.pixelSize: 16
+            text: "Моя музыка - физика\n"
+                + "Симфонии - теоремы.\n"
+                + "Моя жизнь не мистика,\n"
+                + "А проблемы...\n"
+                + "\n"
+                + "Мой язык - математика,\n"
+                + "Слова - формулы,\n"
+                + "Аксиомы - грамматика,\n"
+                + "Функции - глаголы.\n"
+                + "\n"
+                + "Мои мысли - понятия,\n"
+                + "Чувства - категории.\n"
+                + "Моя цель - понимание\n"
+                + "И не более...\n"
+                + "\n"
+                + "Моё тело - Вселенная,\n"
+                + "Разум - космос.\n"
+                + "Всё бытие не тленное\n"
+                + "Мой рождает Логос.\n"
+
         }
+
     }
 }

@@ -5,9 +5,6 @@ import QtQuick.Window 2.12
 
 Window {
 
-    property real sizeInter: 32
-    property real marginInter: 5
-
     width: 800
     height: 480
     visible: true
@@ -33,8 +30,8 @@ Window {
 
     TopBar {
         id: statusBar
-        sizeIcons: sizeInter
-        marginIcons: marginInter
+        sizeIcons: 32
+        marginIcons: 5
 
         onActionBtHome: {
             model.testMetod("ActionBtHome")
