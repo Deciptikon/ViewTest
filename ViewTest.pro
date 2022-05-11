@@ -31,6 +31,7 @@ DISTFILES +=
 HEADERS += \
     TypeEdit.h \
     appsettings.h \
+    constants.h \
     databasefield.h \
     fieldmodel.h \
     model.h

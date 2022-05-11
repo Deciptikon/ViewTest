@@ -15,25 +15,40 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     // key      - ключ для записи/чтения настроек
     // title    - заголовок для делегата view
     // typeEdit - тип редактирования значений настроек по ключу key
-    data = {"", "Общие настройки приложения", TypeEdit::NONE_EDIT};
+    // QObject::tr() - пометка для автоматического переводчика
+    data = {EMPTY_STRING,
+            QObject::tr("Общие настройки приложения"),
+            TypeEdit::NONE_EDIT };
     listKeys.append(data);
 
-    data = {"widthWindow", "Width basic window", TypeEdit::DOUBLE_EDIT};
+    data = {"widthWindow", /// эти ключи только для демонстрации и потом не понадобятся
+            QObject::tr("Width basic window(test)"),
+            TypeEdit::DOUBLE_EDIT };
     listKeys.append(data);
 
-    data = {"heightWindow", "Height basic window", TypeEdit::DOUBLE_EDIT};
+    data = {"heightWindow", /// демо...
+            QObject::tr("Height basic window(test)"),
+            TypeEdit::DOUBLE_EDIT };
     listKeys.append(data);
 
-    data = {"colorWindow", "Color basic window", TypeEdit::STRING_EDIT};
+    data = {DIR_STATUSBAR KEY_COLOR_STATUSBAR, // а это будет нужно
+            QObject::tr("Color status bar"),
+            TypeEdit::STRING_EDIT };
     listKeys.append(data);
 
-    data = {"", "Настройки сохранения траектории", TypeEdit::NONE_EDIT};
+    data = {EMPTY_STRING, // Заголовок для группы настроек, не содержит ключ/значение
+            QObject::tr("Настройки сохранения траектории"),
+            TypeEdit::NONE_EDIT };
     listKeys.append(data);
 
-    data = {"flagSaveTraectory", "Сохранять траекторию на устройстве?", TypeEdit::BOOL_EDIT};
+    data = {"flagSaveTraectory", /// демо...
+            QObject::tr("Сохранять траекторию на устройстве?"),
+            TypeEdit::BOOL_EDIT };
     listKeys.append(data);
 
-    data = {"flagUpdateGPS", "Включить ориентацию по GPS?", TypeEdit::BOOL_EDIT};
+    data = {"flagUpdateGPS", /// демо...
+            QObject::tr("Включить ориентацию по GPS?"),
+            TypeEdit::BOOL_EDIT };
     listKeys.append(data);
 }
 
@@ -99,10 +114,14 @@ bool AppSettings::setData(const QModelIndex &index, const QVariant &value, int r
     }
 
     qDebug() << "setData() value:" << value;
+    QString key = listKeys.at(index.row()).key;// ключ по индексу
+    TypeEdit::State type = listKeys.at(index.row()).typeEdit;//тип
+
+    if(type == TypeEdit::NONE_EDIT) {
+        return false;
+    }
 
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-
-    QString key = listKeys.at(index.row()).key;// ключ по индексу
     settings.setValue( key, value);// устанавливаем значение по ключу
     settings.sync(); // синхронизируемся и получаем статус
 

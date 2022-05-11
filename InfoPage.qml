@@ -24,8 +24,8 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             wrapMode: Text.WordWrap
             font.pixelSize: 16
-            text: "Моя музыка - физика\n"
-                + "Симфонии - теоремы.\n"
+            text: "Моя музыка - физика\n"   // этот текст либо оставить в qml и помечать qsTr()
+                + "Симфонии - теоремы.\n"   // либо читать из c++ model и отмечать его там через QObject::tr()
                 + "Моя жизнь не мистика,\n"
                 + "А проблемы...\n"
                 + "\n"

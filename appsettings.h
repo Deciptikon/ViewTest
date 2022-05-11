@@ -10,14 +10,16 @@
 #include <QList>
 #include <QPair>
 
+#include "constants.h"
 #include "TypeEdit.h"
 
+using namespace constants;
 
-#define ORGANIZATION_NAME    "Deciptikon"
-#define ORGANIZATION_DOMAIN  "vk.com/deciptikon"
-#define APPLICATION_NAME     "AgroSlave"
+//#define ORGANIZATION_NAME    "Deciptikon"
+//#define ORGANIZATION_DOMAIN  "vk.com/deciptikon"
+//#define APPLICATION_NAME     "AgroSlave"
 
-#define TEST_NAME            "testName"
+//#define TEST_NAME            "testName"
 
 struct SettingsData {
     QString  key;

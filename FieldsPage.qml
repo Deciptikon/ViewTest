@@ -90,11 +90,11 @@ Item {
                     //anchors.topMargin: 5
 
                     Text {
-                        text: "Name: " + name
+                        text: qsTr("Name: %1" ).arg(name)//"Name: " + name
                         font.pixelSize: 16
                     }
                     Text {
-                        text: "Size: " + size + " m2"
+                        text: qsTr("Size: %1 m2" ).arg(size)//"Size: " + size + " m2"
                         font.pixelSize: 16
                     }
                 }
@@ -154,12 +154,12 @@ Item {
                 Text {
                     id: textPreview
                     anchors.centerIn: parent
-                    text: "P R E V I E W"
+                    text: qsTr("P R E V I E W")// "P R E V I E W" // демо
                     font.pixelSize: 40
                 }
                 Text {
                     id: textPathToData
-                    text: pathToData
+                    text: pathToData// демо
                     anchors.top: textPreview.bottom
                     anchors.horizontalCenter: textPreview.horizontalCenter
                 }

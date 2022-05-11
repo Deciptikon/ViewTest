@@ -18,7 +18,7 @@ Item {
     Rectangle {
         id: rectTopBar
         anchors.fill: parent
-        color: Qt.rgba(0.5, 0.5, 0.5, 0.5)
+        color: model.colorStatusBar//Qt.rgba(0.5, 0.5, 0.5, 0.5)
 
         ImageButton {
            id: btHome

@@ -7,36 +7,46 @@ Item {
         id: listModel
 
         ListElement {
-            name: "Quick Settings";
+            name: qsTr("Quick Settings");
             page: "QuickSettingsPage.qml";
             imageSource: "qrc:/image/icon-quick-settings.png"
         }
         ListElement {
-            name: "Drive";
+            name: qsTr("Drive");
             page: "DrivePage.qml";
             imageSource: "qrc:/image/icon-tractor.png"
         }
         ListElement {
-            name: "Camera view";
+            name: qsTr("Camera view");
             page: "CameraPage.qml";
             imageSource: "qrc:/image/icon-cam.png"
         }
         ListElement {
-            name: "My Fields";
+            name: qsTr("My Fields");
             page: "FieldsPage.qml";
-            imageSource: "qrc:/image/icon-field-base.png"}
+            imageSource: "qrc:/image/icon-field-base.png"
+        }
         ListElement {
-            name: "Options";
+            name: qsTr("Options");
             page: "OptionsPage.qml";
             imageSource: "qrc:/image/icon-settings.png"
         }
         ListElement {
-            name: "Info";
+            name: qsTr("Info");
             page: "InfoPage.qml";
-            imageSource: "qrc:/image/icon-info.png"}
-        ListElement {name: "Seven"; page: ""; imageSource: "qrc:/image/icon-no-image.png"}
-        ListElement {name: "--8--"; page: ""; imageSource: "qrc:/image/icon-no-image.png"}
-
+            imageSource: "qrc:/image/icon-info.png"
+        }
+        ListElement {
+            name: qsTr("Seven");
+            page: "";
+            imageSource: "qrc:/image/icon-no-image.png"
+        }
+        ListElement {
+            name: qsTr("--8--");
+            page: "";
+            imageSource: "qrc:/image/icon-no-image.png"
+        }
+        // здесь можно добавить или удалить кнопки для страниц
     }
 
     GridView {

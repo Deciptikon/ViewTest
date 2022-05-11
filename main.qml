@@ -32,6 +32,7 @@ Window {
         sizeIcons: 32
         marginIcons: 5
 
+
         onActionBtHome: {
             model.testMetod("ActionBtHome")
             mainLoader.source = "GridOne.qml"

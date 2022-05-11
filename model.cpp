@@ -1,9 +1,21 @@
 #include "model.h"
+#include <QString>
+// константы (в основном ключи и директории реестра)
+#include "constants.h"
 
 Model::Model(QObject *parent) : QObject(parent)
 {
     qDebug() << "Constructor model";
     testData = ("|");
+
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    QString val = QString( settings.value(DIR_STATUSBAR KEY_COLOR_STATUSBAR, "").toString() );
+    qDebug() << val;
+    QColor col = QColor(val);
+    qDebug() << col;
+    setColorStatusBar(col);
+
 
     // таймеры и связи для демонстрации
     timerGPS = new QTimer();
@@ -65,4 +77,17 @@ void Model::slotUpdateTimerCam()
     stateCam = !stateCam;
     qDebug() << "stateCam =" << stateCam;
     emit signalStateCamtoQML(stateCam);
+}
+
+const QColor &Model::colorStatusBar() const
+{
+    return m_colorStatusBar;
+}
+
+void Model::setColorStatusBar(const QColor &newColorStatusBar)
+{
+    if (m_colorStatusBar == newColorStatusBar)
+        return;
+    m_colorStatusBar = newColorStatusBar;
+    emit colorStatusBarChanged();
 }

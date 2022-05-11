@@ -7,7 +7,7 @@ Item {
     width: 60
     height: 40
 
-    property string textButton: "Button"
+    property string textButton: qsTr("Button")
     property real sizeTextButton: 16
     property real radiusButton: 3
     property real widthBorderButton: 0

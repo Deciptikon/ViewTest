@@ -28,7 +28,7 @@ Item {
             margins: 15
         }
 
-        textButton: "Next"
+        textButton: qsTr("Next")
         sizeTextButton: 20
 
         onReleasedButton: {
@@ -51,7 +51,7 @@ Item {
             margins: 15
         }
 
-        textButton: "Back"
+        textButton: qsTr("Back")
         sizeTextButton: 20
 
         onReleasedButton: {
