@@ -11,6 +11,8 @@
 #include <QDate>
 #include <QDebug>
 
+//#include "constants.h"
+
 
 #define DATABASE_HOSTNAME   "FieldDataBase"
 #define DATABASE_NAME       "Fields.db"
