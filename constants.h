@@ -13,7 +13,7 @@
 
 #define DIR_LANGUAGE                "Language/"
 #define KEY_CURRENT_LANGUAGE        "CurrentLanguage"
-#define DEFAULT_CURRENT_LANGUAGE    "_en"
+#define DEFAULT_CURRENT_LANGUAGE    "en"
 
 
 

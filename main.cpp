@@ -1,7 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QTranslator>
 
+#include "constants.h"
 #include "TypeEdit.h"
 #include "appsettings.h"
 #include "model.h"
@@ -13,13 +15,22 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    // настройки приложения
+
+    QTranslator translator;// переводчик
+    QSettings sett(ORGANIZATION_NAME, APPLICATION_NAME);
+    QVariant tr = sett.value(DIR_LANGUAGE KEY_CURRENT_LANGUAGE,
+                                  DEFAULT_CURRENT_LANGUAGE );
+    translator.load(QString("QtLanguage_") + QString(tr.toString()), ".");// выбираем локализацию
+
+    QGuiApplication app(argc, argv);
+    app.installTranslator(&translator);// устанавливаем перевод в приложение
+
+    // настройки приложения(загружаются после app что бы сработал перевед)
     AppSettings settings;
     // проверяем и востаннавливаем настройки (при необходимости)
     settings.checkAndRestoreSettings();
 
 
-    QGuiApplication app(argc, argv);
 
     Model model;
 

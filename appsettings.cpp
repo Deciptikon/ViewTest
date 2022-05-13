@@ -214,15 +214,5 @@ void AppSettings::checkAndRestoreSettings()
             settings.setValue(data.key, data.defaultValue);
         }
     }
-//    if(var.toBool()) {
-//        qDebug() << "Востановление заводских настроек";
-//        settings.setValue(DIR_STATUSBAR KEY_COLOR_STATUSBAR, DEFAULT_COLOR_STATUSBAR);
-//        settings.setValue(DIR_LANGUAGE KEY_CURRENT_LANGUAGE, DEFAULT_CURRENT_LANGUAGE);
-
-
-//        // в конце устанавливаем востановление заводских настроек на "false"
-//        settings.setValue(DIR_RESTORE_SETTINGS KEY_RESTORE_SETTINGS, DEFAULT_RESTORE_SETTINGS);
-//        qDebug() << "Востановление настроек завершено";
-//    }
 }
 

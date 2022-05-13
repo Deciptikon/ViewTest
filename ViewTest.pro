@@ -15,6 +15,13 @@ SOURCES += \
 
 RESOURCES += qml.qrc
 
+
+# файлы с переводами на разные языки
+TRANSLATIONS = QtLanguage_ru.ts
+# кодировка
+CODECFORSRC = UTF-8
+
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
