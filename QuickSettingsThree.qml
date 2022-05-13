@@ -19,7 +19,7 @@ Item {
 
     TextButton {
         id: btNextQiuckSettingsOne
-        width: 60
+        width: 80
         height: width
 
         anchors {
@@ -42,7 +42,7 @@ Item {
         }
     }
     TextButton {
-        width: 60
+        width: 80
         height: width
 
         anchors {

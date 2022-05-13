@@ -25,13 +25,13 @@ Item {
             property bool activePress: false
 
             id: itemDelegateViewListField
-            height: activePress ? actionDelegateViewListField.height + 50 : 50
+            height: activePress ? actionDelegateViewListField.height + 80 : 80
             width: viewListField.width
 
             Rectangle {
                 id: delegateViewListField
 
-                height: 45
+                height: 75
                 anchors {
                     left: parent.left
                     right: parent.right
@@ -45,7 +45,7 @@ Item {
                 TextButton {
                     id: btDel
                     height: parent.height - 5
-                    width: 60
+                    width: 70
                     radiusButton: 5
 
                     anchors.right: parent.right
@@ -91,11 +91,11 @@ Item {
 
                     Text {
                         text: qsTr("Name: %1" ).arg(name)//"Name: " + name
-                        font.pixelSize: 16
+                        font.pixelSize: 20
                     }
                     Text {
                         text: qsTr("Size: %1 m2" ).arg(size)//"Size: " + size + " m2"
-                        font.pixelSize: 16
+                        font.pixelSize: 20
                     }
                 }
 
@@ -145,7 +145,7 @@ Item {
             Rectangle {
                 id: actionDelegateViewListField
                 width: delegateViewListField.width
-                height: 100
+                height: 200
                 radius: 10
                 anchors.top: delegateViewListField.bottom
                 anchors.horizontalCenter: delegateViewListField.horizontalCenter
@@ -170,7 +170,7 @@ Item {
     Item {
         id: bottomMenu
         width: parent.width
-        height: 50
+        height: 80
         anchors.bottom: parent.bottom
 
         Row {

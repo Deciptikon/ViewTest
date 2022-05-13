@@ -4,14 +4,14 @@ Item {
     anchors.fill: parent
     Text {
         text: title
-        font.pixelSize: 16
+        font.pixelSize: 20
         anchors.left: parent.left
         anchors.leftMargin: 10
         anchors.verticalCenter: parent.verticalCenter
     }
 
     Rectangle {
-        width: 150
+        width: 200
         height: parent.height - 5
         anchors.right: btSetValue.left
         anchors.rightMargin: 5
@@ -28,12 +28,12 @@ Item {
         TextInput {
             id: txtInput
             anchors.fill: parent
-            anchors.topMargin: 5
+            anchors.topMargin: 15
             anchors.rightMargin: 2
             anchors.leftMargin: 2
 
             text: value
-            font.pixelSize: 24
+            font.pixelSize: 30
 
             Keys.onEnterPressed: {
                 btSetValue.releasedButton()
@@ -55,7 +55,7 @@ Item {
         colorBorder: Qt.rgba(0.2, 0.2, 0.2, 1)
 
         textButton: qsTr("set")
-        sizeTextButton: 18
+        sizeTextButton: 20
         onReleasedButton: {
             value = txtInput.text
         }

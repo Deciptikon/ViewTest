@@ -5,14 +5,14 @@ Item {
 
     Text {
         text: title
-        font.pixelSize: 16
+        font.pixelSize: 20
         anchors.left: parent.left
         anchors.leftMargin: 10
         anchors.verticalCenter: parent.verticalCenter
     }
     DoubleValueEditor {
         id: dbEdit
-        width: 196
+        width: 276
         height: parent.height - 5
         radiusDoubleEditor: 5
 

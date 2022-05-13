@@ -5,9 +5,11 @@ import QtQuick.Window 2.12
 Window {
 
     width: 800
-    height: 480
+    height: 600
     visible: true
     title: qsTr("AgroSlave")
+
+    visibility: Window.FullScreen
 
     Image {
         id: background
@@ -29,7 +31,7 @@ Window {
 
     TopBar {
         id: statusBar
-        sizeIcons: 32
+        sizeIcons: 50
         marginIcons: 5
 
 

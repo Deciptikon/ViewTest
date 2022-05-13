@@ -14,7 +14,7 @@ Item {
         model: appSettings
         delegate: Item {
             id: itemDelegateSettings
-            height: 50
+            height: 80
             width: viewListSettings.width
 
             Rectangle {

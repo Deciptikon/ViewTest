@@ -5,7 +5,7 @@ Item {
 
     Text {
         text: title
-        font.pixelSize: 16
+        font.pixelSize: 20
         anchors.left: parent.left
         anchors.leftMargin: 10
         anchors.verticalCenter: parent.verticalCenter

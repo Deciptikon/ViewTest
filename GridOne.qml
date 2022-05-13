@@ -79,7 +79,7 @@ Item {
             Text {
                 color: "black"
                 text: name
-                font.pixelSize: 18
+                font.pixelSize: 20
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 5
                 anchors.horizontalCenter: parent.horizontalCenter
