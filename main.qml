@@ -9,7 +9,7 @@ Window {
     visible: true
     title: qsTr("AgroSlave")
 
-    visibility: Window.FullScreen
+    //visibility: Window.FullScreen
 
     Image {
         id: background

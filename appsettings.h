@@ -13,7 +13,7 @@
 #include "constants.h"
 #include "TypeEdit.h"
 
-using namespace constants;
+//using namespace constants;
 
 //#define ORGANIZATION_NAME    "Deciptikon"
 //#define ORGANIZATION_DOMAIN  "vk.com/deciptikon"
@@ -25,6 +25,7 @@ struct SettingsData {
     QString  key;
     QString  title;
     TypeEdit::State typeEdit;
+    QString  defaultValue;
 };
 
 class AppSettings : public QAbstractListModel
@@ -46,22 +47,17 @@ public:
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    //Q_INVOKABLE void add();
 
-    Q_INVOKABLE QVariant getValue(const QString key);
-    Q_INVOKABLE QString  getValueString(const QString key);
-    Q_INVOKABLE qreal    getValueQreal(const QString key);
-    Q_INVOKABLE int      getValueInt(const QString key);
-    Q_INVOKABLE bool     getValueBool(const QString key);
+    void checkAndRestoreSettings();
 
 signals:
     void settingsChanged();
 
 public slots:
-    void setValue(const QString key, QVariant value);
+    //void setValue(const QString key, QVariant value);
 
 private:
-    QList< SettingsData > listKeys; // список пар <ключ, заголовок>
+    QList< SettingsData > listKeys; // список пар <ключ, заголовок, тип редактирования>
 };
 
 #endif // APPSETTINGS_H

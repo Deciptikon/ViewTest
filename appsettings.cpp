@@ -15,40 +15,91 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     // key      - ключ для записи/чтения настроек
     // title    - заголовок для делегата view
     // typeEdit - тип редактирования значений настроек по ключу key
+    // defaultValue - значение по умолчанию (нужно для инициации и сброса настроек)
     // QObject::tr() - пометка для автоматического переводчика
     data = {EMPTY_STRING,
-            QObject::tr("Общие настройки приложения"),
-            TypeEdit::NONE_EDIT };
+            QObject::tr("Basic settings"),
+            TypeEdit::NONE_EDIT,
+            ""};
     listKeys.append(data);
 
     data = {"widthWindow", /// эти ключи только для демонстрации и потом не понадобятся
             QObject::tr("Width basic window(test)"),
-            TypeEdit::DOUBLE_EDIT };
+            TypeEdit::DOUBLE_EDIT,
+            "800"};
     listKeys.append(data);
 
     data = {"heightWindow", /// демо...
             QObject::tr("Height basic window(test)"),
-            TypeEdit::DOUBLE_EDIT };
+            TypeEdit::DOUBLE_EDIT,
+            "600"};
     listKeys.append(data);
 
-    data = {DIR_STATUSBAR KEY_COLOR_STATUSBAR, // а это будет нужно
+
+    /* -----------------------
+     * Настройки внешнего вида
+     * */
+    data = {DIR_STATUSBAR KEY_COLOR_STATUSBAR, // это будет нужно
             QObject::tr("Color status bar"),
-            TypeEdit::STRING_EDIT };
+            TypeEdit::STRING_EDIT,
+            DEFAULT_COLOR_STATUSBAR};
     listKeys.append(data);
 
     data = {EMPTY_STRING, // Заголовок для группы настроек, не содержит ключ/значение
-            QObject::tr("Настройки сохранения траектории"),
-            TypeEdit::NONE_EDIT };
+            QObject::tr("Trajectory settings"),
+            TypeEdit::NONE_EDIT,
+            ""};
     listKeys.append(data);
 
     data = {"flagSaveTraectory", /// демо...
-            QObject::tr("Сохранять траекторию на устройстве?"),
-            TypeEdit::BOOL_EDIT };
+            QObject::tr("Save trajectory on device?"),
+            TypeEdit::BOOL_EDIT,
+            "false"};
     listKeys.append(data);
 
     data = {"flagUpdateGPS", /// демо...
-            QObject::tr("Включить ориентацию по GPS?"),
-            TypeEdit::BOOL_EDIT };
+            QObject::tr("On GPS?"),
+            TypeEdit::BOOL_EDIT,
+            "false"};
+    listKeys.append(data);
+
+
+    /* ---------------
+     * Настройки языка
+     * */
+    data = {EMPTY_STRING, // Заголовок для группы настроек, не содержит ключ/значение
+            QObject::tr("Language settings"),
+            TypeEdit::NONE_EDIT,
+            ""};
+    listKeys.append(data);
+
+    // текущий язык: "_ru", "_ru_RU", "_en", "_en_US", "_en_GB", ...
+    data = {DIR_LANGUAGE KEY_CURRENT_LANGUAGE,
+            QObject::tr("Current language"),
+            TypeEdit::STRING_EDIT, /// изменить на выпадающий список...
+            DEFAULT_CURRENT_LANGUAGE};
+    listKeys.append(data);
+
+
+
+
+
+
+
+    /* ============================================================================================
+     * Сброс настроек(пусть будет расположен в конце)
+     * */
+    data = {EMPTY_STRING, // Заголовок для группы настроек, не содержит ключ/значение
+            QObject::tr("Return to factory settings"),
+            TypeEdit::NONE_EDIT,
+            ""};
+    listKeys.append(data);
+
+    // Востановление настроек
+    data = {DIR_RESTORE_SETTINGS KEY_RESTORE_SETTINGS,
+            QObject::tr("Restore settings?(after reboot)"),
+            TypeEdit::BOOL_EDIT,
+            DEFAULT_RESTORE_SETTINGS};
     listKeys.append(data);
 }
 
@@ -74,11 +125,14 @@ QVariant AppSettings::data(const QModelIndex &index, int role) const
     }
     case ValueRole: {
         QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-        QString key = listKeys.at(index.row()).key;
-        // значение по ключу из <ключ, заголовок, тип редактирования>
-        QVariant var = settings.value(key);
+
+        SettingsData data = listKeys.at(index.row());
+
+        // значение по ключу из <ключ, заголовок, тип редактирования, ...>
+        QVariant var = settings.value(data.key, data.defaultValue);
         qDebug() << "getData(index =" << index.row() << ", role =" << role <<" ) = " << var;
-        if(listKeys.at(index.row()).typeEdit == TypeEdit::BOOL_EDIT) {
+
+        if(data.typeEdit == TypeEdit::BOOL_EDIT) {
             int q = var.toBool() ? 1 : 0;// qml приведёт 0 к false
             return QVariant(q);
         }
@@ -146,43 +200,29 @@ Qt::ItemFlags AppSettings::flags(const QModelIndex &index) const
     return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
 }
 
-QVariant AppSettings::getValue(const QString key)
+void AppSettings::checkAndRestoreSettings()
 {
-    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-    return settings.value(key);
-}
-
-QString AppSettings::getValueString(const QString key)
-{
-    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-    return settings.value(key, "").toString();
-}
-
-qreal AppSettings::getValueQreal(const QString key)
-{
-    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-    return settings.value(key, 0).toReal();
-}
-
-int AppSettings::getValueInt(const QString key)
-{
-    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-    return settings.value(key, 0).toInt();
-}
-
-bool AppSettings::getValueBool(const QString key)
-{
-    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-    return settings.value(key, false).toBool();
-}
-
-void AppSettings::setValue(QString key, QVariant value)
-{
-    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
-    settings.setValue(key, value);
-    settings.sync();
-    if(settings.status() == QSettings::NoError) {
-        // это нужно поправить)))) сигнал должен излучаться что бы view отражала изменения
-        //emit dataChanged(index, index, QVector<int>() << Roles::ValueRole);
+    if(listKeys.isEmpty()) {
+        return;
     }
+
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+    QVariant var = settings.value(DIR_RESTORE_SETTINGS KEY_RESTORE_SETTINGS,
+                                  DEFAULT_RESTORE_SETTINGS );
+    if(var.toBool()) {
+        for(auto data: listKeys) {
+            settings.setValue(data.key, data.defaultValue);
+        }
+    }
+//    if(var.toBool()) {
+//        qDebug() << "Востановление заводских настроек";
+//        settings.setValue(DIR_STATUSBAR KEY_COLOR_STATUSBAR, DEFAULT_COLOR_STATUSBAR);
+//        settings.setValue(DIR_LANGUAGE KEY_CURRENT_LANGUAGE, DEFAULT_CURRENT_LANGUAGE);
+
+
+//        // в конце устанавливаем востановление заводских настроек на "false"
+//        settings.setValue(DIR_RESTORE_SETTINGS KEY_RESTORE_SETTINGS, DEFAULT_RESTORE_SETTINGS);
+//        qDebug() << "Востановление настроек завершено";
+//    }
 }
+

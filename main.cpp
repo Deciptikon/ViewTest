@@ -15,6 +15,9 @@ int main(int argc, char *argv[])
 #endif
     // настройки приложения
     AppSettings settings;
+    // проверяем и востаннавливаем настройки (при необходимости)
+    settings.checkAndRestoreSettings();
+
 
     QGuiApplication app(argc, argv);
 
