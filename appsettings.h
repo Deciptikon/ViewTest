@@ -48,13 +48,13 @@ public:
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
 
-    void checkAndRestoreSettings();
+
 
 signals:
     void settingsChanged();
 
 public slots:
-    //void setValue(const QString key, QVariant value);
+    void checkAndRestoreSettings();
 
 private:
     QList< SettingsData > listKeys; // список пар <ключ, заголовок, тип редактирования>

@@ -16,8 +16,17 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
-    QTranslator translator;// переводчик
     QSettings sett(ORGANIZATION_NAME, APPLICATION_NAME);
+    QVariant re = sett.value(DIR_RESTORE_SETTINGS KEY_RESTORE_SETTINGS,
+                                  DEFAULT_RESTORE_SETTINGS );
+    if(re.toBool()) {
+        AppSettings s;
+        // проверяем и востаннавливаем настройки (при необходимости)
+        s.checkAndRestoreSettings();
+    }
+
+    QTranslator translator;// переводчик
+
     QVariant tr = sett.value(DIR_LANGUAGE KEY_CURRENT_LANGUAGE,
                                   DEFAULT_CURRENT_LANGUAGE );
     translator.load(QString("QtLanguage_") + QString(tr.toString()), ".");// выбираем локализацию
@@ -27,8 +36,6 @@ int main(int argc, char *argv[])
 
     // настройки приложения(загружаются после app что бы сработал перевед)
     AppSettings settings;
-    // проверяем и востаннавливаем настройки (при необходимости)
-    settings.checkAndRestoreSettings();
 
 
 

@@ -11,6 +11,10 @@ Window {
 
     //visibility: Window.FullScreen
 
+//    onClosing: {
+//        appSettings.checkAndRestoreSettings()
+//    }
+
     Image {
         id: background
         source: "qrc:/image/nature-grass.jpg"

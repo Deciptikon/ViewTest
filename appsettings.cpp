@@ -179,6 +179,7 @@ bool AppSettings::setData(const QModelIndex &index, const QVariant &value, int r
     settings.setValue( key, value);// устанавливаем значение по ключу
     settings.sync(); // синхронизируемся и получаем статус
 
+
     if(settings.status() == QSettings::NoError) { // если ошибок нет, возвращаем true
         qDebug() << "QSettings::NoError";
         qDebug() << " ";
