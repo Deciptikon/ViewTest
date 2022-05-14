@@ -25,14 +25,16 @@ int main(int argc, char *argv[])
         s.checkAndRestoreSettings();
     }
 
-    QTranslator translator;// переводчик
 
+    QTranslator translator;// переводчик
     QVariant tr = sett.value(DIR_LANGUAGE KEY_CURRENT_LANGUAGE,
                                   DEFAULT_CURRENT_LANGUAGE );
     translator.load(QString("QtLanguage_") + QString(tr.toString()), ".");// выбираем локализацию
 
+
     QGuiApplication app(argc, argv);
     app.installTranslator(&translator);// устанавливаем перевод в приложение
+
 
     // настройки приложения(загружаются после app что бы сработал перевед)
     AppSettings settings;
@@ -41,10 +43,13 @@ int main(int argc, char *argv[])
 
     Model model;
 
+
     DataBaseField dbField;// база данных
     dbField.connectToDataBase();
 
+
     FieldModel *fieldModel = new FieldModel();// модель для отображения базы данных
+
 
     QQmlApplicationEngine engine;
 
