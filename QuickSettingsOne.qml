@@ -60,6 +60,9 @@ Item {
             height: 200
             radius: 15
 
+            border.color: "black"//Qt.rgba(0.2, 0.2, 0.2, 1)
+            border.width: 0
+
             color: Qt.rgba(0.5, 0.5, 0.5, 0.7)
 
             Image {
@@ -84,6 +87,7 @@ Item {
 
                 onPressed: {
                     delegateGridViewMode.color = Qt.rgba(0.4, 0.4, 0.4, 0.9)
+                    delegateGridViewMode.border.width = 5
                 }
                 onReleased: {
                     currentMode = index
@@ -96,13 +100,17 @@ Item {
                     }
 
                     gridViewMode.itemAtIndex(lastMode).color = Qt.rgba(0.5, 0.5, 0.5, 0.7)
+                    gridViewMode.itemAtIndex(lastMode).border.width = 0
+
                     lastMode = currentMode
-                    delegateGridViewMode.color = Qt.rgba(0.4, 0.4, 0.4, 0.9)
+                    //delegateGridViewMode.color = Qt.rgba(0.4, 0.4, 0.4, 0.9)
+                    //delegateGridViewMode.border.width = 2
 
                     //model.setDriveMode(mode)
                 }
                 onCanceled: {
                     delegateGridViewMode.color = Qt.rgba(0.5, 0.5, 0.5, 0.7)
+                    delegateGridViewMode.border.width = 0
                 }
             }
         }
