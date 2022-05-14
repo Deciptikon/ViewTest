@@ -5,6 +5,8 @@
 
 #include "constants.h"
 #include "TypeEdit.h"
+#include "DriveMode.h"
+
 #include "appsettings.h"
 #include "model.h"
 #include "databasefield.h"
@@ -60,6 +62,7 @@ int main(int argc, char *argv[])
     context->setContextProperty("appSettings", &settings);
 
     qmlRegisterType<TypeEdit>("TypeEdit", 1, 0, "TypeEdit");
+    qmlRegisterType<DriveMode>("DriveMode", 1, 0, "DriveMode");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

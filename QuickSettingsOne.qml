@@ -1,5 +1,7 @@
 import QtQuick 2.0
 
+import DriveMode 1.0 //ENUM режимы вождения
+
 Item {
     //
     property int lastMode: 0
@@ -10,66 +12,30 @@ Item {
 
         ListElement {
             name: qsTr("Key points");
-            mode: "keyPoints";
+            driveMode: DriveMode.KEYPOINTS_MODE;
             imageSource: "qrc:/image/icon-way-keypoins.png"
         }
         ListElement {
             name: qsTr("Parallel");
-            mode: "parallel";
+            driveMode: DriveMode.PARALLEL_MODE;
             imageSource: "qrc:/image/icon-way-snake.png"
         }
         ListElement {
             name: qsTr("Spiral");
-            mode: "spiral";
+            driveMode: DriveMode.SPIRAL_MODE;
             imageSource: "qrc:/image/icon-way-spiral.png"
         }
         ListElement {
             name: qsTr("None");
-            mode: "none";
+            driveMode: DriveMode.NONE_MODE;
             imageSource: "qrc:/image/icon-no-image.png"
         }
         ListElement {
             name: qsTr("None");
-            mode: "none";
+            driveMode: DriveMode.NONE_MODE;
             imageSource: "qrc:/image/icon-no-image.png"
         }
 
-    }
-
-    TextButton {
-        id: btNextQiuckSettingsOne
-        width: 80
-        height: width
-
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-            margins: 15
-        }
-
-        textButton: qsTr("Next")
-        sizeTextButton: 20
-
-        onReleasedButton: {
-            stackViewQuickSettings.push("QuickSettingsTwo.qml")
-        }
-    }
-    TextButton {
-        width: 80
-        height: width
-
-        anchors {
-            right: btNextQiuckSettingsOne.left
-            bottom: parent.bottom
-            margins: 15
-        }
-
-        textButton: qsTr("Back")
-        sizeTextButton: 20
-
-        onReleasedButton: {
-            mainLoader.source = "GridOne.qml"
-        }
     }
 
     GridView {
@@ -121,7 +87,9 @@ Item {
                 }
                 onReleased: {
                     currentMode = index
-                    console.log(mode)
+                    //if(driveMode == DriveMode.NONE_MODE){
+                    console.log(driveMode)
+                    //}
 
                     if(currentMode == lastMode) {
                         return
@@ -137,6 +105,42 @@ Item {
                     delegateGridViewMode.color = Qt.rgba(0.5, 0.5, 0.5, 0.7)
                 }
             }
+        }
+    }
+
+    TextButton {
+        id: btNextQiuckSettingsOne
+        width: 80
+        height: width
+
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+            margins: 15
+        }
+
+        textButton: qsTr("Next")
+        sizeTextButton: 20
+
+        onReleasedButton: {
+            stackViewQuickSettings.push("QuickSettingsTwo.qml")
+        }
+    }
+    TextButton {
+        width: 80
+        height: width
+
+        anchors {
+            right: btNextQiuckSettingsOne.left
+            bottom: parent.bottom
+            margins: 15
+        }
+
+        textButton: qsTr("Back")
+        sizeTextButton: 20
+
+        onReleasedButton: {
+            mainLoader.source = "GridOne.qml"
         }
     }
 }

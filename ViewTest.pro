@@ -36,6 +36,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
+    DriveMode.h \
     TypeEdit.h \
     appsettings.h \
     constants.h \
