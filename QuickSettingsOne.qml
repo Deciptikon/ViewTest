@@ -12,31 +12,26 @@ Item {
             name: qsTr("Key points");
             mode: "keyPoints";
             imageSource: "qrc:/image/icon-way-keypoins.png"
-            //isActive: true
         }
         ListElement {
-            name: qsTr("Snake");
-            mode: "snake";
+            name: qsTr("Parallel");
+            mode: "parallel";
             imageSource: "qrc:/image/icon-way-snake.png"
-            //isActive: false
         }
         ListElement {
             name: qsTr("Spiral");
             mode: "spiral";
             imageSource: "qrc:/image/icon-way-spiral.png"
-            //isActive: false
         }
         ListElement {
             name: qsTr("None");
             mode: "none";
             imageSource: "qrc:/image/icon-no-image.png"
-            //isActive: false
         }
         ListElement {
             name: qsTr("None");
             mode: "none";
             imageSource: "qrc:/image/icon-no-image.png"
-            //isActive: false
         }
 
     }
@@ -93,15 +88,13 @@ Item {
         focus: true
 
         delegate: Rectangle {
-            property bool isActive: false
-
             id: delegateGridViewMode
 
             width: 200
             height: 200
             radius: 15
 
-            color: isActive ? Qt.rgba(0.4, 0.4, 0.4, 0.9) : Qt.rgba(0.5, 0.5, 0.5, 0.7)
+            color: Qt.rgba(0.5, 0.5, 0.5, 0.7)
 
             Image {
                 width: height
@@ -130,11 +123,14 @@ Item {
                     currentMode = index
                     console.log(mode)
 
-                    delegateGridViewMode.isActive = true
-                    lastMode = currentMode
+                    if(currentMode == lastMode) {
+                        return
+                    }
 
-                    gridViewMode.update()
-                    //delegateGridViewMode.color = Qt.rgba(0.5, 0.5, 0.5, 0.7)
+                    gridViewMode.itemAtIndex(lastMode).color = Qt.rgba(0.5, 0.5, 0.5, 0.7)
+                    lastMode = currentMode
+                    delegateGridViewMode.color = Qt.rgba(0.4, 0.4, 0.4, 0.9)
+
                     //model.setDriveMode(mode)
                 }
                 onCanceled: {
