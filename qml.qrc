@@ -44,5 +44,8 @@
         <file>QuickSettingsOne.qml</file>
         <file>QuickSettingsTwo.qml</file>
         <file>QuickSettingsThree.qml</file>
+        <file>image/icon-way-keypoins.png</file>
+        <file>image/icon-way-snake.png</file>
+        <file>image/icon-way-spiral.png</file>
     </qresource>
 </RCC>
