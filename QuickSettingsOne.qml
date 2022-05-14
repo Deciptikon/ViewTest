@@ -84,7 +84,7 @@ Item {
         cellWidth: 240
         cellHeight: 220
 
-        clip: true // обрезка за пределами окна
+        //clip: true // обрезка за пределами окна
         focus: true
 
         delegate: Rectangle {

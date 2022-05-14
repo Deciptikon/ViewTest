@@ -162,17 +162,37 @@
 <context>
     <name>QuickSettingsOne</name>
     <message>
-        <location filename="QuickSettingsOne.qml" line="14"/>
         <source>QuickSettingsOne.qml</source>
-        <translation>БыстрыеНастройкиОдин.кмл</translation>
+        <translation type="vanished">БыстрыеНастройкиОдин.кмл</translation>
     </message>
     <message>
-        <location filename="QuickSettingsOne.qml" line="31"/>
+        <location filename="QuickSettingsOne.qml" line="12"/>
+        <source>Key points</source>
+        <translation>Ключевые точки</translation>
+    </message>
+    <message>
+        <location filename="QuickSettingsOne.qml" line="17"/>
+        <source>Parallel</source>
+        <translation>Параллельно</translation>
+    </message>
+    <message>
+        <location filename="QuickSettingsOne.qml" line="22"/>
+        <source>Spiral</source>
+        <translation>Спираль</translation>
+    </message>
+    <message>
+        <location filename="QuickSettingsOne.qml" line="27"/>
+        <location filename="QuickSettingsOne.qml" line="32"/>
+        <source>None</source>
+        <translation>Отсутствует</translation>
+    </message>
+    <message>
+        <location filename="QuickSettingsOne.qml" line="50"/>
         <source>Next</source>
         <translation>Далее</translation>
     </message>
     <message>
-        <location filename="QuickSettingsOne.qml" line="48"/>
+        <location filename="QuickSettingsOne.qml" line="67"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
