@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QTranslator>
+#include <QThread>
 
 #include "constants.h"
 #include "TypeEdit.h"
@@ -11,6 +12,7 @@
 #include "model.h"
 #include "databasefield.h"
 #include "fieldmodel.h"
+#include "gps.h"
 
 int main(int argc, char *argv[])
 {
@@ -53,10 +55,35 @@ int main(int argc, char *argv[])
     FieldModel *fieldModel = new FieldModel();// модель для отображения базы данных
 
 
+    GPS *gps;
+    QThread *threadGPS;
+
+
+///-------Create GPS-reader----------------------------------------------------------------------
+    gps = new GPS();
+
+    threadGPS = new QThread();
+
+    gps->moveToThread(threadGPS);
+
+    // инициализируем gps как serialport device как только поток стартует
+    gps->connect(threadGPS, SIGNAL(started()), SLOT(init()) );
+
+    model.connect(gps, SIGNAL(gpsOn()), SLOT(slotGPSon()) );
+    model.connect(gps, SIGNAL(gpsOff()), SLOT(slotGPSoff()) );
+
+    // изменение координат передаются в viewData для дальнейшего отображения
+    // например как пары чисел
+//        viewData.connect(gps, SIGNAL(updatePositionXY(const double&, const double&)),
+//                         SLOT(acceptCoord(const double&, const double&)), Qt::QueuedConnection );
+///----------------------------------------------------------------------------------------------
+
+
+
     QQmlApplicationEngine engine;
 
     QQmlContext *context = engine.rootContext();
-    context->setContextProperty("model", &model);
+    context->setContextProperty("modelView", &model);
     context->setContextProperty("fieldModel", fieldModel);
     context->setContextProperty("fieldDataBase", &dbField);
     context->setContextProperty("appSettings", &settings);
@@ -71,6 +98,12 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+
+///-------Start threads--------------------------------------------------------------------------
+    //threadAutopilot->start();
+    threadGPS->start();
+    //threadControllerI2C_14->start();
+///----------------------------------------------------------------------------------------------
 
     return app.exec();
 }

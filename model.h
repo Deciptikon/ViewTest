@@ -7,6 +7,8 @@
 #include <QColor>
 #include <QSettings>
 
+#include <DriveMode.h>
+
 
 class Model : public QObject
 {
@@ -18,7 +20,7 @@ public:
     explicit Model(QObject *parent = nullptr);
 
     Q_INVOKABLE void testMetod(QString str);
-
+    Q_INVOKABLE void setDriveModeFromQML(QVariant mode);
 
     const QColor &colorStatusBar() const;
     void setColorStatusBar(const QColor &newColorStatusBar);
@@ -28,6 +30,7 @@ signals:
 
     // эти сигналы можно переименовать, но они не для демонстрации
     void signalStateGPStoQML(bool state);
+
     void signalStateI2CtoQML(bool state);
     void signalStateGyrotoQML(bool state);
     void signalStateCamtoQML(bool state);
@@ -38,8 +41,12 @@ signals:
 public slots:
     void slotTakeFromQML(QString str);
 
+
+
+    void slotGPSon();
+    void slotGPSoff();
+
     // слоты для демонстрации
-    void slotUpdateTimerGPS();
     void slotUpdateTimerI2C();
     void slotUpdateTimerGyro();
     void slotUpdateTimerCam();

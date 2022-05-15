@@ -106,7 +106,8 @@ Item {
                     //delegateGridViewMode.color = Qt.rgba(0.4, 0.4, 0.4, 0.9)
                     //delegateGridViewMode.border.width = 2
 
-                    //model.setDriveMode(mode)
+                    //model.setDriveMode(driveMode)
+                    modelView.setDriveModeFromQML(driveMode)
                 }
                 onCanceled: {
                     delegateGridViewMode.color = Qt.rgba(0.5, 0.5, 0.5, 0.7)

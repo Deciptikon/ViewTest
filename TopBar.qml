@@ -18,7 +18,7 @@ Item {
     Rectangle {
         id: rectTopBar
         anchors.fill: parent
-        color: model.colorStatusBar//Qt.rgba(0.5, 0.5, 0.5, 0.5)
+        color: modelView.colorStatusBar//Qt.rgba(0.5, 0.5, 0.5, 0.5)
 
         ImageButton {
            id: btHome
@@ -41,7 +41,7 @@ Item {
 
         // отражаем изменения состояний по сигналу из модели
         Connections {
-            target: model
+            target: modelView
 
             function onSignalStateGPStoQML(state) {// bool state
                 console.log("function onSignalStateGPStoQML(state)")

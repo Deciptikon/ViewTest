@@ -17,10 +17,10 @@ Model::Model(QObject *parent) : QObject(parent)
     setColorStatusBar(col);
 
 
-    // таймеры и связи для демонстрации
-    timerGPS = new QTimer();
-    connect(timerGPS, SIGNAL(timeout()), this, SLOT(slotUpdateTimerGPS()) );
-    timerGPS->start(5000);
+//    // таймеры и связи для демонстрации
+//    timerGPS = new QTimer();
+//    connect(timerGPS, SIGNAL(timeout()), this, SLOT(slotUpdateTimerGPS()) );
+//    timerGPS->start(5000);
 
     timerI2C = new QTimer();
     connect(timerI2C, SIGNAL(timeout()), this, SLOT(slotUpdateTimerI2C()) );
@@ -50,13 +50,41 @@ void Model::slotTakeFromQML(QString str)
     emit signalSendToQML(testData);
 }
 
-// таймеры и состояния для демонстрации
-void Model::slotUpdateTimerGPS()
+void Model::setDriveModeFromQML(QVariant mode)
 {
-    stateGPS = !stateGPS;
-    qDebug() << "stateGPS =" << stateGPS;
-    emit signalStateGPStoQML(stateGPS);
+    //qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ " << mode.toUInt();
+
+    if(mode.toUInt() == DriveMode::NONE_MODE) {
+        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ NONE";
+    }
+    if(mode.toUInt() == DriveMode::KEYPOINTS_MODE) {
+        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ KEYPOINTS_MODE";
+    }
+    if(mode.toUInt() == DriveMode::PARALLEL_MODE) {
+        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ PARALLEL_MODE";
+    }
+    if(mode.toUInt() == DriveMode::SPIRAL_MODE) {
+        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ SPIRAL_MODE";
+    }
 }
+
+void Model::slotGPSon()
+{
+    emit signalStateGPStoQML(true);
+}
+
+void Model::slotGPSoff()
+{
+    emit signalStateGPStoQML(false);
+}
+
+// таймеры и состояния для демонстрации
+//void Model::slotUpdateTimerGPS()
+//{
+//    stateGPS = !stateGPS;
+//    qDebug() << "stateGPS =" << stateGPS;
+//    emit signalStateGPStoQML(stateGPS);
+//}
 
 void Model::slotUpdateTimerI2C()
 {

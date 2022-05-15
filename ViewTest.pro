@@ -1,4 +1,4 @@
-QT += quick sql
+QT += quick sql serialport
 
 CONFIG += c++11
 
@@ -10,6 +10,7 @@ SOURCES += \
         appsettings.cpp \
         databasefield.cpp \
         fieldmodel.cpp \
+        gps.cpp \
         main.cpp \
         model.cpp
 
@@ -42,4 +43,5 @@ HEADERS += \
     constants.h \
     databasefield.h \
     fieldmodel.h \
+    gps.h \
     model.h
