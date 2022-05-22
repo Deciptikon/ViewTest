@@ -9,6 +9,7 @@ CONFIG += c++11
 SOURCES += \
         appsettings.cpp \
         databasefield.cpp \
+        drawtrack.cpp \
         fieldmodel.cpp \
         gps.cpp \
         main.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     appsettings.h \
     constants.h \
     databasefield.h \
+    drawtrack.h \
     fieldmodel.h \
     gps.h \
     model.h

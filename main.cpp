@@ -13,6 +13,9 @@
 #include "databasefield.h"
 #include "fieldmodel.h"
 #include "gps.h"
+#include "drawtrack.h"
+
+typedef QList<QVector2D> ListVector;
 
 int main(int argc, char *argv[])
 {
@@ -42,7 +45,6 @@ int main(int argc, char *argv[])
 
     // настройки приложения(загружаются после app что бы сработал перевед)
     AppSettings settings;
-
 
 
     Model model;
@@ -90,6 +92,8 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<TypeEdit>("TypeEdit", 1, 0, "TypeEdit");
     qmlRegisterType<DriveMode>("DriveMode", 1, 0, "DriveMode");
+    qmlRegisterType<DrawTrack>("DrawTrack",1,0,"DrawTrack");//регистрируем
+    qRegisterMetaType<ListVector>("ListVector");// в метаобъектной системе
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

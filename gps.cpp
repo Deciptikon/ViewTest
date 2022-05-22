@@ -75,11 +75,6 @@ void GPS::init()
             lastElapsedTimeUpdate = new QElapsedTimer();
         }
 
-
-
-
-
-
     } else {
         qDebug() << "SerialPort is not open";
         //Если порт не открыт, попытка через 100мс открыть его снова

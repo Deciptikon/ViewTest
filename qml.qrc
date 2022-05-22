@@ -47,5 +47,7 @@
         <file>image/icon-way-keypoins.png</file>
         <file>image/icon-way-snake.png</file>
         <file>image/icon-way-spiral.png</file>
+        <file>image/bt-centered-false.png</file>
+        <file>image/bt-centered-true.png</file>
     </qresource>
 </RCC>
