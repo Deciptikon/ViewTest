@@ -50,6 +50,26 @@ void Model::slotTakeFromQML(QString str)
     emit signalSendToQML(testData);
 }
 
+void Model::acceptCoordXY(const double &x, const double &y)
+{
+    QVector2D vec;
+    if( xorig == 0  &&  yorig == 0  &&  x != 0  &&  y != 0) {
+        qDebug() << "SET ORIG POSITION";
+        xorig = x;
+        yorig = y;
+    }
+    float xf = x - xorig;
+    float yf = y - yorig;
+    vec.setX(xf);
+    vec.setY(yf);
+    if(lenpath<1000) {
+        lenpath++;
+        emit signalAppPointToPathQML(vec);
+    } else {
+        emit signalAppPointToPathAndRemoveFirstQML(vec);
+    }
+}
+
 void Model::setDriveModeFromQML(QVariant mode)
 {
     //qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ " << mode.toUInt();
@@ -66,6 +86,8 @@ void Model::setDriveModeFromQML(QVariant mode)
     if(mode.toUInt() == DriveMode::SPIRAL_MODE) {
         qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ SPIRAL_MODE";
     }
+
+    // передаем режим в автопилот...
 }
 
 void Model::slotGPSon()

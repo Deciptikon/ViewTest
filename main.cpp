@@ -73,6 +73,8 @@ int main(int argc, char *argv[])
 
     model.connect(gps, SIGNAL(gpsOn()), SLOT(slotGPSon()) );
     model.connect(gps, SIGNAL(gpsOff()), SLOT(slotGPSoff()) );
+    model.connect(gps, SIGNAL(updatePositionXY(const double&, const double&)),
+                         SLOT(acceptCoordXY(const double&, const double&)), Qt::QueuedConnection );
 
     // изменение координат передаются в viewData для дальнейшего отображения
     // например как пары чисел

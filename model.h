@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QColor>
 #include <QSettings>
+#include <QVector2D>
 
 #include <DriveMode.h>
 
@@ -28,6 +29,9 @@ public:
 signals:
     void signalSendToQML(QString str);
 
+    void signalAppPointToPathQML(const QVector2D vec);// добавляем точку в траекторию
+    void signalAppPointToPathAndRemoveFirstQML(const QVector2D vec);//добавляем и удаляем
+
     // эти сигналы можно переименовать, но они не для демонстрации
     void signalStateGPStoQML(bool state);
 
@@ -41,7 +45,7 @@ signals:
 public slots:
     void slotTakeFromQML(QString str);
 
-
+    void acceptCoordXY(const double& x, const double& y);//получаем данные с GPS
 
     void slotGPSon();
     void slotGPSoff();
@@ -72,6 +76,12 @@ private:
 
 
     QColor m_colorStatusBar;
+
+
+
+
+    double xorig=0, yorig=0;///////////////////
+    int lenpath=0;/////////////////////////////
 };
 
 #endif // MODEL_H
