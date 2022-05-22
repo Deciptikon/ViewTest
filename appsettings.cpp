@@ -36,6 +36,23 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
     listKeys.append(data);
 
 
+    /* ---------------
+     * Настройки языка
+     * */
+    data = {EMPTY_STRING, // Заголовок для группы настроек, не содержит ключ/значение
+            QObject::tr("Language settings"),
+            TypeEdit::NONE_EDIT,
+            ""};
+    listKeys.append(data);
+
+    // текущий язык: "_ru", "_ru_RU", "_en", "_en_US", "_en_GB", ...
+    data = {DIR_LANGUAGE KEY_CURRENT_LANGUAGE,
+            QObject::tr("Current language"),
+            TypeEdit::STRING_EDIT, /// изменить на выпадающий список...
+            DEFAULT_CURRENT_LANGUAGE};
+    listKeys.append(data);
+
+
     /* -----------------------
      * Настройки внешнего вида
      * */
@@ -57,28 +74,29 @@ AppSettings::AppSettings(QObject *parent) : QAbstractListModel(parent)
             "false"};
     listKeys.append(data);
 
-    data = {"flagUpdateGPS", /// демо...
-            QObject::tr("On GPS?"),
-            TypeEdit::BOOL_EDIT,
-            "false"};
-    listKeys.append(data);
-
 
     /* ---------------
-     * Настройки языка
+     * Настройки GPS SerialPort
      * */
     data = {EMPTY_STRING, // Заголовок для группы настроек, не содержит ключ/значение
-            QObject::tr("Language settings"),
+            QObject::tr("GPS SerialPort settings"),
             TypeEdit::NONE_EDIT,
             ""};
     listKeys.append(data);
 
-    // текущий язык: "_ru", "_ru_RU", "_en", "_en_US", "_en_GB", ...
-    data = {DIR_LANGUAGE KEY_CURRENT_LANGUAGE,
-            QObject::tr("Current language"),
-            TypeEdit::STRING_EDIT, /// изменить на выпадающий список...
-            DEFAULT_CURRENT_LANGUAGE};
+    data = {DIR_GPS KEY_ENABLE_GPS,
+            QObject::tr("Enable GPS?"),
+            TypeEdit::BOOL_EDIT,
+            DEFAULT_ENABLE_GPS};
     listKeys.append(data);
+
+    data = {DIR_GPS KEY_CURRENT_GPS_PORTNAME,
+            QObject::tr("Port name"),
+            TypeEdit::STRING_EDIT,
+            DEFAULT_CURRENT_GPS_PORTNAME};
+    listKeys.append(data);
+
+
 
 
 

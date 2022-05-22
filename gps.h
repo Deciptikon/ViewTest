@@ -5,9 +5,12 @@
 #include <QDebug>
 #include <QSerialPort>
 #include <QtMath>
+#include <QSettings>
 
 #include <QTimer>
 #include <QElapsedTimer>
+
+#include "constants.h"
 
 
 const double RADIUS_EARTH = 6371000;
@@ -56,9 +59,11 @@ private:
     size_t msecUpdate;
 
 
-    QTimer *checker;
-    QElapsedTimer *lastElapsedTimeUpdate;
+    QTimer *checker = nullptr;
+    QElapsedTimer *lastElapsedTimeUpdate = nullptr;
     bool gpsIsOn = false;
+
+    bool enableGPS = true;
 };
 
 #endif // GPS_H

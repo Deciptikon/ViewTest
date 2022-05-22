@@ -17,6 +17,15 @@
 
 
 
+#define DIR_GPS                     "GPS/"
+
+#define KEY_ENABLE_GPS              "EnableGPS"
+#define DEFAULT_ENABLE_GPS          "true"
+
+#define KEY_CURRENT_GPS_PORTNAME    "PortName"
+#define DEFAULT_CURRENT_GPS_PORTNAME "ttyUSB0"
+
+
 
 
 

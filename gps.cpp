@@ -6,8 +6,13 @@ GPS::GPS(QObject *parent) : QObject(parent)
 
 
 
-    //если сообщение с координатами получено - читаем из него координаты
+    // если сообщение с координатами получено - читаем из него координаты
     connect(this, SIGNAL(parseMessage()), this, SLOT(ubxParser()) );
+
+    // при разрыве соединения переустанавливаем порт
+    connect(this, SIGNAL(gpsOff()), this, SLOT(init()) );
+
+
 }
 
 void GPS::setMsecUpdate(size_t value)
@@ -23,8 +28,19 @@ void GPS::setMsecUpdate(size_t value)
 void GPS::init()
 {
     qDebug() << "threadGPS:" << this->thread();
+
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    enableGPS = settings.value(DIR_GPS KEY_ENABLE_GPS,
+                                          DEFAULT_ENABLE_GPS).toBool();
+
+
+    QString portname = QString( settings.value(DIR_GPS KEY_CURRENT_GPS_PORTNAME,
+                                          DEFAULT_CURRENT_GPS_PORTNAME).toString() );
+
+
     serial = new QSerialPort();
-    serial->setPortName("COM4");//"ttyACM0"//"COM4"//"ttyUSB0"
+    serial->setPortName(portname);//"ttyACM0"//"COM4"//"ttyUSB0"
     serial->open(QIODevice::ReadWrite);
     serial->setBaudRate(QSerialPort::Baud38400);//Baud9600
     serial->setDataBits(QSerialPort::Data8);
@@ -32,18 +48,38 @@ void GPS::init()
     serial->setStopBits(QSerialPort::OneStop);
     serial->setFlowControl(QSerialPort::NoFlowControl);
 
+
+    if(!enableGPS) {
+        return;
+    }
+
     if(!serial->isOpen()) {
         serial->open(QIODevice::ReadWrite);
     }
     if(serial->isOpen()) {
         qDebug() << "SerialPort is open";
 
-        checker = new QTimer();
-        lastElapsedTimeUpdate = new QElapsedTimer();
-        connect(checker, SIGNAL(timeout()), this, SLOT(checkAction()) );
-        checker->start(msecUpdate);
+        if(checker == nullptr) {
+            checker = new QTimer();
 
-        connect(serial, SIGNAL(readyRead()), this, SLOT(readPort()));
+            connect(checker, SIGNAL(timeout()), this, SLOT(checkAction()) );
+            // по готовности читаем данные
+            connect(serial, SIGNAL(readyRead()), this, SLOT(readPort()));
+
+            checker->start(msecUpdate);
+        }
+//        if(checker->isActive()) {
+//            checker->stop();
+//        }
+        if(lastElapsedTimeUpdate == nullptr) {
+            lastElapsedTimeUpdate = new QElapsedTimer();
+        }
+
+
+
+
+
+
     } else {
         qDebug() << "SerialPort is not open";
         //Если порт не открыт, попытка через 100мс открыть его снова
@@ -80,6 +116,10 @@ void GPS::readPort()
 
     if(serial->bytesAvailable() == 0) {
         qDebug() << "SerialPort null data";
+        if(gpsIsOn) {
+            gpsIsOn = !gpsIsOn;
+            emit gpsOff();// сигнал о "разрыве" связи
+        }
         return;
     }
 
@@ -171,7 +211,7 @@ void GPS::checkAction()
     }
     if(lastElapsedTimeUpdate->elapsed() > 1000 ) {
         gpsIsOn = !gpsIsOn;
-        emit gpsOff();// сигнал о приёме корректных данных
+        emit gpsOff();// сигнал о приёме некорректных данных
     }
 }
 
