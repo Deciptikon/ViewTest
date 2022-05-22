@@ -7,7 +7,7 @@ Item {
 
 
     Connections {
-            // описываем реакцию на испущенные сигналы из слоя ViewData
+            // описываем реакцию на испущенные сигналы из слоя modelView
             target: modelView
 
             //получаем и\или удаляем точки траектории для отображения в QML
@@ -31,13 +31,13 @@ Item {
 
             function onReleaseCoordinate(point) {
 
-                // передаем координаты ключевой точки в слой ViewData
+                // передаем координаты ключевой точки в слой modelView
                 // который потом передаст их в автопилот, а тот
                 // в свою очередь обработает их и добавит в конец списка
                 // ключевых точек, и испустит сигнал с новым
                 // списком ключевых точек, которые получит слой ViewData
                 // и передаст их для отображения в QML drawtrack
-                ViewData.addKeyPointFromQML(point)
+                modelView.addKeyPointFromQML(point)
             }
         }
 
@@ -70,6 +70,7 @@ Item {
                id: currentZoom
                anchors.centerIn: parent
                text: drawtrack.getZoom()
+               font.pixelSize: 25
            }
 
            TextButton {//приближение
@@ -79,6 +80,7 @@ Item {
                width: parent.width
                height: parent.height/3
                textButton: "+"
+               sizeTextButton: 40
                onReleasedButton: {
                    drawtrack.zoomIn()
                    currentZoom.text = drawtrack.getZoom()
@@ -92,6 +94,7 @@ Item {
                width: parent.width
                height: parent.height/3
                textButton: "-"
+               sizeTextButton: 50
                onReleasedButton: {
                    drawtrack.zoomOut()
                    currentZoom.text = drawtrack.getZoom()
@@ -101,6 +104,9 @@ Item {
 
        ImageButton {//кнопка переключения центрирования (ЗАМЕНИТЬ НА ЧЕКБОКС)
               id: swapbutton
+              width: zoomItem.width
+              height: width
+
               anchors.top: zoomItem.bottom
               anchors.topMargin: 25
               anchors.horizontalCenter: zoomItem.horizontalCenter
