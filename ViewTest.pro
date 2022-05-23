@@ -8,6 +8,7 @@ CONFIG += c++11
 
 SOURCES += \
         appsettings.cpp \
+        autopilot.cpp \
         databasefield.cpp \
         drawtrack.cpp \
         fieldmodel.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     DriveMode.h \
     TypeEdit.h \
     appsettings.h \
+    autopilot.h \
     constants.h \
     databasefield.h \
     drawtrack.h \
