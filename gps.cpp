@@ -190,8 +190,10 @@ void GPS::ubxParser()
 
     latLonToXY(this->lat, this->lon);
 
-    qDebug() << "coord.latitude(): " << QString::number(this->lat, 'g', 9);
-    qDebug() << "coord.longitude(): " << QString::number(this->lon, 'g', 9);
+    //qDebug() << "coord.latitude(): " << QString::number(this->lat, 'g', 9);
+    //qDebug() << "coord.longitude(): " << QString::number(this->lon, 'g', 9);
+    qDebug() << "coord.x: " << QString::number(this->x, 'g', 9);
+    qDebug() << "coord.y: " << QString::number(this->y, 'g', 9);
 
     emit updatePositionXY(this->x, this->y);
     emit updatePositionLatLon(this->lat, this->lon);

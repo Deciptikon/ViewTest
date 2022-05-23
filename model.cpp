@@ -52,21 +52,32 @@ void Model::slotTakeFromQML(QString str)
 
 void Model::acceptCoordXY(const double &x, const double &y)
 {
-    QVector2D vec;
     if( xorig == 0  &&  yorig == 0  &&  x != 0  &&  y != 0) {
-        qDebug() << "SET ORIG POSITION";
+        qDebug() << "================================== SET ORIG POSITION";
         xorig = x;
         yorig = y;
     }
-    float xf = x - xorig;
-    float yf = y - yorig;
-    vec.setX(xf);
-    vec.setY(yf);
+    float xf = (x - xorig);
+    float yf = (y - yorig);
+
+    last = curr;
+
+    lastx = currx;
+    lasty = curry;
+
+    currx = x - xorig;
+    curry = y - yorig;
+
+    curr.setX(xf);
+    curr.setY(yf);
+
+    qDebug() << "======================================length =" << (curr - last).length();
+    qDebug() << "======================================lengthD =" << sqrt(pow(currx - lastx, 2) + pow(curry - lasty, 2));
     if(lenpath<1000) {
         lenpath++;
-        emit signalAppPointToPathQML(vec);
+        emit signalAppPointToPathQML(curr);
     } else {
-        emit signalAppPointToPathAndRemoveFirstQML(vec);
+        emit signalAppPointToPathAndRemoveFirstQML(curr);
     }
 }
 
