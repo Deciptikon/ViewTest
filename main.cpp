@@ -12,6 +12,7 @@
 #include "model.h"
 #include "databasefield.h"
 #include "fieldmodel.h"
+#include "autopilot.h"
 #include "gps.h"
 #include "drawtrack.h"
 
@@ -56,9 +57,31 @@ int main(int argc, char *argv[])
 
     FieldModel *fieldModel = new FieldModel();// модель для отображения базы данных
 
+    Autopilot *autopilot;
+    QThread *threadAutopilot;
+    QTimer *timerAutopilot;
 
     GPS *gps;
     QThread *threadGPS;
+
+
+///-------Create autopilot and move to thread with timer----------------------------------------
+    autopilot = new Autopilot();
+    autopilot->init(100);
+
+    threadAutopilot = new QThread();
+
+    timerAutopilot = new QTimer(0);
+    timerAutopilot->setInterval(autopilot->getMSecDeltaTime());
+    timerAutopilot->moveToThread(threadAutopilot);
+
+    // вызываем слот loop() по таймеру
+    autopilot->connect( timerAutopilot, SIGNAL(timeout()), SLOT(loop()), Qt::ConnectionType::DirectConnection);
+
+    // запускаем таймер как только поток стартует
+    timerAutopilot->connect(threadAutopilot, SIGNAL(started()), SLOT(start()));
+///----------------------------------------------------------------------------------------------
+
 
 
 ///-------Create GPS-reader----------------------------------------------------------------------
@@ -73,8 +96,8 @@ int main(int argc, char *argv[])
 
     model.connect(gps, SIGNAL(gpsOn()), SLOT(slotGPSon()) );
     model.connect(gps, SIGNAL(gpsOff()), SLOT(slotGPSoff()) );
-    model.connect(gps, SIGNAL(updatePositionXY(const double&, const double&)),
-                         SLOT(acceptCoordXY(const double&, const double&)), Qt::QueuedConnection );
+//    model.connect(gps, SIGNAL(updatePositionXY(const double&, const double&)),
+    //                         SLOT(acceptCoordXY(const double&, const double&)), Qt::QueuedConnection );
 
     // изменение координат передаются в viewData для дальнейшего отображения
     // например как пары чисел
@@ -83,6 +106,29 @@ int main(int argc, char *argv[])
 ///----------------------------------------------------------------------------------------------
 
 
+
+///-------Connects objects-----------------------------------------------------------------------
+
+    // связываем обновление положения в автопилоте с чтением положения в gps
+    autopilot->connect(gps      , SIGNAL(updatePositionXY(const double&, const double&)),
+                       SLOT(readFromGPS(const double&, const double&)) );
+
+    // получаем ключевую точку в автопилот из model (полученную из QML)
+    // для добавления в список ключевых точек
+    autopilot->connect(&model, SIGNAL(sendKeyPointForAdding(const QVector2D&)),
+                       SLOT(addKeyPoint(const QVector2D&)) );
+
+    // изменение пути и ключевых точек в автопилоте передаются в viewData
+    // для дальнейшего отображения
+    model.connect(autopilot, SIGNAL(signalAppPointToPathAndRemoveFirst(const QVector2D&)),
+                                SLOT(slotAppPointToPathAndRemoveFirst(const QVector2D&)) );
+    model.connect(autopilot, SIGNAL(signalAppPointToPath(const QVector2D&)),
+                                SLOT(slotAppPointToPath(const QVector2D&)) );
+
+    model.connect(autopilot, SIGNAL(keyPointsChanged(const ListVector&)),
+                                SLOT(acceptKeyPoints(const ListVector&)) );
+
+///----------------------------------------------------------------------------------------------
 
     QQmlApplicationEngine engine;
 
@@ -106,7 +152,7 @@ int main(int argc, char *argv[])
     engine.load(url);
 
 ///-------Start threads--------------------------------------------------------------------------
-    //threadAutopilot->start();
+    threadAutopilot->start();
     threadGPS->start();
     //threadControllerI2C_14->start();
 ///----------------------------------------------------------------------------------------------

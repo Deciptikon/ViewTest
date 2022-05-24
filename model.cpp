@@ -140,6 +140,34 @@ void Model::slotUpdateTimerCam()
     emit signalStateCamtoQML(stateCam);
 }
 
+void Model::slotCommandToSlave14(int comm)
+{
+    emit signalCommandToSlave14(comm);
+}
+
+void Model::slotAppPointToPath(const QVector2D &vec)
+{
+    QVector2D v = vec;
+    emit signalAppPointToPathQML(v);
+}
+
+void Model::slotAppPointToPathAndRemoveFirst(const QVector2D &vec)
+{
+    QVector2D v = vec;
+    emit signalAppPointToPathAndRemoveFirstQML(v);
+}
+
+void Model::acceptKeyPoints(const ListVector &keyPoints)
+{
+    this->keyPoints = keyPoints;
+    emit keyPointsToQML(this->keyPoints);
+}
+
+void Model::addKeyPointFromQML(const QVector2D point)
+{
+    emit sendKeyPointForAdding(point);
+}
+
 const QColor &Model::colorStatusBar() const
 {
     return m_colorStatusBar;

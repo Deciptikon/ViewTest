@@ -33,11 +33,6 @@ signals:
 
     void keyPointsChanged(const ListVector &keyPoints);
 
-//    void signalAppKeyPoint(const QVector2D &vec);
-
-//    void signalRemoveFirstKeyPoint();
-
-//    void signalClearKeyPoints();
 
 public slots:
     void loop();

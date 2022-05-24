@@ -12,6 +12,8 @@
 #include <DriveMode.h>
 
 
+typedef QList<QVector2D> ListVector;
+
 class Model : public QObject
 {
     Q_OBJECT
@@ -30,8 +32,14 @@ public:
 signals:
     void signalSendToQML(QString str);
 
+
+
     void signalAppPointToPathQML(const QVector2D vec);// добавляем точку в траекторию
     void signalAppPointToPathAndRemoveFirstQML(const QVector2D vec);//добавляем и удаляем
+    void keyPointsToQML(const ListVector keyPoints);
+    void sendKeyPointForAdding(const QVector2D& vec);//посылаем ключевую точку в autopilot
+
+    void signalCommandToSlave14(const int &comm);
 
     // эти сигналы можно переименовать, но они не для демонстрации
     void signalStateGPStoQML(bool state);
@@ -57,9 +65,21 @@ public slots:
     void slotUpdateTimerCam();
     //
 
+    void slotCommandToSlave14(int comm);
+
+    void slotAppPointToPath(const QVector2D &vec);
+
+    void slotAppPointToPathAndRemoveFirst(const QVector2D &vec);
+
+    void acceptKeyPoints(const ListVector &keyPoints);
+
+    void addKeyPointFromQML(const QVector2D point);
+
 
 private:
     QString testData;
+
+    ListVector keyPoints;
 
     // таймеры и состояния для демонстрации
     QTimer *timerGPS;
