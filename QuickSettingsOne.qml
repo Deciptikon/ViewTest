@@ -4,7 +4,7 @@ import DriveMode 1.0 //ENUM режимы вождения
 
 Item {
     //
-    property int lastMode: 0
+    property int lastMode: -1
     property int currentMode: 0
 
     ListModel {
@@ -99,9 +99,10 @@ Item {
                         return
                     }
 
-                    gridViewMode.itemAtIndex(lastMode).color = Qt.rgba(0.5, 0.5, 0.5, 0.7)
-                    gridViewMode.itemAtIndex(lastMode).border.width = 0
-
+                    if(lastMode >= 0) {
+                        gridViewMode.itemAtIndex(lastMode).color = Qt.rgba(0.5, 0.5, 0.5, 0.7)
+                        gridViewMode.itemAtIndex(lastMode).border.width = 0
+                    }
                     lastMode = currentMode
                     //delegateGridViewMode.color = Qt.rgba(0.4, 0.4, 0.4, 0.9)
                     //delegateGridViewMode.border.width = 2

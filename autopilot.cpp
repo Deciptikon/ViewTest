@@ -95,17 +95,6 @@ void Autopilot::readFromGPS(const double &x, const double &y)
 
     path2D.append(point);
 
-    if(path2D.size()>3) {
-        float r = (*(--path2D.end()) - *(----path2D.end())).length();
-        if(r<1.0) {
-            qDebug() << "Расстояние преодалено:" << r;
-        } else {
-            qDebug() << "Расстояние преодалено____________________________________________:" << r;
-        }
-
-    }
-
-
     // здесь можно сохранять траекторию в некоторый класс с записью в фаил
     // имеющий возможность удобно подгружать части траектории из сохраненного файла
     if(path2D.size() > 100) {
@@ -121,8 +110,10 @@ void Autopilot::readFromGPS(const double &x, const double &y)
 
 void Autopilot::addKeyPoint(const QVector2D &point)
 {
-    listPoint2D.append(point);
-    emit keyPointsChanged(listPoint2D);
+    if(currentDriveMode == DriveMode::KEYPOINTS_MODE) {
+        listPoint2D.append(point);
+        emit keyPointsChanged(listPoint2D);
+    }
 }
 
 void Autopilot::acceptDriveMode(const QVariant &mode)
@@ -130,23 +121,24 @@ void Autopilot::acceptDriveMode(const QVariant &mode)
     //qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ " << mode.toUInt();
 
     currentDriveMode = (DriveMode::State)mode.toUInt();
+    qDebug() << "currentDriveMode = " << currentDriveMode;
 
-    if(currentDriveMode == DriveMode::NONE_MODE) {
-        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ NONE";
-        //currentDriveMode = DriveMode::NONE_MODE;
-    }
-    if(currentDriveMode == DriveMode::KEYPOINTS_MODE) {
-        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ KEYPOINTS_MODE";
-        //currentDriveMode = DriveMode::KEYPOINTS_MODE;
-    }
-    if(currentDriveMode == DriveMode::PARALLEL_MODE) {
-        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ PARALLEL_MODE";
-        //currentDriveMode = DriveMode::PARALLEL_MODE;
-    }
-    if(currentDriveMode == DriveMode::SPIRAL_MODE) {
-        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ SPIRAL_MODE";
-        //currentDriveMode = DriveMode::SPIRAL_MODE;
-    }
+//    if(currentDriveMode == DriveMode::NONE_MODE) {
+//        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ NONE";
+//        //currentDriveMode = DriveMode::NONE_MODE;
+//    }
+//    if(currentDriveMode == DriveMode::KEYPOINTS_MODE) {
+//        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ KEYPOINTS_MODE";
+//        //currentDriveMode = DriveMode::KEYPOINTS_MODE;
+//    }
+//    if(currentDriveMode == DriveMode::PARALLEL_MODE) {
+//        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ PARALLEL_MODE";
+//        //currentDriveMode = DriveMode::PARALLEL_MODE;
+//    }
+//    if(currentDriveMode == DriveMode::SPIRAL_MODE) {
+//        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ SPIRAL_MODE";
+//        //currentDriveMode = DriveMode::SPIRAL_MODE;
+//    }
 
 
 }

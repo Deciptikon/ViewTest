@@ -7,6 +7,7 @@
 #define ORGANIZATION_DOMAIN         "vk.com/deciptikon"
 #define APPLICATION_NAME            "AgroSlave"
 
+
 #define DIR_STATUSBAR               "StatusBar/" // дирректория группы настроек
 #define KEY_COLOR_STATUSBAR         "ColorStatusBar" // ключ настройки
 #define DEFAULT_COLOR_STATUSBAR     "#33223322" // значение по умолчанию (для сброса настроек)

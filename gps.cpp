@@ -153,21 +153,21 @@ void GPS::ubxParser()
     uint8_t latD = data[8] << 0;
     double lat = (double)latA + (double)latB + (double)latC + (double)latD;
 
-    qDebug() << "lon: " << QString::number(lonA, 'd', 0)
-                        << QString::number(lonB, 'd', 0)
-                        << QString::number(lonC, 'd', 0)
-                        << QString::number(lonD, 'd', 0);
+//    qDebug() << "lon: " << QString::number(lonA, 'd', 0)
+//                        << QString::number(lonB, 'd', 0)
+//                        << QString::number(lonC, 'd', 0)
+//                        << QString::number(lonD, 'd', 0);
 
-    qDebug() << "lat: " << QString::number(latA, 'd', 0)
-                        << QString::number(latB, 'd', 0)
-                        << QString::number(latC, 'd', 0)
-                        << QString::number(latD, 'd', 0);
+//    qDebug() << "lat: " << QString::number(latA, 'd', 0)
+//                        << QString::number(latB, 'd', 0)
+//                        << QString::number(latC, 'd', 0)
+//                        << QString::number(latD, 'd', 0);
 
 
     this->lon = lon * 0.0000001;
     this->lat = lat * 0.0000001;
 
-    qDebug() << "Latitude:" << QString::number(lat, 'd', 0) << "\tLongitude:" << QString::number(lon, 'd', 0);
+    //qDebug() << "Latitude:" << QString::number(lat, 'd', 0) << "\tLongitude:" << QString::number(lon, 'd', 0);
 
     latLonToXY(this->lat, this->lon);
 
@@ -178,7 +178,6 @@ void GPS::ubxParser()
 //    qDebug() << "coord.y: " << QString::number(this->y, 'g', 9);
 
     emit updatePositionXY(this->x, this->y);
-    //emit updatePositionXY(lat, lon);
     emit updatePositionLatLon(this->lat, this->lon);
 }
 
