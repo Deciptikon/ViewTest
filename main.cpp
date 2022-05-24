@@ -122,10 +122,10 @@ int main(int argc, char *argv[])
     autopilot->connect(&model, SIGNAL(sendDriveMode(const QVariant&)),
                        SLOT(acceptDriveMode(const QVariant&)) );
 
-    // изменение пути и ключевых точек в автопилоте передаются в viewData
+    // изменение пути и ключевых точек в автопилоте передаются в model
     // для дальнейшего отображения
-    model.connect(autopilot, SIGNAL(signalAppPointToPathAndRemoveFirst(const QVector2D&)),
-                                SLOT(slotAppPointToPathAndRemoveFirst(const QVector2D&)) );
+//    model.connect(autopilot, SIGNAL(signalAppPointToPathAndRemoveFirst(const QVector2D&)),
+//                                SLOT(slotAppPointToPathAndRemoveFirst(const QVector2D&)) );
     model.connect(autopilot, SIGNAL(signalAppPointToPath(const QVector2D&)),
                                 SLOT(slotAppPointToPath(const QVector2D&)) );
 

@@ -27,13 +27,11 @@ void GPS::setMsecUpdate(size_t value)
 
 void GPS::init()
 {
-    qDebug() << "threadGPS:" << this->thread();
 
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
 
     enableGPS = settings.value(DIR_GPS KEY_ENABLE_GPS,
                                           DEFAULT_ENABLE_GPS).toBool();
-
 
     QString portname = QString( settings.value(DIR_GPS KEY_CURRENT_GPS_PORTNAME,
                                           DEFAULT_CURRENT_GPS_PORTNAME).toString() );
@@ -48,38 +46,11 @@ void GPS::init()
     serial->setStopBits(QSerialPort::OneStop);
     serial->setFlowControl(QSerialPort::NoFlowControl);
 
-
     if(!enableGPS) {
         return;
     }
 
-    if(!serial->isOpen()) {
-        serial->open(QIODevice::ReadWrite);
-    }
-    if(serial->isOpen()) {
-        qDebug() << "SerialPort is open";
-
-        if(checker == nullptr) {
-            checker = new QTimer();
-
-            connect(checker, SIGNAL(timeout()), this, SLOT(checkAction()) );
-            // по готовности читаем данные
-            connect(serial, SIGNAL(readyRead()), this, SLOT(readPort()));
-
-            checker->start(msecUpdate);
-        }
-//        if(checker->isActive()) {
-//            checker->stop();
-//        }
-        if(lastElapsedTimeUpdate == nullptr) {
-            lastElapsedTimeUpdate = new QElapsedTimer();
-        }
-
-    } else {
-        qDebug() << "SerialPort is not open";
-        //Если порт не открыт, попытка через 100мс открыть его снова
-        QTimer::singleShot(1000, this, SLOT(init()));
-    }
+    openPort();
 }
 
 void GPS::write(const QByteArray &bytes)
@@ -111,10 +82,6 @@ void GPS::readPort()
 
     if(serial->bytesAvailable() == 0) {
         qDebug() << "SerialPort null data";
-        if(gpsIsOn) {
-            gpsIsOn = !gpsIsOn;
-            emit gpsOff();// сигнал о "разрыве" связи
-        }
         return;
     }
 
@@ -144,6 +111,7 @@ void GPS::ubxParser()
         return;
     }
     if(messageCurrent.size() != 36) {
+        qDebug() << "Data longer...";
         return;
     }
 
@@ -151,7 +119,7 @@ void GPS::ubxParser()
     QByteArray data = messageCurrent;
     data.remove(34,2);// delete check summ: checkA checkB
     data.remove(0,2); // delete header: 0xB5 0x62
-    //qDebug() << "Data size" << data.size();
+    qDebug() << "Data size" << data.size();
 
     for(uint8_t b: data) {
         chA += b;
@@ -164,20 +132,8 @@ void GPS::ubxParser()
 
     if(chA - mA || chB - mB ) {
         qDebug() << "Data invalid";
-        if(gpsIsOn) {
-            gpsIsOn = !gpsIsOn;
-            emit gpsOff();// сигнал о "разрыве" связи
-        }
         return;
     }
-
-    if(!gpsIsOn) {
-        gpsIsOn = !gpsIsOn;
-        emit gpsOn();// сигнал о приёме корректных данных
-    }
-
-    //lastElapsedTimeUpdate = new QElapsedTimer();
-    lastElapsedTimeUpdate->start();
 
     //qDebug() << "Data is valid";
     data.remove(0,4);// delete class & id &  2 bite length payload
@@ -186,6 +142,7 @@ void GPS::ubxParser()
     this->lon = lon * 0.0000001;
     double lat = ((data[11]<< 24) + (data[10]<< 16) + (data[9] << 8) + data[8]);
     this->lat = lat * 0.0000001;
+
     //qDebug() << "Latitude:" << QString::number(lat, 'd', 7) << "\tLongitude:" << QString::number(lon, 'd', 7);
 
     latLonToXY(this->lat, this->lon);
@@ -200,16 +157,22 @@ void GPS::ubxParser()
     emit updatePositionLatLon(this->lat, this->lon);
 }
 
-void GPS::checkAction()
+void GPS::openPort()
 {
-    //QTime currTime = QTime::currentTime();
-    qDebug() << "=======================================GPS::checkAction()";
-    if(!gpsIsOn) {
-        return;
+    if(!serial->isOpen()) {
+        serial->open(QIODevice::ReadWrite);
     }
-    if(lastElapsedTimeUpdate->elapsed() > 1000 ) {
-        gpsIsOn = !gpsIsOn;
-        emit gpsOff();// сигнал о приёме некорректных данных
+
+    if(serial->isOpen()) {
+        qDebug() << "SerialPort is open";
+
+        // по готовности читаем данные
+        connect(serial, SIGNAL(readyRead()), this, SLOT(readPort()));
+
+    } else {
+        qDebug() << "SerialPort is not open";
+        //Если порт не открыт, попытка через 1000мс открыть его снова
+        QTimer::singleShot(1000, this, SLOT(openPort()) );
     }
 }
 

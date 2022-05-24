@@ -11,7 +11,8 @@ DrawTrack::DrawTrack(QQuickItem *parent):
     m_shiftCord(0,0),
     m_isUpdateFromChanged(true),
     m_colorGround(200, 255, 200),
-    m_colorKeyPoint(0, 0, 255)
+    m_colorKeyPoint(0, 0, 255),
+    m_lengthPath(100)
 {
     internalTimer = new QTimer(this);
     connect(internalTimer, &QTimer::timeout, [=](){
@@ -39,6 +40,7 @@ DrawTrack::DrawTrack(QQuickItem *parent):
 void DrawTrack::paint(QPainter *painter)
 {
     // заливаем фон
+
     painter->fillRect(            0,              0,
                       this->width(), this->height(),
                       colorGround() );
@@ -56,6 +58,10 @@ void DrawTrack::swapCentered()
 void DrawTrack::appPointToPath(const QVector2D vec)
 {
     this->m_path.append(vec);
+
+    if(this->m_path.size() > m_lengthPath) {
+        this->m_path.removeFirst();
+    }
 
     pathToPaintedPath();
 
@@ -132,7 +138,7 @@ void DrawTrack::drawAxis(QPainter *painter)
 
 void DrawTrack::drawPath(QPainter *painter)
 {
-    //qDebug() << "path.length" << pathForDraw.length();
+    qDebug() << "path.length" << pathForDraw.length();
 
     if(pathForDraw.isEmpty()) {
         return;
@@ -427,4 +433,17 @@ void DrawTrack::setColorKeyPoint(const QColor &newColorKeyPoint)
         return;
     m_colorKeyPoint = newColorKeyPoint;
     emit colorKeyPointChanged();
+}
+
+qreal DrawTrack::lengthPath() const
+{
+    return m_lengthPath;
+}
+
+void DrawTrack::setLengthPath(qreal newLengthPath)
+{
+    if (qFuzzyCompare(m_lengthPath, newLengthPath))
+        return;
+    m_lengthPath = newLengthPath;
+    emit lengthPathChanged();
 }

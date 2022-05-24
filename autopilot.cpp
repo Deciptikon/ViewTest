@@ -19,7 +19,6 @@ void Autopilot::init(const int msecDeltaTime)
 void Autopilot::loop()
 {
     //qDebug() << "void Autopilot::loop()";
-    //qDebug() << "threadAutopilot:" << this->thread();
 
     if(path2D.isEmpty()) {
         return;
@@ -101,12 +100,16 @@ void Autopilot::readFromGPS(const double &x, const double &y)
 
     }
 
+
+    // здесь можно сохранять траекторию в некоторый класс с записью в фаил
+    // имеющий возможность удобно подгружать части траектории из сохраненного файла
     if(path2D.size() > 100) {
         path2D.removeFirst();
-        emit signalAppPointToPathAndRemoveFirst(point);
+        //emit signalAppPointToPathAndRemoveFirst(point);
     } else {
-        emit signalAppPointToPath(point);
+        //emit signalAppPointToPath(point);
     }
+    emit signalAppPointToPath(point);
 
     //emit pathChanged(path2D);
 }
@@ -121,18 +124,26 @@ void Autopilot::acceptDriveMode(const QVariant &mode)
 {
     //qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ " << mode.toUInt();
 
-    if(mode.toUInt() == DriveMode::NONE_MODE) {
+    currentDriveMode = (DriveMode::State)mode.toUInt();
+
+    if(currentDriveMode == DriveMode::NONE_MODE) {
         qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ NONE";
+        //currentDriveMode = DriveMode::NONE_MODE;
     }
-    if(mode.toUInt() == DriveMode::KEYPOINTS_MODE) {
+    if(currentDriveMode == DriveMode::KEYPOINTS_MODE) {
         qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ KEYPOINTS_MODE";
+        //currentDriveMode = DriveMode::KEYPOINTS_MODE;
     }
-    if(mode.toUInt() == DriveMode::PARALLEL_MODE) {
+    if(currentDriveMode == DriveMode::PARALLEL_MODE) {
         qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ PARALLEL_MODE";
+        //currentDriveMode = DriveMode::PARALLEL_MODE;
     }
-    if(mode.toUInt() == DriveMode::SPIRAL_MODE) {
+    if(currentDriveMode == DriveMode::SPIRAL_MODE) {
         qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ SPIRAL_MODE";
+        //currentDriveMode = DriveMode::SPIRAL_MODE;
     }
+
+
 }
 
 void Autopilot::slotCreateQuadroKeyPoint()

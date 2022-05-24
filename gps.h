@@ -8,7 +8,7 @@
 #include <QSettings>
 
 #include <QTimer>
-#include <QElapsedTimer>
+//#include <QElapsedTimer>
 
 #include "constants.h"
 
@@ -31,17 +31,18 @@ signals:
     void readyRead(const QByteArray &bytes);
     void parseMessage();
 
-    void gpsOn();
-    void gpsOff();
+    void gpsOn();//сигнал на рабочий GPS
+    void gpsOff();//сигнал на не рабочий GPS
 
 public slots:
     void init();
     void write(const QByteArray &bytes);
-    void checkAction();
+
 
 private slots:
     void readPort();
     void ubxParser();
+    void openPort();
 
 private:
     void latLonToXY(double lat, double lon);
@@ -57,11 +58,6 @@ private:
     double x,y;
 
     size_t msecUpdate;
-
-
-    QTimer *checker = nullptr;
-    QElapsedTimer *lastElapsedTimeUpdate = nullptr;
-    bool gpsIsOn = false;
 
     bool enableGPS = true;
 };

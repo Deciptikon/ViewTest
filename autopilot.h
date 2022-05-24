@@ -65,6 +65,8 @@ private:
     QList<QVector2D> path2D;
 
     QList<QVector2D> listPoint2D;
+
+    DriveMode::State currentDriveMode = DriveMode::NONE_MODE;
 };
 
 #endif // AUTOPILOT_H

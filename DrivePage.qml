@@ -14,9 +14,9 @@ Item {
             function onSignalAppPointToPathQML(point) {
                 drawtrack.appPointToPath(point)
             }
-            function onSignalAppPointToPathAndRemoveFirstQML(point) {
-                drawtrack.appPointToPathAndRemoveFirst(point)
-            }
+//            function onSignalAppPointToPathAndRemoveFirstQML(point) {
+//                drawtrack.appPointToPathAndRemoveFirst(point)
+//            }
 
             //ролучаем список ключевых точек для отображения в QML
             function onKeyPointsToQML(keypoints) {
@@ -54,6 +54,7 @@ Item {
             colorKeyPoint: "#0000ff"
             colorGround: "#aaffaa"
             isPaintAxis: true
+            lengthPath: 15
         }
 
        Rectangle {//итем изменения масштаба

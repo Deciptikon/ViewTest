@@ -95,12 +95,14 @@ void Model::slotCommandToSlave14(int comm)
 void Model::slotAppPointToPath(const QVector2D &vec)
 {
     QVector2D v = vec;
+    qDebug() << "slotAppPointToPath";
     emit signalAppPointToPathQML(v);
 }
 
 void Model::slotAppPointToPathAndRemoveFirst(const QVector2D &vec)
 {
     QVector2D v = vec;
+    qDebug() << "slotAppPointToPathAndRemoveFirst";
     emit signalAppPointToPathAndRemoveFirstQML(v);
 }
 

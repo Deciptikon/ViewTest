@@ -100,10 +100,8 @@ private:
 
 
 
-    double xorig=0, yorig=0;///////////////////
-    int lenpath=0;/////////////////////////////
-    QVector2D last, curr;//////////////////////
-    double lastx, lasty, currx, curry;
+
+
 };
 
 #endif // MODEL_H

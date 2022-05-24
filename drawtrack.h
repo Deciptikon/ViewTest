@@ -19,6 +19,7 @@ class DrawTrack : public QQuickPaintedItem
     Q_PROPERTY(qreal  msecUpdate  READ msecUpdate  WRITE setMsecUpdate  NOTIFY msecUpdateChanged)
     Q_PROPERTY(qreal  zoom        READ zoom        WRITE setZoom        NOTIFY zoomChanged)
     Q_PROPERTY(qreal  widthPath   READ widthPath   WRITE setWidthPath   NOTIFY widthPathChanged)
+    Q_PROPERTY(qreal  lengthPath  READ lengthPath  WRITE setLengthPath  NOTIFY lengthPathChanged)
     Q_PROPERTY(QColor colorPath   READ colorPath   WRITE setColorPath   NOTIFY colorPathChanged)
     Q_PROPERTY(QColor colorKeyPoint READ colorKeyPoint WRITE setColorKeyPoint NOTIFY colorKeyPointChanged)
     Q_PROPERTY(QColor colorGround READ colorGround WRITE setColorGround NOTIFY colorGroundChanged)
@@ -68,6 +69,9 @@ public:
     const QColor &colorKeyPoint() const;
     void setColorKeyPoint(const QColor &newColorKeyPoint);
 
+    qreal lengthPath() const;
+    void setLengthPath(qreal newLengthPath);
+
 protected: // QQuickItem interface
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -101,6 +105,8 @@ signals:
     void colorGroundChanged();
 
     void colorKeyPointChanged();
+
+    void lengthPathChanged();
 
 private slots:
     void intervalChanged();
@@ -153,6 +159,7 @@ private:
     QColor m_colorGround;// цвет фона
 
     QColor m_colorKeyPoint;// цвет ключевых точек
+    qreal m_lengthPath;
 };
 
 #endif // DRAWTRACK_H
