@@ -96,7 +96,12 @@ void Autopilot::readFromGPS(const double &x, const double &y)
     path2D.append(point);
 
     if(path2D.size()>3) {
-        qDebug() << "Расстояние преодалено:" << (*(--path2D.end()) - *(----path2D.end())).length();
+        float r = (*(--path2D.end()) - *(----path2D.end())).length();
+        if(r<1.0) {
+            qDebug() << "Расстояние преодалено:" << r;
+        } else {
+            qDebug() << "Расстояние преодалено____________________________________________:" << r;
+        }
 
     }
 

@@ -20,6 +20,8 @@ class DrawTrack : public QQuickPaintedItem
     Q_PROPERTY(qreal  zoom        READ zoom        WRITE setZoom        NOTIFY zoomChanged)
     Q_PROPERTY(qreal  widthPath   READ widthPath   WRITE setWidthPath   NOTIFY widthPathChanged)
     Q_PROPERTY(qreal  lengthPath  READ lengthPath  WRITE setLengthPath  NOTIFY lengthPathChanged)
+    Q_PROPERTY(qreal  widthFlat   READ widthFlat   WRITE setWidthFlat   NOTIFY widthFlatChanged)
+    Q_PROPERTY(QColor colorFlat   READ colorFlat   WRITE setColorFlat   NOTIFY colorFlatChanged)
     Q_PROPERTY(QColor colorPath   READ colorPath   WRITE setColorPath   NOTIFY colorPathChanged)
     Q_PROPERTY(QColor colorKeyPoint READ colorKeyPoint WRITE setColorKeyPoint NOTIFY colorKeyPointChanged)
     Q_PROPERTY(QColor colorGround READ colorGround WRITE setColorGround NOTIFY colorGroundChanged)
@@ -72,6 +74,12 @@ public:
     qreal lengthPath() const;
     void setLengthPath(qreal newLengthPath);
 
+    qreal widthFlat() const;
+    void setWidthFlat(qreal newWidthFlat);
+
+    const QColor &colorFlat() const;
+    void setColorFlat(const QColor &newColorFlat);
+
 protected: // QQuickItem interface
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -107,6 +115,10 @@ signals:
     void colorKeyPointChanged();
 
     void lengthPathChanged();
+
+    void widthFlatChanged();
+
+    void colorFlatChanged();
 
 private slots:
     void intervalChanged();
@@ -160,6 +172,8 @@ private:
 
     QColor m_colorKeyPoint;// цвет ключевых точек
     qreal m_lengthPath;
+    qreal m_widthFlat;
+    QColor m_colorFlat;
 };
 
 #endif // DRAWTRACK_H

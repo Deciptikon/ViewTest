@@ -12,7 +12,9 @@ DrawTrack::DrawTrack(QQuickItem *parent):
     m_isUpdateFromChanged(true),
     m_colorGround(200, 255, 200),
     m_colorKeyPoint(0, 0, 255),
-    m_lengthPath(100)
+    m_lengthPath(100),
+    m_widthFlat(1),
+    m_colorFlat(255, 255, 0)
 {
     internalTimer = new QTimer(this);
     connect(internalTimer, &QTimer::timeout, [=](){
@@ -103,6 +105,7 @@ void DrawTrack::drawAxis(QPainter *painter)
     float marginAxis=5;
 
     QPen penLine{Qt::NoBrush, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
+    penLine.setCosmetic(true);
     penLine.setColor(QColor(0,0,0));//черные оси
 
     painter->save();
@@ -150,16 +153,32 @@ void DrawTrack::drawPath(QPainter *painter)
         return;
     }
 
-    QPen penLine{Qt::NoBrush, m_widthPath/m_zoom, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
+    //цвет центральной линии - траектории
+    //QPen penLine{Qt::NoBrush, m_widthPath/m_zoom, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
+    QPen penLine{Qt::NoBrush, m_widthPath, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
+    penLine.setCosmetic(true);
     penLine.setColor(m_colorPath);
+
+    // цвет пройденой площади
+    //Qt::RoundJoin/Qt::MiterJoin/Qt::BevelJoin
+    //Qt::FlatCap/Qt::SquareCap
+    QBrush brush(Qt::SolidPattern);
+    brush.setColor(m_colorFlat);
+    QPen penFlat{brush, m_widthFlat, Qt::SolidLine, Qt::FlatCap, Qt::BevelJoin};
+
     painter->save();
-    painter->setPen(penLine);
 
     painter->translate( this->width()/2 - m_shiftCord.x()*m_zoom,
                         this->height()/2 + m_shiftCord.y()*m_zoom);
 
     painter->scale(m_zoom, -m_zoom);//отражаем ось Y
 
+    if(m_widthFlat != 0) {
+        painter->setPen(penFlat);///////////////
+        painter->drawPath(pathForDraw);///////////
+    }
+
+    painter->setPen(penLine);
     painter->drawPath(pathForDraw);
 
     painter->restore();
@@ -183,7 +202,9 @@ void DrawTrack::drawKeypoint(QPainter *painter)
 //                                  pos.y() + 0.5*radius}, QString::number(num));
     };
 
-    QPen penLine{Qt::NoBrush, 2.0/m_zoom, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
+    //QPen penLine{Qt::NoBrush, 2.0/m_zoom, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
+    QPen penLine{Qt::NoBrush, 2.0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
+    penLine.setCosmetic(true);
     penLine.setColor(colorKeyPoint());
     painter->setPen(penLine);
     painter->save();
@@ -217,6 +238,7 @@ void DrawTrack::drawMouseEvent(QPainter *painter)
     }
 
     QPen penLine{Qt::NoBrush, 2.0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
+    penLine.setCosmetic(true);
     penLine.setColor(QColor(255,0,255));
     painter->save();
     painter->setPen(penLine);
@@ -446,4 +468,30 @@ void DrawTrack::setLengthPath(qreal newLengthPath)
         return;
     m_lengthPath = newLengthPath;
     emit lengthPathChanged();
+}
+
+qreal DrawTrack::widthFlat() const
+{
+    return m_widthFlat;
+}
+
+void DrawTrack::setWidthFlat(qreal newWidthFlat)
+{
+    if (qFuzzyCompare(m_widthFlat, newWidthFlat))
+        return;
+    m_widthFlat = newWidthFlat;
+    emit widthFlatChanged();
+}
+
+const QColor &DrawTrack::colorFlat() const
+{
+    return m_colorFlat;
+}
+
+void DrawTrack::setColorFlat(const QColor &newColorFlat)
+{
+    if (m_colorFlat == newColorFlat)
+        return;
+    m_colorFlat = newColorFlat;
+    emit colorFlatChanged();
 }

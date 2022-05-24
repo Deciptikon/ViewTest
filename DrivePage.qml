@@ -54,7 +54,9 @@ Item {
             colorKeyPoint: "#0000ff"
             colorGround: "#aaffaa"
             isPaintAxis: true
-            lengthPath: 15
+            lengthPath: 1500
+            widthFlat: 0
+            colorFlat: "#ffff00"
         }
 
        Rectangle {//итем изменения масштаба

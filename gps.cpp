@@ -138,12 +138,36 @@ void GPS::ubxParser()
     //qDebug() << "Data is valid";
     data.remove(0,4);// delete class & id &  2 bite length payload
 
-    double lon = ((data[7] << 24) + (data[6] << 16) + (data[5] << 8) + data[4]);
+
+//    double lon = ((data[7] << 24) + (data[6] << 16) + (data[5] << 8) + data[4]);
+//    double lat = ((data[11]<< 24) + (data[10]<< 16) + (data[9] << 8) + data[8]);
+    int lonA = data[7] << 24;
+    int lonB = data[6] << 16;
+    uint16_t lonC = data[5] << 8;
+    uint8_t lonD = data[4] << 0;
+    double lon = (double)lonA + (double)lonB + (double)lonC + (double)lonD;
+
+    int latA = data[11] << 24;
+    int latB = data[10] << 16;
+    uint16_t latC = data[9] << 8;
+    uint8_t latD = data[8] << 0;
+    double lat = (double)latA + (double)latB + (double)latC + (double)latD;
+
+    qDebug() << "lon: " << QString::number(lonA, 'd', 0)
+                        << QString::number(lonB, 'd', 0)
+                        << QString::number(lonC, 'd', 0)
+                        << QString::number(lonD, 'd', 0);
+
+    qDebug() << "lat: " << QString::number(latA, 'd', 0)
+                        << QString::number(latB, 'd', 0)
+                        << QString::number(latC, 'd', 0)
+                        << QString::number(latD, 'd', 0);
+
+
     this->lon = lon * 0.0000001;
-    double lat = ((data[11]<< 24) + (data[10]<< 16) + (data[9] << 8) + data[8]);
     this->lat = lat * 0.0000001;
 
-    //qDebug() << "Latitude:" << QString::number(lat, 'd', 7) << "\tLongitude:" << QString::number(lon, 'd', 7);
+    qDebug() << "Latitude:" << QString::number(lat, 'd', 0) << "\tLongitude:" << QString::number(lon, 'd', 0);
 
     latLonToXY(this->lat, this->lon);
 
@@ -154,6 +178,7 @@ void GPS::ubxParser()
 //    qDebug() << "coord.y: " << QString::number(this->y, 'g', 9);
 
     emit updatePositionXY(this->x, this->y);
+    //emit updatePositionXY(lat, lon);
     emit updatePositionLatLon(this->lat, this->lon);
 }
 
