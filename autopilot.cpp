@@ -18,7 +18,7 @@ void Autopilot::init(const int msecDeltaTime)
 
 void Autopilot::loop()
 {
-    qDebug() << "void Autopilot::loop()";
+    //qDebug() << "void Autopilot::loop()";
     //qDebug() << "threadAutopilot:" << this->thread();
 
     if(path2D.isEmpty()) {
@@ -34,15 +34,15 @@ void Autopilot::loop()
     //derection = (last position - penultimate position) and normalized
     direction = path2D.last() - *(----path2D.end());
     QVector2D orthogonal{ direction.y(), -direction.x()};
-    qDebug() << "direction:" << direction;
-    qDebug() << "orthogonal:" << orthogonal;
+    //qDebug() << "direction:" << direction;
+    //qDebug() << "orthogonal:" << orthogonal;
 
     if(listPoint2D.isEmpty()) {
         return;
     }
 
     directionToPoint = listPoint2D.first() - path2D.last();
-    qDebug() << "directionToPoint:" << directionToPoint;
+    //qDebug() << "directionToPoint:" << directionToPoint;
 
     // если растояние до ключевой точки меньше 2,
     // удаляем её и испускаем сигнал с измененным скписком ключевых точек
@@ -54,7 +54,7 @@ void Autopilot::loop()
 
     //projection = cos(angle between a and b) for length(a)=length(b)=1
     float projection = QVector2D::dotProduct(directionToPoint.normalized(), orthogonal.normalized());
-    qDebug() << "projectionOnOrthogonal:" << projection;
+    //qDebug() << "projectionOnOrthogonal:" << projection;
 
     int msec;
     int comm;
@@ -84,6 +84,7 @@ void Autopilot::readFromGPS(const double &x, const double &y)
     if(!isOrigin) {
         xOrigin = x;
         yOrigin = y;
+        qDebug() << "Set Origin Point. X:" << xOrigin << "\tY:" << yOrigin;
         isOrigin = true;
     }
 
@@ -91,7 +92,14 @@ void Autopilot::readFromGPS(const double &x, const double &y)
     float yp = y - yOrigin;
     QVector2D point{xp,yp};
 
+   // qDebug() << "accept new point" << point;
+
     path2D.append(point);
+
+    if(path2D.size()>3) {
+        qDebug() << "Расстояние преодалено:" << (*(--path2D.end()) - *(----path2D.end())).length();
+
+    }
 
     if(path2D.size() > 100) {
         path2D.removeFirst();
@@ -107,6 +115,24 @@ void Autopilot::addKeyPoint(const QVector2D &point)
 {
     listPoint2D.append(point);
     emit keyPointsChanged(listPoint2D);
+}
+
+void Autopilot::acceptDriveMode(const QVariant &mode)
+{
+    //qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ " << mode.toUInt();
+
+    if(mode.toUInt() == DriveMode::NONE_MODE) {
+        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ NONE";
+    }
+    if(mode.toUInt() == DriveMode::KEYPOINTS_MODE) {
+        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ KEYPOINTS_MODE";
+    }
+    if(mode.toUInt() == DriveMode::PARALLEL_MODE) {
+        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ PARALLEL_MODE";
+    }
+    if(mode.toUInt() == DriveMode::SPIRAL_MODE) {
+        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ SPIRAL_MODE";
+    }
 }
 
 void Autopilot::slotCreateQuadroKeyPoint()

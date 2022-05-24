@@ -118,6 +118,10 @@ int main(int argc, char *argv[])
     autopilot->connect(&model, SIGNAL(sendKeyPointForAdding(const QVector2D&)),
                        SLOT(addKeyPoint(const QVector2D&)) );
 
+    // получаем режим вождения
+    autopilot->connect(&model, SIGNAL(sendDriveMode(const QVariant&)),
+                       SLOT(acceptDriveMode(const QVariant&)) );
+
     // изменение пути и ключевых точек в автопилоте передаются в viewData
     // для дальнейшего отображения
     model.connect(autopilot, SIGNAL(signalAppPointToPathAndRemoveFirst(const QVector2D&)),

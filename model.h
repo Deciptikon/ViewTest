@@ -37,7 +37,8 @@ signals:
     void signalAppPointToPathQML(const QVector2D vec);// добавляем точку в траекторию
     void signalAppPointToPathAndRemoveFirstQML(const QVector2D vec);//добавляем и удаляем
     void keyPointsToQML(const ListVector keyPoints);
-    void sendKeyPointForAdding(const QVector2D& vec);//посылаем ключевую точку в autopilot
+    void sendKeyPointForAdding(const QVector2D &vec);//посылаем ключевую точку в autopilot
+    void sendDriveMode(const QVariant &mode);// посылаем режим вождения в autopilot
 
     void signalCommandToSlave14(const int &comm);
 
@@ -53,8 +54,6 @@ signals:
 
 public slots:
     void slotTakeFromQML(QString str);
-
-    void acceptCoordXY(const double& x, const double& y);//получаем данные с GPS
 
     void slotGPSon();
     void slotGPSoff();

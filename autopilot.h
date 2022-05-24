@@ -8,6 +8,8 @@
 #include <QVector2D>
 #include <QVector3D>
 
+#include "DriveMode.h"
+
 typedef QList<QVector2D> ListVector;
 
 class Autopilot : public QObject
@@ -41,9 +43,12 @@ public slots:
 
     void addKeyPoint(const QVector2D &point);
 
+    void acceptDriveMode(const QVariant &mode);
+
     void slotCreateQuadroKeyPoint();
 
 private slots:
+    //
 
 private:
     int msecDeltaTime;
