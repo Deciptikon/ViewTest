@@ -34,8 +34,8 @@ Item {
            anchors.left: parent.left
            anchors.leftMargin: 15
 
-           sourcePressed: "qrc:/image/bt-home-pressed.png"
-           sourceReleased: "qrc:/image/bt-home-release.png"
+           sourcePressed: "qrc:/image/bt-home-pressed-2.png"
+           sourceReleased: "qrc:/image/bt-home-release-2.png"
 
            visible: !enablePowerOff
            enabled: !enablePowerOff
