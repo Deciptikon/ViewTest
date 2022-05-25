@@ -74,7 +74,6 @@ void Autopilot::loop()
     }
     qDebug() << "CommandToSlave:" << comm;
     emit sendCommandToSlave14(comm);
-
 }
 
 void Autopilot::readFromGPS(const double &x, const double &y)
@@ -118,29 +117,8 @@ void Autopilot::addKeyPoint(const QVector2D &point)
 
 void Autopilot::acceptDriveMode(const QVariant &mode)
 {
-    //qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ " << mode.toUInt();
-
     currentDriveMode = (DriveMode::State)mode.toUInt();
     qDebug() << "currentDriveMode = " << currentDriveMode;
-
-//    if(currentDriveMode == DriveMode::NONE_MODE) {
-//        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ NONE";
-//        //currentDriveMode = DriveMode::NONE_MODE;
-//    }
-//    if(currentDriveMode == DriveMode::KEYPOINTS_MODE) {
-//        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ KEYPOINTS_MODE";
-//        //currentDriveMode = DriveMode::KEYPOINTS_MODE;
-//    }
-//    if(currentDriveMode == DriveMode::PARALLEL_MODE) {
-//        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ PARALLEL_MODE";
-//        //currentDriveMode = DriveMode::PARALLEL_MODE;
-//    }
-//    if(currentDriveMode == DriveMode::SPIRAL_MODE) {
-//        qDebug() << "ВЫБРАН РЕЖИМ ВОЖДЕНИЯ SPIRAL_MODE";
-//        //currentDriveMode = DriveMode::SPIRAL_MODE;
-//    }
-
-
 }
 
 void Autopilot::slotCreateQuadroKeyPoint()

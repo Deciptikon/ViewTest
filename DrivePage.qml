@@ -105,36 +105,69 @@ Item {
            }
        }
 
-       ImageButton {//кнопка переключения центрирования (ЗАМЕНИТЬ НА ЧЕКБОКС)
-              id: swapbutton
-              width: zoomItem.width
-              height: width
+//       ImageButton {//кнопка переключения центрирования (ЗАМЕНИТЬ НА ЧЕКБОКС)
+//              id: swapbutton
+//              width: zoomItem.width
+//              height: width
 
-              anchors.top: zoomItem.bottom
-              anchors.topMargin: 25
-              anchors.horizontalCenter: zoomItem.horizontalCenter
-              anchors.horizontalCenterOffset: 0
+//              anchors.top: zoomItem.bottom
+//              anchors.topMargin: 25
+//              anchors.horizontalCenter: zoomItem.horizontalCenter
+//              anchors.horizontalCenterOffset: 0
 
-              sourcePressed: "qrc:/image/bt-centered-false.png"
-              sourceReleased: "qrc:/image/bt-centered-true.png"
+//              sourcePressed: "qrc:/image/bt-centered-false.png"
+//              sourceReleased: "qrc:/image/bt-centered-true.png"
 
-              onReleasedButton: drawtrack.swapCentered()
+//              onReleasedButton: drawtrack.swapCentered()
 
-          }
+//          }
+
+       ImageCheckBox {
+           id: swapIsCenteredLastPoint
+           width: zoomItem.width
+           height: width
+
+           anchors.top: zoomItem.bottom
+           anchors.topMargin: 25
+           anchors.horizontalCenter: zoomItem.horizontalCenter
+           anchors.horizontalCenterOffset: 0
+
+           sourceTrue: "qrc:/image/bt-centered-false.png"
+           sourceFalse: "qrc:/image/bt-centered-true.png"
+
+           value: drawtrack.isCenteredLastPoint
+
+           onChangedImageCheckBox: {
+               console.log("onChangedImageCheckBox")
+               console.log(swapIsCenteredLastPoint.value)
+               //drawtrack.swapCentered()
+               //swapcheckbox.value = drawtrack.isCenteredLastPoint
+               drawtrack.isCenteredLastPoint = swapIsCenteredLastPoint.value
+           }
+
+       }
+
+       ImageCheckBox {
+           id: swapRelay
+           width: zoomItem.width
+           height: width
+
+           anchors.top: swapIsCenteredLastPoint.bottom
+           anchors.topMargin: 25
+           anchors.horizontalCenter: zoomItem.horizontalCenter
+           anchors.horizontalCenterOffset: 0
+
+           sourceFalse: "qrc:/image/checkbox-state-off.png"
+           sourceTrue: "qrc:/image/checkbox-state-on.png"
+
+           value: false
+
+           onChangedImageCheckBox: {
+               console.log("Restate Relay")
+               //modelView.slotSendMsgToSlave14(14)
+           }
+
+       }
 
 
-//    Rectangle {
-//        width: parent.width/2
-//        height: parent.height/2
-//        radius: parent.width/20
-//        anchors.centerIn: parent
-//        color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
-//        Text {
-//            id: testText
-//            anchors.centerIn: parent
-//            text: qsTr("Drive Page")
-//            color: "black"
-//            font.pixelSize: 40
-//        }
-//    }
 }

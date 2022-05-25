@@ -55,6 +55,7 @@ void DrawTrack::paint(QPainter *painter)
 void DrawTrack::swapCentered()
 {
     setIsCenteredLastPoint(!isCenteredLastPoint());
+    qDebug() << "current Centered" << isCenteredLastPoint();
 }
 
 void DrawTrack::appPointToPath(const QVector2D vec)

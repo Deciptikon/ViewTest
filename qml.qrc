@@ -49,5 +49,8 @@
         <file>image/icon-way-spiral.png</file>
         <file>image/bt-centered-false.png</file>
         <file>image/bt-centered-true.png</file>
+        <file>ImageCheckBox.qml</file>
+        <file>image/checkbox-state-off.png</file>
+        <file>image/checkbox-state-on.png</file>
     </qresource>
 </RCC>
