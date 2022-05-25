@@ -55,5 +55,7 @@
         <file>image/bt-letter-a.png</file>
         <file>image/bt-letter-b.png</file>
         <file>ButtonAB.qml</file>
+        <file>image/bt-poweroff-pressed.png</file>
+        <file>image/bt-poweroff-release.png</file>
     </qresource>
 </RCC>

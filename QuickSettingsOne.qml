@@ -174,7 +174,7 @@ Item {
         background: Rectangle {
             id: backgroundPopupAttention
             anchors.fill: parent
-            color: Qt.rgba(0.7, 0.7, 0.7, 0.9)
+            color: Qt.rgba(0.8, 0.8, 0.8, 0.9)
             radius: 50
         }
 

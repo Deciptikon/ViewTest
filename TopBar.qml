@@ -7,7 +7,10 @@ Item {
     property real sizeIcons
     property real marginIcons
 
+    property bool enablePowerOff: false
+
     signal actionBtHome()
+    signal actionPowerOff()
 
     anchors.top:  parent.top
     anchors.left: parent.left
@@ -20,6 +23,7 @@ Item {
         anchors.fill: parent
         color: modelView.colorStatusBar//Qt.rgba(0.5, 0.5, 0.5, 0.5)
 
+        // кнопка возврата на главный экран
         ImageButton {
            id: btHome
 
@@ -33,9 +37,35 @@ Item {
            sourcePressed: "qrc:/image/bt-home-pressed.png"
            sourceReleased: "qrc:/image/bt-home-release.png"
 
+           visible: !enablePowerOff
+           enabled: !enablePowerOff
+
            onReleasedButton: {
                console.log("released button Home!!!")
                actionBtHome()
+           }
+        }
+
+        // кнопка выключения (если мы на главном экране)
+        ImageButton {
+           id: btPowerOff
+
+           width: sizeIcons
+           height: sizeIcons
+
+           anchors.verticalCenter: parent.verticalCenter
+           anchors.left: parent.left
+           anchors.leftMargin: 15
+
+           sourcePressed: "qrc:/image/bt-poweroff-pressed.png"
+           sourceReleased: "qrc:/image/bt-poweroff-release.png"
+
+           visible: enablePowerOff
+           enabled: enablePowerOff
+
+           onReleasedButton: {
+               console.log("released button PowerOFF!!!")
+               actionPowerOff()
            }
         }
 

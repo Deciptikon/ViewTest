@@ -3,6 +3,7 @@ import QtQuick.Window 2.12
 
 
 Window {
+    id: mainwindow
 
     width: 800
     height: 600
@@ -31,6 +32,18 @@ Window {
             bottom: parent.bottom
         }
         source: "GridOne.qml"
+
+        onSourceChanged: {
+            if(source == "qrc:/GridOne.qml") {
+                statusBar.enablePowerOff = true
+                return
+            }
+            statusBar.enablePowerOff = false
+
+            console.log(source)
+            console.log(" ")
+            console.log(" ")
+        }
     }
 
     TopBar {
@@ -42,6 +55,12 @@ Window {
         onActionBtHome: {
             modelView.testMetod("ActionBtHome")
             mainLoader.source = "GridOne.qml"
+        }
+
+        onActionPowerOff: {
+            mainwindow.close()
+            // пока здесь просто закрытие окна, но в будущем можно
+            // сделать выключение питания Raspberry
         }
 
     }
