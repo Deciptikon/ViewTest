@@ -105,23 +105,6 @@ Item {
            }
        }
 
-//       ImageButton {//кнопка переключения центрирования (ЗАМЕНИТЬ НА ЧЕКБОКС)
-//              id: swapbutton
-//              width: zoomItem.width
-//              height: width
-
-//              anchors.top: zoomItem.bottom
-//              anchors.topMargin: 25
-//              anchors.horizontalCenter: zoomItem.horizontalCenter
-//              anchors.horizontalCenterOffset: 0
-
-//              sourcePressed: "qrc:/image/bt-centered-false.png"
-//              sourceReleased: "qrc:/image/bt-centered-true.png"
-
-//              onReleasedButton: drawtrack.swapCentered()
-
-//          }
-
        ImageCheckBox {
            id: swapIsCenteredLastPoint
            width: zoomItem.width
@@ -144,7 +127,6 @@ Item {
                //swapcheckbox.value = drawtrack.isCenteredLastPoint
                drawtrack.isCenteredLastPoint = swapIsCenteredLastPoint.value
            }
-
        }
 
        ImageCheckBox {
@@ -166,8 +148,35 @@ Item {
                console.log("Restate Relay")
                //modelView.slotSendMsgToSlave14(14)
            }
-
        }
 
 
+       ButtonAB {
+           id: buttonAB
+           width: zoomItem.width
+           height: width
+
+           anchors.bottom: parent.bottom
+           anchors.bottomMargin: 25
+           anchors.horizontalCenter: parent.horizontalCenter
+           anchors.horizontalCenterOffset: 0
+
+           sourceA: "qrc:/image/bt-letter-a.png"
+           sourceB: "qrc:/image/bt-letter-b.png"
+
+           visible: modelView.isVisibleButtonAB()
+           enabled: modelView.isEnableButtonAB()
+
+           onChangedButtonAB: {
+               if(buttonAB.value == 2) {
+                   console.log("Set point A")
+                   modelView.signalSetPointA()
+               }
+               if(buttonAB.value == 3) {
+                   console.log("Set point B")
+                   modelView.signalSetPointB()
+               }
+               //modelView.slotSendMsgToSlave14(14)
+           }
+       }
 }

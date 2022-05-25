@@ -33,6 +33,9 @@ Model::Model(QObject *parent) : QObject(parent)
     timerCam = new QTimer();
     connect(timerCam, SIGNAL(timeout()), this, SLOT(slotUpdateTimerCam()) );
     timerCam->start(3186);
+
+    //отключаем видимость кнопки как только выбрана точка B
+    connect(this, SIGNAL(signalSetPointB()), this, SLOT(disableButtonAB()) );
 }
 
 void Model::testMetod(QString str)
@@ -53,7 +56,24 @@ void Model::slotTakeFromQML(QString str)
 void Model::setDriveModeFromQML(QVariant mode)
 {
     // передаем режим в автопилот...
+    if(mode.toUInt() == DriveMode::NONE_MODE ||
+       mode.toUInt() == DriveMode::KEYPOINTS_MODE ) {
+        //disableButtonAB();
+        isEnableAB = false;
+    } else {
+        isEnableAB = true;
+    }
     emit sendDriveMode(mode);
+}
+
+bool Model::isVisibleButtonAB()
+{
+    return isEnableAB == true;
+}
+
+bool Model::isEnableButtonAB()
+{
+    return isEnableAB == true;
 }
 
 void Model::slotGPSon()
@@ -115,6 +135,11 @@ void Model::acceptKeyPoints(const ListVector &keyPoints)
 void Model::addKeyPointFromQML(const QVector2D point)
 {
     emit sendKeyPointForAdding(point);
+}
+
+void Model::disableButtonAB()
+{
+    isEnableAB = false;
 }
 
 const QColor &Model::colorStatusBar() const

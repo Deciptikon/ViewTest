@@ -52,5 +52,8 @@
         <file>ImageCheckBox.qml</file>
         <file>image/checkbox-state-off.png</file>
         <file>image/checkbox-state-on.png</file>
+        <file>image/bt-letter-a.png</file>
+        <file>image/bt-letter-b.png</file>
+        <file>ButtonAB.qml</file>
     </qresource>
 </RCC>

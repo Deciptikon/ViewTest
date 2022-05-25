@@ -1,5 +1,5 @@
 import QtQuick 2.0
-
+import QtQuick.Controls 2.12
 import DriveMode 1.0 //ENUM режимы вождения
 
 Item {
@@ -133,9 +133,15 @@ Item {
         sizeTextButton: 20
 
         onReleasedButton: {
+            if(lastMode < 0) {
+                popupAttention.open()
+                return
+            }
+
             stackViewQuickSettings.push("QuickSettingsTwo.qml")
         }
     }
+
     TextButton {
         width: 80
         height: width
@@ -152,6 +158,35 @@ Item {
         onReleasedButton: {
             mainLoader.source = "GridOne.qml"
         }
+    }
+
+    Popup {
+        id: popupAttention
+
+        width: parent.width/2
+        height: parent.height/2
+
+        x: parent.width/4
+        y: parent.height/4
+
+        modal: true
+
+        background: Rectangle {
+            id: backgroundPopupAttention
+            anchors.fill: parent
+            color: Qt.rgba(0.7, 0.7, 0.7, 0.9)
+            radius: 50
+        }
+
+        contentItem: Item {
+            Text {
+                anchors.centerIn: parent
+                text: qsTr("Select a mode")
+                font.pixelSize: 30
+            }
+        }
+
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     }
 }
 

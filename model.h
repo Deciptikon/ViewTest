@@ -24,7 +24,11 @@ public:
     explicit Model(QObject *parent = nullptr);
 
     Q_INVOKABLE void testMetod(QString str);
+
     Q_INVOKABLE void setDriveModeFromQML(QVariant mode);
+
+    Q_INVOKABLE bool isVisibleButtonAB();
+    Q_INVOKABLE bool isEnableButtonAB();
 
     const QColor &colorStatusBar() const;
     void setColorStatusBar(const QColor &newColorStatusBar);
@@ -32,7 +36,8 @@ public:
 signals:
     void signalSendToQML(QString str);
 
-
+    void signalSetPointA();
+    void signalSetPointB();
 
     void signalAppPointToPathQML(const QVector2D vec);// добавляем точку в траекторию
     void signalAppPointToPathAndRemoveFirstQML(const QVector2D vec);//добавляем и удаляем
@@ -74,6 +79,8 @@ public slots:
 
     void addKeyPointFromQML(const QVector2D point);
 
+private slots:
+    void disableButtonAB();
 
 private:
     QString testData;
@@ -98,7 +105,7 @@ private:
     QColor m_colorStatusBar;
 
 
-
+    bool isEnableAB = true;
 
 
 
