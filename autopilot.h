@@ -47,6 +47,10 @@ public slots:
 
     void slotCreateQuadroKeyPoint();
 
+    void slotSetPointA();
+
+    void slotSetPointB();
+
 private slots:
     //
 

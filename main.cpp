@@ -122,6 +122,10 @@ int main(int argc, char *argv[])
     autopilot->connect(&model, SIGNAL(sendDriveMode(const QVariant&)),
                        SLOT(acceptDriveMode(const QVariant&)) );
 
+    // получаем сигнал на установку точек А и В
+    autopilot->connect(&model, SIGNAL(signalSetPointA()), SLOT(slotSetPointA()) );
+    autopilot->connect(&model, SIGNAL(signalSetPointB()), SLOT(slotSetPointB()) );
+
     // изменение пути и ключевых точек в автопилоте передаются в model
     // для дальнейшего отображения
 //    model.connect(autopilot, SIGNAL(signalAppPointToPathAndRemoveFirst(const QVector2D&)),

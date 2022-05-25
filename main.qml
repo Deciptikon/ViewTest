@@ -53,7 +53,6 @@ Window {
 
 
         onActionBtHome: {
-            modelView.testMetod("ActionBtHome")
             mainLoader.source = "GridOne.qml"
         }
 

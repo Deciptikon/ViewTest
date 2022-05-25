@@ -40,6 +40,8 @@ void Autopilot::loop()
         return;
     }
 
+
+//===========================================================================================
     directionToPoint = listPoint2D.first() - path2D.last();
     //qDebug() << "directionToPoint:" << directionToPoint;
 
@@ -72,6 +74,9 @@ void Autopilot::loop()
             comm = (5000 + msec)/100;
         }
     }
+//======================================================================================
+
+
     qDebug() << "CommandToSlave:" << comm;
     emit sendCommandToSlave14(comm);
 }
@@ -162,6 +167,16 @@ void Autopilot::slotCreateQuadroKeyPoint()
     //квадрат.
 
     emit keyPointsChanged(listPoint2D);
+}
+
+void Autopilot::slotSetPointA()
+{
+    qDebug() << "Autopilot::slotSetPointA()";
+}
+
+void Autopilot::slotSetPointB()
+{
+    qDebug() << "Autopilot::slotSetPointB()";
 }
 
 int Autopilot::getMSecDeltaTime() const

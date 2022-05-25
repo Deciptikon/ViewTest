@@ -38,21 +38,6 @@ Model::Model(QObject *parent) : QObject(parent)
     connect(this, SIGNAL(signalSetPointB()), this, SLOT(disableButtonAB()) );
 }
 
-void Model::testMetod(QString str)
-{
-    qDebug() << "Из qml получено:" << str;
-}
-
-void Model::slotTakeFromQML(QString str)
-{
-    qDebug() << "Слот вызван из QML";
-    if(testData == str) {
-        return;
-    }
-    testData.append(str);
-    emit signalSendToQML(testData);
-}
-
 void Model::setDriveModeFromQML(QVariant mode)
 {
     // передаем режим в автопилот...

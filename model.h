@@ -23,8 +23,6 @@ class Model : public QObject
 public:
     explicit Model(QObject *parent = nullptr);
 
-    Q_INVOKABLE void testMetod(QString str);
-
     Q_INVOKABLE void setDriveModeFromQML(QVariant mode);
 
     Q_INVOKABLE bool isVisibleButtonAB();
@@ -58,8 +56,6 @@ signals:
     void colorStatusBarChanged();
 
 public slots:
-    void slotTakeFromQML(QString str);
-
     void slotGPSon();
     void slotGPSoff();
 
@@ -104,11 +100,7 @@ private:
 
     QColor m_colorStatusBar;
 
-
     bool isEnableAB = true;
-
-
-
 };
 
 #endif // MODEL_H
