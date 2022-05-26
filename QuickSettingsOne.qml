@@ -134,7 +134,8 @@ Item {
 
         onReleasedButton: {
             if(lastMode < 0) {
-                popupAttention.open()
+                //popupAttention.open()
+                popupattention.open()
                 return
             }
 
@@ -160,34 +161,14 @@ Item {
         }
     }
 
-    Popup {
-        id: popupAttention
+    PopupAttention {
+        id: popupattention
 
-        width: parent.width/2
-        height: parent.height/2
+        textAttention: qsTr("Select a mode")
 
-        x: parent.width/4
-        y: parent.height/4
-
-        modal: true
-
-        background: Rectangle {
-            id: backgroundPopupAttention
-            anchors.fill: parent
-            color: Qt.rgba(0.8, 0.8, 0.8, 0.9)
-            radius: 50
-        }
-
-        contentItem: Item {
-            Text {
-                anchors.centerIn: parent
-                text: qsTr("Select a mode")
-                font.pixelSize: 30
-            }
-        }
-
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        colorBackgroundAttention: Qt.rgba(0.8, 0.8, 0.8, 0.9)
     }
+
 }
 
 

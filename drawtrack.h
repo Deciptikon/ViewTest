@@ -129,6 +129,7 @@ private:
     void drawPath(QPainter *painter);
     void drawKeypoint(QPainter *painter);
     void drawMouseEvent(QPainter *painter);//рисование области нажатия на дисплее
+    void drawParallelLines(QPainter *painter);
 
     void pathToPaintedPath();
 

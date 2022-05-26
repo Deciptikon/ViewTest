@@ -251,6 +251,11 @@ void DrawTrack::drawMouseEvent(QPainter *painter)
     painter->restore();
 }
 
+void DrawTrack::drawParallelLines(QPainter *painter)
+{
+    //
+}
+
 void DrawTrack::pathToPaintedPath()
 {
     pathForDraw.clear();
