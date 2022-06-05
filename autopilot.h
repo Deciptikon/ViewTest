@@ -58,6 +58,10 @@ private slots:
     //
 
 private:
+    void driveKeyPoint();
+    void driveParallel();
+
+
     int msecDeltaTime;
 
     bool stateRelay; //состояние реле подруливающего устройства
