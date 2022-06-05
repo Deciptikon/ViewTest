@@ -9,6 +9,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QPainterPath>
+#include <QtMath>
 
 typedef QList<QVector2D> ListVector;
 

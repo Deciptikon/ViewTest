@@ -48,6 +48,7 @@ void DrawTrack::paint(QPainter *painter)
                       colorGround() );
     drawAxis(painter);
     drawPath(painter);
+    drawParallelLines(painter);
     drawKeypoint(painter);
     drawMouseEvent(painter);
 }
@@ -253,7 +254,68 @@ void DrawTrack::drawMouseEvent(QPainter *painter)
 
 void DrawTrack::drawParallelLines(QPainter *painter)
 {
-    //
+    if(m_path.isEmpty()) {
+        return;
+    }
+    if(painter == nullptr) {
+        return;
+    }
+    if(!painter->isActive()) {
+        return;
+    }
+
+    QPen penCenterLine{Qt::NoBrush, 2.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
+    penCenterLine.setCosmetic(true);
+    penCenterLine.setColor(QColor(0,0,0));
+    QPen penPerepheriaLine{Qt::NoBrush, 1.5, Qt::PenStyle::DotLine, Qt::RoundCap, Qt::RoundJoin};
+    penPerepheriaLine.setCosmetic(true);
+    penPerepheriaLine.setColor(QColor(0,0,0));
+
+    float lenLine = 1000;
+    int numLines = 5;
+
+    QVector2D pointA{12,18};//////////////
+    QVector2D dir{6, -2};/////////////////
+    QVector2D orthoDir{dir.y(), -dir.x()};
+
+
+    QVector2D dist = m_path.last() - m_originPoint-pointA;
+    float p = QVector2D::dotProduct(dist, orthoDir)/QVector2D::dotProduct(orthoDir, orthoDir);
+    int k = rint(p);
+
+    //QVector2D sift = pointA + k*orthoDir - m_shiftCord;
+
+
+    painter->save();
+    painter->setPen(penCenterLine);
+    painter->translate( this->width()/2 - m_shiftCord.x()*m_zoom,
+                        this->height()/2 + m_shiftCord.y()*m_zoom);
+
+    painter->scale(m_zoom, -m_zoom);//отражаем ось Y
+
+
+//    painter->drawLine(( pointA + k*orthoDir).toPointF(),////////////////////////////
+//                      ( pointA).toPointF());////////////////////////////////////////
+//    painter->drawLine(( m_path.last() - m_originPoint).toPointF(),////////////////////////////
+//                      ( pointA).toPointF());////////////////////////////////////////
+
+    painter->drawLine(( pointA + k*orthoDir + dir.normalized()*lenLine).toPointF(),
+                      ( pointA + k*orthoDir - dir.normalized()*lenLine).toPointF());
+
+    painter->setPen(penPerepheriaLine);
+
+    for(int i = 1; i< numLines; i++) {
+        painter->drawLine(( pointA + (k-i)*orthoDir + dir.normalized()*lenLine).toPointF(),
+                          ( pointA + (k-i)*orthoDir - dir.normalized()*lenLine).toPointF());
+        painter->drawLine(( pointA + (k+i)*orthoDir + dir.normalized()*lenLine).toPointF(),
+                          ( pointA + (k+i)*orthoDir - dir.normalized()*lenLine).toPointF());
+    }
+
+
+//    painter->drawLine(QPoint(this->width()/2 , 0 ),
+//                      QPoint(this->width(), 22));
+
+    painter->restore();
 }
 
 void DrawTrack::pathToPaintedPath()
