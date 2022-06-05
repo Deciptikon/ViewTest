@@ -122,6 +122,18 @@ void Model::addKeyPointFromQML(const QVector2D point)
     emit sendKeyPointForAdding(point);
 }
 
+void Model::addPointAToQML(const QVector2D &point)
+{
+    QVector2D p = point;
+    emit sendPointAToQML(p);
+}
+
+void Model::addDirectToQML(const QVector2D &dir)
+{
+    QVector2D d = dir;
+    emit sendDirectToQML(d);
+}
+
 void Model::disableButtonAB()
 {
     isEnableAB = false;

@@ -37,12 +37,17 @@ public:
 
 
     Q_INVOKABLE void swapCentered();
+
     Q_INVOKABLE void appPointToPath(const QVector2D vec);
     Q_INVOKABLE void appPointToPathAndRemoveFirst(const QVector2D vec);
     Q_INVOKABLE void updateKeyPoint(const ListVector points);
+
     Q_INVOKABLE void zoomIn();
     Q_INVOKABLE void zoomOut();
     Q_INVOKABLE QString getZoom();
+
+    Q_INVOKABLE void setPointA(const QVector2D point);
+    Q_INVOKABLE void setDirect(const QVector2D dir);
 
 
     qreal zoom() const;
@@ -121,6 +126,8 @@ signals:
 
     void colorFlatChanged();
 
+
+
 private slots:
     void intervalChanged();
     void checkAndUpdate();
@@ -176,6 +183,10 @@ private:
     qreal m_lengthPath;
     qreal m_widthFlat;
     QColor m_colorFlat;
+
+    QVector2D pointA;//{12,18};//////////////
+    QVector2D dir;//{6, -2};/////////////////
+    QVector2D orthoDir;//{dir.y(), -dir.x()};
 };
 
 #endif // DRAWTRACK_H

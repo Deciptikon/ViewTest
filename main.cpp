@@ -96,13 +96,8 @@ int main(int argc, char *argv[])
 
     model.connect(gps, SIGNAL(gpsOn()), SLOT(slotGPSon()) );
     model.connect(gps, SIGNAL(gpsOff()), SLOT(slotGPSoff()) );
-//    model.connect(gps, SIGNAL(updatePositionXY(const double&, const double&)),
-    //                         SLOT(acceptCoordXY(const double&, const double&)), Qt::QueuedConnection );
 
-    // изменение координат передаются в viewData для дальнейшего отображения
-    // например как пары чисел
-//        viewData.connect(gps, SIGNAL(updatePositionXY(const double&, const double&)),
-//                         SLOT(acceptCoord(const double&, const double&)), Qt::QueuedConnection );
+
 ///----------------------------------------------------------------------------------------------
 
 
@@ -135,6 +130,13 @@ int main(int argc, char *argv[])
 
     model.connect(autopilot, SIGNAL(keyPointsChanged(const ListVector&)),
                                 SLOT(acceptKeyPoints(const ListVector&)) );
+
+
+    //устанавливаем точку А и направление (по точке В)
+    model.connect(autopilot, SIGNAL(sendPointAToDraw(const QVector2D&)),
+                                SLOT(addPointAToQML(const QVector2D&)) );
+    model.connect(autopilot, SIGNAL(sendDirectToDraw(const QVector2D&)),
+                                SLOT(addDirectToQML(const QVector2D&)) );
 
 ///----------------------------------------------------------------------------------------------
 

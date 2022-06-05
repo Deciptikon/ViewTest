@@ -14,6 +14,9 @@ void Autopilot::init(const int msecDeltaTime)
     } else {
         this->msecDeltaTime = 1;
     }
+
+    //read from QSettings
+    widthBetweenLines = 5;
 }
 
 void Autopilot::loop()
@@ -35,6 +38,9 @@ void Autopilot::loop()
     QVector2D orthogonal{ direction.y(), -direction.x()};
     //qDebug() << "direction:" << direction;
     //qDebug() << "orthogonal:" << orthogonal;
+
+
+
 
     if(listPoint2D.isEmpty()) {
         return;
@@ -107,6 +113,14 @@ void Autopilot::readFromGPS(const double &x, const double &y)
     } else {
         //emit signalAppPointToPath(point);
     }
+
+    if(!pointA.isNull() && pointB.isNull()) {//если не установлена точка В, определяем её как текущую на каждом шаге
+        dir = (path2D.last() - pointA).normalized() * widthBetweenLines;
+        orthoDir = {dir.y(), -dir.x()};
+
+        emit sendDirectToDraw(dir);
+    }
+
     emit signalAppPointToPath(point);
 
     //emit pathChanged(path2D);
@@ -172,11 +186,35 @@ void Autopilot::slotCreateQuadroKeyPoint()
 void Autopilot::slotSetPointA()
 {
     qDebug() << "Autopilot::slotSetPointA()";
+    if(path2D.isEmpty()) {
+        return;
+    }
+    //read from QSettings
+    widthBetweenLines = 5;
+
+    pointA = path2D.last();
+    pointB = {0,0};
+
+    emit sendPointAToDraw(pointA);
+
 }
 
 void Autopilot::slotSetPointB()
 {
     qDebug() << "Autopilot::slotSetPointB()";
+    if(path2D.isEmpty()) {
+        return;
+    }
+    if(pointA.isNull()) {
+        return;
+    }
+    pointB = path2D.last();
+
+    dir = (pointB - pointA).normalized() * widthBetweenLines;
+    orthoDir = {dir.y(), -dir.x()};
+
+    emit sendDirectToDraw(dir);
+
 }
 
 int Autopilot::getMSecDeltaTime() const

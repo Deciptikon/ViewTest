@@ -43,6 +43,9 @@ signals:
     void sendKeyPointForAdding(const QVector2D &vec);//посылаем ключевую точку в autopilot
     void sendDriveMode(const QVariant &mode);// посылаем режим вождения в autopilot
 
+    void sendPointAToQML(const QVector2D point);
+    void sendDirectToQML(const QVector2D dir);
+
     void signalCommandToSlave14(const int &comm);
 
     // эти сигналы можно переименовать, но они не для демонстрации
@@ -74,6 +77,9 @@ public slots:
     void acceptKeyPoints(const ListVector &keyPoints);
 
     void addKeyPointFromQML(const QVector2D point);
+
+    void addPointAToQML(const QVector2D &point);
+    void addDirectToQML(const QVector2D &dir);
 
 private slots:
     void disableButtonAB();

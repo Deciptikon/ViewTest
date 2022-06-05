@@ -35,6 +35,9 @@ signals:
 
     void keyPointsChanged(const ListVector &keyPoints);
 
+    void sendPointAToDraw(const QVector2D &vec);
+
+    void sendDirectToDraw(const QVector2D &dir);
 
 public slots:
     void loop();
@@ -63,14 +66,21 @@ private:
     double xOrigin = 0;//локальныая система координат
     double yOrigin = 0;
 
+
     QVector2D direction;//направление перемещения
     QVector2D directionToPoint;
 
-    QList<QVector2D> path2D;
+    QList<QVector2D> path2D;//trajectory
 
-    QList<QVector2D> listPoint2D;
+    QList<QVector2D> listPoint2D;//keypoints
 
     DriveMode::State currentDriveMode = DriveMode::NONE_MODE;
+
+    float widthBetweenLines;
+    QVector2D pointA{0,0};//{12,18};//////////////
+    QVector2D pointB{0,0};
+    QVector2D dir;//{6, -2};/////////////////
+    QVector2D orthoDir;//{dir.y(), -dir.x()};
 };
 
 #endif // AUTOPILOT_H

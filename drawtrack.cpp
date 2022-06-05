@@ -263,6 +263,10 @@ void DrawTrack::drawParallelLines(QPainter *painter)
     if(!painter->isActive()) {
         return;
     }
+    if(dir.isNull()) {
+        return;
+    }
+
 
     QPen penCenterLine{Qt::NoBrush, 2.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin};
     penCenterLine.setCosmetic(true);
@@ -274,9 +278,7 @@ void DrawTrack::drawParallelLines(QPainter *painter)
     float lenLine = 1000;
     int numLines = 5;
 
-    QVector2D pointA{12,18};//////////////
-    QVector2D dir{6, -2};/////////////////
-    QVector2D orthoDir{dir.y(), -dir.x()};
+
 
 
     QVector2D dist = m_path.last() - m_originPoint-pointA;
@@ -370,6 +372,23 @@ void DrawTrack::zoomOut()
 QString DrawTrack::getZoom()
 {
     return QString::number(zoom(),'g',3);
+}
+
+void DrawTrack::setPointA(const QVector2D point)
+{
+    if(point.isNull()) {
+        return;
+    }
+    pointA = point;
+}
+
+void DrawTrack::setDirect(const QVector2D dir)
+{
+    if(dir.isNull()) {
+        return;
+    }
+    this->dir = dir;
+    orthoDir = {this->dir.y(), - this->dir.x()};
 }
 
 qreal DrawTrack::widthPath() const

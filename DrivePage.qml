@@ -14,13 +14,20 @@ Item {
             function onSignalAppPointToPathQML(point) {
                 drawtrack.appPointToPath(point)
             }
-//            function onSignalAppPointToPathAndRemoveFirstQML(point) {
-//                drawtrack.appPointToPathAndRemoveFirst(point)
-//            }
 
             //ролучаем список ключевых точек для отображения в QML
             function onKeyPointsToQML(keypoints) {
                 drawtrack.updateKeyPoint(keypoints)
+            }
+
+            //добавляем точку А
+            function onSendPointAToQML(point) {
+                drawtrack.setPointA(point)
+            }
+
+            //добавляем направление параллельного вождения
+            function onSendDirectToQML(dir) {
+                drawtrack.setDirect(dir)
             }
 
         }
