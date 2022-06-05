@@ -23,6 +23,8 @@ void Autopilot::loop()
 {
     //qDebug() << "void Autopilot::loop()";
 
+    //emit signalRotateFromAutopilot(-100);
+
     if(path2D.size()<2) {
         return;
     }
@@ -221,6 +223,7 @@ void Autopilot::driveKeyPoint()
             comm = (5000 + msec)/100;
         }
     }
+    emit signalRotateFromAutopilot(msec);
 
     qDebug() << "CommandToSlave:" << comm;
     emit sendCommandToSlave14(comm);

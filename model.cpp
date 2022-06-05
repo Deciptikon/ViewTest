@@ -134,6 +134,21 @@ void Model::addDirectToQML(const QVector2D &dir)
     emit sendDirectToQML(d);
 }
 
+void Model::slotRotateFromAutopilot(const int &msec)
+{
+    int m = msec;
+
+    if(m > 0) {
+        emit signalRotateLeftToQML();
+    }
+    if(m < 0) {
+        emit signalRotateRightToQML();
+    }
+
+    count++;
+    emit signalCountToQML(count);
+}
+
 void Model::disableButtonAB()
 {
     isEnableAB = false;

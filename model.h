@@ -58,6 +58,10 @@ signals:
 
     void colorStatusBarChanged();
 
+    void signalRotateLeftToQML();///////////////////////////////////////////////////////
+    void signalRotateRightToQML();///////////////////////////////////////////////////////
+    void signalCountToQML(qreal count);
+
 public slots:
     void slotGPSon();
     void slotGPSoff();
@@ -80,6 +84,8 @@ public slots:
 
     void addPointAToQML(const QVector2D &point);
     void addDirectToQML(const QVector2D &dir);
+
+    void slotRotateFromAutopilot(const int &msec);////////////////////////////////////////////////
 
 private slots:
     void disableButtonAB();
@@ -107,6 +113,9 @@ private:
     QColor m_colorStatusBar;
 
     bool isEnableAB = true;
+
+
+    qreal count = 0;
 };
 
 #endif // MODEL_H

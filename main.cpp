@@ -138,6 +138,11 @@ int main(int argc, char *argv[])
     model.connect(autopilot, SIGNAL(sendDirectToDraw(const QVector2D&)),
                                 SLOT(addDirectToQML(const QVector2D&)) );
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    model.connect(autopilot, SIGNAL(signalRotateFromAutopilot(const int&)),
+                                SLOT(slotRotateFromAutopilot(const int&)) );
+
 ///----------------------------------------------------------------------------------------------
 
     QQmlApplicationEngine engine;

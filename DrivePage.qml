@@ -30,6 +30,9 @@ Item {
                 drawtrack.setDirect(dir)
             }
 
+
+
+
         }
 
     Connections {
@@ -185,5 +188,77 @@ Item {
                }
                //modelView.slotSendMsgToSlave14(14)
            }
+       }
+
+
+
+       Connections {
+           target: modelView
+
+           ////////////////////////////////////////////////////////////////////////
+           function onSignalRotateLeftToQML() {
+               //rotLeft.color = "red"
+               rotLeft.active = !rotLeft.active
+               rotRight.color = "black"
+           }
+
+           function onSignalRotateRightToQML() {
+               rotRight.active = !rotRight.active
+               rotLeft.color = "black"
+           }
+           function onSignalCountToQML(count) {
+               countTxt.text = count
+           }
+       }
+
+       Rectangle {
+           id: rotLeft
+
+           property bool active: false
+
+           height: 50
+           width: parent.width/3
+
+           color: active ? "red" : "orange"
+
+           anchors {
+               left: parent.left
+               bottom: parent.bottom
+           }
+       }
+
+       Rectangle {
+           id: rotRight
+
+           property bool active: false
+
+           height: 50
+           width: parent.width/3
+
+           color: active ? "red" : "orange"
+
+           anchors {
+               right: parent.right
+               bottom: parent.bottom
+           }
+
+           onColorChanged: {
+               if(active) {
+                   //console.log("============================================")
+               }
+           }
+       }
+
+       Text {
+           id: countTxt
+           text: "0"
+
+           font.pixelSize: 40
+
+           anchors.left: rotLeft.right
+           anchors.right: rotRight.left
+           anchors.verticalCenter: rotLeft.verticalCenter
+
+           horizontalAlignment: Text.AlignHCenter
        }
 }

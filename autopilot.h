@@ -39,6 +39,8 @@ signals:
 
     void sendDirectToDraw(const QVector2D &dir);
 
+    void signalRotateFromAutopilot(const int &msec);///////////////////////////////////////////////
+
 public slots:
     void loop();
 
