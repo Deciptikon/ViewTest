@@ -136,7 +136,7 @@ void Model::addDirectToQML(const QVector2D &dir)
 
 void Model::slotRotateFromAutopilot(const int &msec)
 {
-    int m = msec;
+    int m = -msec;
 
     if(m > 0) {
         emit signalRotateLeftToQML();

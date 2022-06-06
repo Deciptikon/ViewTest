@@ -197,14 +197,30 @@ Item {
 
            ////////////////////////////////////////////////////////////////////////
            function onSignalRotateLeftToQML() {
-               //rotLeft.color = "red"
+               if(!rotLeft.enabled) {
+                   rotLeft.enabled = true
+                   rotLeft.opacity = 1
+               }
                rotLeft.active = !rotLeft.active
-               rotRight.color = "black"
+               //rotRight.color = "black"
+               if( rotRight.enabled) {
+                   rotRight.enabled = false
+                   rotRight.opacity = 0.2
+               }
            }
 
            function onSignalRotateRightToQML() {
+
+               if(!rotRight.enabled) {
+                   rotRight.enabled = true
+                   rotRight.opacity = 1
+               }
                rotRight.active = !rotRight.active
-               rotLeft.color = "black"
+               //rotLeft.color = "black"
+               if( rotLeft.enabled) {
+                   rotLeft.enabled = false
+                   rotLeft.opacity = 0.2
+               }
            }
            function onSignalCountToQML(count) {
                countTxt.text = count
