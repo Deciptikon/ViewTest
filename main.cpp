@@ -16,6 +16,8 @@
 #include "gps.h"
 #include "drawtrack.h"
 
+#include "testgps.h"
+
 typedef QList<QVector2D> ListVector;
 
 int main(int argc, char *argv[])
@@ -64,6 +66,10 @@ int main(int argc, char *argv[])
     GPS *gps;
     QThread *threadGPS;
 
+    TestGPS *testgps;/////////////////////////////////////////////////////////////////////
+    QThread *threadTestGPS;///////////////////////////////////////////////////////////////
+    QTimer *timerTestGPS;/////////////////////////////////////////////////////////////////
+
 
 ///-------Create autopilot and move to thread with timer----------------------------------------
     autopilot = new Autopilot();
@@ -102,11 +108,37 @@ int main(int argc, char *argv[])
 
 
 
+///-------Create autopilot and move to thread with timer----------------------------------------
+    testgps = new TestGPS();
+    //autopilot->init(100);
+
+    threadTestGPS = new QThread();
+
+    timerTestGPS = new QTimer(0);
+    timerTestGPS->setInterval(100);
+    timerTestGPS->moveToThread(threadTestGPS);
+
+    // вызываем слот по таймеру
+    testgps->connect( timerTestGPS, SIGNAL(timeout()), SLOT(read()), Qt::ConnectionType::DirectConnection);
+
+    // запускаем таймер как только поток стартует
+    timerTestGPS->connect(threadTestGPS, SIGNAL(started()), SLOT(start()));
+///----------------------------------------------------------------------------------------------
+
+
+
+
+
 ///-------Connects objects-----------------------------------------------------------------------
 
     // связываем обновление положения в автопилоте с чтением положения в gps
     autopilot->connect(gps      , SIGNAL(updatePositionXY(const double&, const double&)),
                        SLOT(readFromGPS(const double&, const double&)) );
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    autopilot->connect(testgps  , SIGNAL(updatePositionXY(const double&, const double&)),////////
+                       SLOT(readFromGPS(const double&, const double&)) );////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
 
     // получаем ключевую точку в автопилот из model (полученную из QML)
     // для добавления в список ключевых точек
@@ -169,6 +201,7 @@ int main(int argc, char *argv[])
 ///-------Start threads--------------------------------------------------------------------------
     threadAutopilot->start();
     threadGPS->start();
+    //threadTestGPS->start();//////////////////////////////////////////////////////////////////////
     //threadControllerI2C_14->start();
 ///----------------------------------------------------------------------------------------------
 

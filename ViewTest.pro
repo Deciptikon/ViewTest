@@ -14,7 +14,8 @@ SOURCES += \
         fieldmodel.cpp \
         gps.cpp \
         main.cpp \
-        model.cpp
+        model.cpp \
+        testgps.cpp
 
 RESOURCES += qml.qrc
 
@@ -48,4 +49,5 @@ HEADERS += \
     drawtrack.h \
     fieldmodel.h \
     gps.h \
-    model.h
+    model.h \
+    testgps.h
