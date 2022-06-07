@@ -243,9 +243,42 @@ void Autopilot::driveParallel()
         return;
     }
 
-    int comm = 50;
+    float amplitudeDirection = 2;// подстроечный параметр, в метрах
 
-    //to do
+    // получаем вектор направленный на точку А из текущего положения
+    QVector2D dist = path2D.last() - pointA;
+
+    // находим проекцию dist на вектор ортогональный вектору направления параллельного вождения
+    float p = QVector2D::dotProduct(dist, orthoDir)/QVector2D::dotProduct(orthoDir, orthoDir);
+
+    // округляем его до ближайшего целого 4.2 --> 4  и  4.7 --> 5
+    // получаем номер той линии, вдоль которой должны двигаться
+    int k = rint(p);
+
+    // находим вектор положения основания линии текущего движения
+    QVector2D sourceLine = pointA + orthoDir*k;
+
+    // находим вектор от основания линии текущего перемещения до "ожидаемой точки"(конца вектора скорости)
+    QVector2D s = path2D.last() + direction.normalized()*amplitudeDirection - sourceLine;
+
+    // находим проекцию на вектор ортогональный линии текущего перемещения(интересен лишь знак)
+    float pro = QVector2D::dotProduct(s, orthoDir);
+    qDebug() << "==============PROJECTION: " << pro;
+
+    // находим угол наклона вектора текущей скорости к линии перемещения
+    float ang = acosf(QVector2D::dotProduct(direction, dir) / (direction.length()*dir.length()) );
+    qDebug() << "==============ANGLE: " << ang;
+
+
+    int comm = 50;
+    float pi2 = M_PI/2.0;
+
+    if( (ang > pi2 && pro > 0) || (ang < pi2 && pro < 0) ) {
+        // rotate left
+    }
+    if( (ang < pi2 && pro > 0) || (ang > pi2 && pro < 0) ) {
+        // rotate right
+    }
 
     qDebug() << "CommandToSlave:" << comm;
     emit sendCommandToSlave14(comm);
