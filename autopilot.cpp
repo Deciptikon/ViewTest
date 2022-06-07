@@ -269,16 +269,24 @@ void Autopilot::driveParallel()
     float ang = acosf(QVector2D::dotProduct(direction, dir) / (direction.length()*dir.length()) );
     qDebug() << "==============ANGLE: " << ang;
 
-
+    int msec = 0;// msec from -500 to 500
     int comm = 50;
+
     float pi2 = M_PI/2.0;
 
     if( (ang > pi2 && pro > 0) || (ang < pi2 && pro < 0) ) {
-        // rotate left
-    }
-    if( (ang < pi2 && pro > 0) || (ang > pi2 && pro < 0) ) {
+        qDebug() << "Rotate right";
+        msec = 500;
         // rotate right
     }
+    if( (ang < pi2 && pro > 0) || (ang > pi2 && pro < 0) ) {
+        qDebug() << "Rotate left";
+        msec = -500;
+        // rotate left
+    }
+
+    emit signalRotateFromAutopilot(msec);
+
 
     qDebug() << "CommandToSlave:" << comm;
     emit sendCommandToSlave14(comm);
