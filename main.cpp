@@ -15,6 +15,7 @@
 #include "autopilot.h"
 #include "gps.h"
 #include "drawtrack.h"
+#include "devicei2c.h"
 
 typedef QList<QVector2D> ListVector;
 
@@ -64,6 +65,9 @@ int main(int argc, char *argv[])
     GPS *gps;
     QThread *threadGPS;
 
+    DeviceI2C *devicei2c_14;
+    QThread *threadDeviceI2C_14;
+
 
 ///-------Create autopilot and move to thread with timer----------------------------------------
     autopilot = new Autopilot();
@@ -101,6 +105,15 @@ int main(int argc, char *argv[])
 ///----------------------------------------------------------------------------------------------
 
 
+///-------Create I2C slave device----------------------------------------------------------------
+    devicei2c_14 = new DeviceI2C();
+    devicei2c_14->init( 0x14 );
+
+    threadDeviceI2C_14 = new QThread();
+    devicei2c_14->moveToThread(threadDeviceI2C_14);
+///----------------------------------------------------------------------------------------------
+
+
 
 ///-------Connects objects-----------------------------------------------------------------------
 
@@ -129,7 +142,7 @@ int main(int argc, char *argv[])
                                 SLOT(slotAppPointToPath(const QVector2D&)) );
 
     model.connect(autopilot, SIGNAL(keyPointsChanged(const ListVector&)),
-                                SLOT(acceptKeyPoints(const ListVector&)) );
+                               SLOT(acceptKeyPoints(const ListVector&)) );
 
 
     //устанавливаем точку А и направление (по точке В)
@@ -137,6 +150,11 @@ int main(int argc, char *argv[])
                                 SLOT(addPointAToQML(const QVector2D&)) );
     model.connect(autopilot, SIGNAL(sendDirectToDraw(const QVector2D&)),
                                 SLOT(addDirectToQML(const QVector2D&)) );
+
+    devicei2c_14->connect(autopilot, SIGNAL(sendCommandToSlave14(const int&)),
+                                                 SLOT(writeData(const int&)) );
+    devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(const int&)),
+                                                 SLOT(writeData(const int&)) );
 
 ///----------------------------------------------------------------------------------------------
 
@@ -164,7 +182,7 @@ int main(int argc, char *argv[])
 ///-------Start threads--------------------------------------------------------------------------
     threadAutopilot->start();
     threadGPS->start();
-    //threadControllerI2C_14->start();
+    threadDeviceI2C_14->start();
 ///----------------------------------------------------------------------------------------------
 
     return app.exec();

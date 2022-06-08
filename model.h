@@ -28,6 +28,9 @@ public:
     Q_INVOKABLE bool isVisibleButtonAB();
     Q_INVOKABLE bool isEnableButtonAB();
 
+    Q_INVOKABLE void sendToDevice14(qreal data);
+    Q_INVOKABLE void swapRelayState();
+
     const QColor &colorStatusBar() const;
     void setColorStatusBar(const QColor &newColorStatusBar);
 
@@ -67,8 +70,6 @@ public slots:
     void slotUpdateTimerGyro();
     void slotUpdateTimerCam();
     //
-
-    void slotCommandToSlave14(int comm);
 
     void slotAppPointToPath(const QVector2D &vec);
 

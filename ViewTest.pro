@@ -6,10 +6,13 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+LIBS += -lwiringPi
+
 SOURCES += \
         appsettings.cpp \
         autopilot.cpp \
         databasefield.cpp \
+        devicei2c.cpp \
         drawtrack.cpp \
         fieldmodel.cpp \
         gps.cpp \
@@ -45,6 +48,7 @@ HEADERS += \
     autopilot.h \
     constants.h \
     databasefield.h \
+    devicei2c.h \
     drawtrack.h \
     fieldmodel.h \
     gps.h \

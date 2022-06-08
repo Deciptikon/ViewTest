@@ -61,6 +61,18 @@ bool Model::isEnableButtonAB()
     return isEnableAB == true;
 }
 
+void Model::sendToDevice14(qreal data)
+{
+    int d = data;
+    emit signalCommandToSlave14(d);
+}
+
+void Model::swapRelayState()
+{
+    int d = 120;
+    emit signalCommandToSlave14(d);
+}
+
 void Model::slotGPSon()
 {
     emit signalStateGPStoQML(true);
@@ -90,11 +102,6 @@ void Model::slotUpdateTimerCam()
     stateCam = !stateCam;
     //qDebug() << "stateCam =" << stateCam;
     emit signalStateCamtoQML(stateCam);
-}
-
-void Model::slotCommandToSlave14(int comm)
-{
-    emit signalCommandToSlave14(comm);
 }
 
 void Model::slotAppPointToPath(const QVector2D &vec)

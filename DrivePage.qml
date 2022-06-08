@@ -153,7 +153,10 @@ Item {
 
            onChangedImageCheckBox: {
                console.log("Restate Relay")
-               //modelView.slotSendMsgToSlave14(14)
+               modelView.swapRelayState()
+               // можно было бы вызывать эту функцию с типом Boolean
+               // для того что бы узнать статус операции по отправке данных
+               // и обновить состояние переключателя в зависимости от него
            }
        }
 
