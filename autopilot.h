@@ -60,7 +60,7 @@ private slots:
 private:
     void driveKeyPoint();
     void driveParallel();
-
+    // void driveSpiral();
 
     int msecDeltaTime;
 
@@ -80,10 +80,10 @@ private:
 
     DriveMode::State currentDriveMode = DriveMode::NONE_MODE;
 
-    float widthBetweenLines;
-    QVector2D pointA{0,0};//{12,18};//////////////
+    float widthBetweenLines;// ширина между линиями
+    QVector2D pointA{0,0};
     QVector2D pointB{0,0};
-    QVector2D dir;//{6, -2};/////////////////
+    QVector2D dir; // направление линий параллельного вождения
     QVector2D orthoDir;//{dir.y(), -dir.x()};
 };
 

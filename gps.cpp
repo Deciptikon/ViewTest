@@ -209,6 +209,6 @@ void GPS::latLonToXY(double lat, double lon)
         qDebug() << "Longitude not range";
     }
 
-    this->y = RADIUS_EARTH*(lon + 180.0)*(M_PI/180.0);
-    this->x = RADIUS_EARTH*qLn(qTan(M_PI/4 + lat*(M_PI/180.0)/2.0));
+    this->x = RADIUS_EARTH*(lon + 180.0)*(M_PI/180.0);
+    this->y = RADIUS_EARTH*qLn(qTan(M_PI/4 + lat*(M_PI/180.0)/2.0));
 }
