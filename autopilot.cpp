@@ -277,11 +277,13 @@ void Autopilot::driveParallel()
     if( (ang > pi2 && pro > 0) || (ang < pi2 && pro < 0) ) {
         qDebug() << "Rotate right";
         msec = 500;
+        comm = (5000 + msec)/100;
         // rotate right
     }
     if( (ang < pi2 && pro > 0) || (ang > pi2 && pro < 0) ) {
         qDebug() << "Rotate left";
         msec = -500;
+        comm = (5000 + msec)/100;
         // rotate left
     }
 
