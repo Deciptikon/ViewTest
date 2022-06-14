@@ -7,9 +7,8 @@ DeviceI2C::DeviceI2C(QObject *parent) : QObject(parent)
 
 void DeviceI2C::init(int hexAdress)
 {
-#ifdef Q_OS_WIN
-    qDebug() << "void DeviceI2C::init(int hexAdress)";
-#else
+#ifdef Q_OS_LINUX
+
     if(hexAdress>0x08 && hexAdress<0x80) {//0-128
         this->hexAdress = hexAdress;
     } else {
@@ -18,6 +17,10 @@ void DeviceI2C::init(int hexAdress)
 
     this->deviceRegAdress = wiringPiI2CSetup(this->hexAdress);
     qDebug() << "Setup deviceRegAdress N" << this->hexAdress << "= " << this->deviceRegAdress;
+#else
+    #ifdef Q_OS_WIN
+        qDebug() << "void DeviceI2C::init(int hexAdress)";
+    #endif
 #endif
 }
 
@@ -44,14 +47,16 @@ void DeviceI2C::readData()
 
 void DeviceI2C::writeData(const int &data)
 {
-#ifdef Q_OS_WIN
-    qDebug() << "void DeviceI2C::writeData(const int &data)";
-#else
+#ifdef Q_OS_LINUX
     if (this->deviceRegAdress == -1) {
         qDebug() << "[SlaveController::loop()] deviceRegAdress == -1";
     } else {
         wiringPiI2CWrite(this->deviceRegAdress, data);
         qDebug() << "SlaveController::writeData()";
     }
+#else
+    #ifdef Q_OS_WIN
+        qDebug() << "void DeviceI2C::writeData(const int &data)";
+    #endif
 #endif
 }
