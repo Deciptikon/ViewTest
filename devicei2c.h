@@ -4,8 +4,12 @@
 #include <QObject>
 #include <QDebug>
 
+#ifdef Q_OS_WIN
+//
+#else
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
+#endif
 
 class DeviceI2C : public QObject
 {
