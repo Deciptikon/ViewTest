@@ -73,6 +73,16 @@ void Model::swapRelayState()
     emit signalCommandToSlave14(d);
 }
 
+bool Model::isLinux()
+{
+#ifdef Q_OS_LINUX
+    osLinux = true;
+#else
+    osLinux = false;
+#endif
+    return osLinux;
+}
+
 void Model::slotGPSon()
 {
     emit signalStateGPStoQML(true);

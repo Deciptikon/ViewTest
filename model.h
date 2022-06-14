@@ -31,6 +31,8 @@ public:
     Q_INVOKABLE void sendToDevice14(qreal data);
     Q_INVOKABLE void swapRelayState();
 
+    Q_INVOKABLE bool isLinux();
+
     const QColor &colorStatusBar() const;
     void setColorStatusBar(const QColor &newColorStatusBar);
 
@@ -108,6 +110,8 @@ private:
     QColor m_colorStatusBar;
 
     bool isEnableAB = true;
+
+    bool osLinux = false;
 };
 
 #endif // MODEL_H

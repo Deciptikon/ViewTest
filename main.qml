@@ -10,7 +10,8 @@ Window {
     visible: true
     title: qsTr("AgroSlave")
 
-    //visibility: Window.FullScreen
+    // если Linux - во весь экран
+    visibility: modelView.isLinux()? Window.FullScreen : Window.AutomaticVisibility
 
 //    onClosing: {
 //        appSettings.checkAndRestoreSettings()
