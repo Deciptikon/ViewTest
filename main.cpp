@@ -160,27 +160,31 @@ int main(int argc, char *argv[])
     autopilot->connect(&model, SIGNAL(signalSetPointA()), SLOT(slotSetPointA()) );
     autopilot->connect(&model, SIGNAL(signalSetPointB()), SLOT(slotSetPointB()) );
 
+    //получаем данные с акселерометра и гироскопа
+    autopilot->connect(sensorreader, SIGNAL(updateDataSens(const QVector3D&, const QVector3D&)),
+                       SLOT(readFromGyroAndAccel(const QVector3D&, const QVector3D&)) );
+
     // изменение пути и ключевых точек в автопилоте передаются в model
     // для дальнейшего отображения
 //    model.connect(autopilot, SIGNAL(signalAppPointToPathAndRemoveFirst(const QVector2D&)),
 //                                SLOT(slotAppPointToPathAndRemoveFirst(const QVector2D&)) );
     model.connect(autopilot, SIGNAL(signalAppPointToPath(const QVector2D&)),
-                                SLOT(slotAppPointToPath(const QVector2D&)) );
+                  SLOT(slotAppPointToPath(const QVector2D&)) );
 
     model.connect(autopilot, SIGNAL(keyPointsChanged(const ListVector&)),
-                               SLOT(acceptKeyPoints(const ListVector&)) );
+                  SLOT(acceptKeyPoints(const ListVector&)) );
 
 
     //устанавливаем точку А и направление (по точке В)
     model.connect(autopilot, SIGNAL(sendPointAToDraw(const QVector2D&)),
-                                SLOT(addPointAToQML(const QVector2D&)) );
+                  SLOT(addPointAToQML(const QVector2D&)) );
     model.connect(autopilot, SIGNAL(sendDirectToDraw(const QVector2D&)),
-                                SLOT(addDirectToQML(const QVector2D&)) );
+                  SLOT(addDirectToQML(const QVector2D&)) );
 
     devicei2c_14->connect(autopilot, SIGNAL(sendCommandToSlave14(const int&)),
-                                                 SLOT(writeData(const int&)) );
+                          SLOT(writeData(const int&)) );
     devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(const int&)),
-                                                 SLOT(writeData(const int&)) );
+                          SLOT(writeData(const int&)) );
 
 ///----------------------------------------------------------------------------------------------
 

@@ -44,6 +44,8 @@ public slots:
 
     void readFromGPS(const double &x, const double &y);
 
+    void readFromGyroAndAccel(const QVector3D &accel, const QVector3D &gyro);
+
     void addKeyPoint(const QVector2D &point);
 
     void acceptDriveMode(const QVariant &mode);

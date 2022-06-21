@@ -87,6 +87,13 @@ void Autopilot::readFromGPS(const double &x, const double &y)
     //emit pathChanged(path2D);
 }
 
+void Autopilot::readFromGyroAndAccel(const QVector3D &accel, const QVector3D &gyro)
+{
+    qDebug() << "**** READ FROM GYROSCOPE AND ACCELEROMETER";
+    qDebug() << "**** Accelerometer" << accel;
+    qDebug() << "**** Gyroscope    " << gyro;
+}
+
 void Autopilot::addKeyPoint(const QVector2D &point)
 {
     if(currentDriveMode == DriveMode::KEYPOINTS_MODE) {
