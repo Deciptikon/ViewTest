@@ -144,47 +144,47 @@ int main(int argc, char *argv[])
 ///-------Connects objects-----------------------------------------------------------------------
 
     // связываем обновление положения в автопилоте с чтением положения в gps
-    autopilot->connect(gps      , SIGNAL(updatePositionXY(const double&, const double&)),
-                       SLOT(readFromGPS(const double&, const double&)) );
+    autopilot->connect(gps      , SIGNAL(updatePositionXY(double,double)),
+                       SLOT(readFromGPS(double,double)) );
 
     // получаем ключевую точку в автопилот из model (полученную из QML)
     // для добавления в список ключевых точек
-    autopilot->connect(&model, SIGNAL(sendKeyPointForAdding(const QVector2D&)),
-                       SLOT(addKeyPoint(const QVector2D&)) );
+    autopilot->connect(&model, SIGNAL(sendKeyPointForAdding(QVector2D)),
+                       SLOT(addKeyPoint(QVector2D)) );
 
     // получаем режим вождения
-    autopilot->connect(&model, SIGNAL(sendDriveMode(const QVariant&)),
-                       SLOT(acceptDriveMode(const QVariant&)) );
+    autopilot->connect(&model, SIGNAL(sendDriveMode(QVariant)),
+                       SLOT(acceptDriveMode(QVariant)) );
 
     // получаем сигнал на установку точек А и В
     autopilot->connect(&model, SIGNAL(signalSetPointA()), SLOT(slotSetPointA()) );
     autopilot->connect(&model, SIGNAL(signalSetPointB()), SLOT(slotSetPointB()) );
 
     //получаем данные с акселерометра и гироскопа
-    autopilot->connect(sensorreader, SIGNAL(updateDataSens(const QVector3D&, const QVector3D&)),
-                       SLOT(readFromGyroAndAccel(const QVector3D&, const QVector3D&)) );
+    autopilot->connect(sensorreader, SIGNAL(updateDataSens(QVector3D,QVector3D)),
+                       SLOT(readFromGyroAndAccel(QVector3D,QVector3D)) );
 
     // изменение пути и ключевых точек в автопилоте передаются в model
     // для дальнейшего отображения
 //    model.connect(autopilot, SIGNAL(signalAppPointToPathAndRemoveFirst(const QVector2D&)),
 //                                SLOT(slotAppPointToPathAndRemoveFirst(const QVector2D&)) );
-    model.connect(autopilot, SIGNAL(signalAppPointToPath(const QVector2D&)),
-                  SLOT(slotAppPointToPath(const QVector2D&)) );
+    model.connect(autopilot, SIGNAL(signalAppPointToPath(QVector2D)),
+                  SLOT(slotAppPointToPath(QVector2D)) );
 
-    model.connect(autopilot, SIGNAL(keyPointsChanged(const ListVector&)),
-                  SLOT(acceptKeyPoints(const ListVector&)) );
+    model.connect(autopilot, SIGNAL(keyPointsChanged(ListVector)),
+                  SLOT(acceptKeyPoints(ListVector)) );
 
 
     //устанавливаем точку А и направление (по точке В)
-    model.connect(autopilot, SIGNAL(sendPointAToDraw(const QVector2D&)),
-                  SLOT(addPointAToQML(const QVector2D&)) );
-    model.connect(autopilot, SIGNAL(sendDirectToDraw(const QVector2D&)),
-                  SLOT(addDirectToQML(const QVector2D&)) );
+    model.connect(autopilot, SIGNAL(sendPointAToDraw(QVector2D)),
+                  SLOT(addPointAToQML(QVector2D)) );
+    model.connect(autopilot, SIGNAL(sendDirectToDraw(QVector2D)),
+                  SLOT(addDirectToQML(QVector2D)) );
 
-    devicei2c_14->connect(autopilot, SIGNAL(sendCommandToSlave14(const int&)),
-                          SLOT(writeData(const int&)) );
-    devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(const int&)),
-                          SLOT(writeData(const int&)) );
+    devicei2c_14->connect(autopilot, SIGNAL(sendCommandToSlave14(int)),
+                          SLOT(writeData(int)) );
+    devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(int)),
+                          SLOT(writeData(int)) );
 
 ///----------------------------------------------------------------------------------------------
 
