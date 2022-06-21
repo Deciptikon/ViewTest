@@ -9,6 +9,7 @@ CONFIG += c++11
 unix:LIBS += -lwiringPi
 
 SOURCES += \
+        accelerometer.cpp \
         appsettings.cpp \
         autopilot.cpp \
         databasefield.cpp \
@@ -16,8 +17,10 @@ SOURCES += \
         drawtrack.cpp \
         fieldmodel.cpp \
         gps.cpp \
+        gyroscope.cpp \
         main.cpp \
-        model.cpp
+        model.cpp \
+        sensorreader.cpp
 
 RESOURCES += qml.qrc
 
@@ -44,6 +47,7 @@ DISTFILES +=
 HEADERS += \
     DriveMode.h \
     TypeEdit.h \
+    accelerometer.h \
     appsettings.h \
     autopilot.h \
     constants.h \
@@ -52,4 +56,6 @@ HEADERS += \
     drawtrack.h \
     fieldmodel.h \
     gps.h \
-    model.h
+    gyroscope.h \
+    model.h \
+    sensorreader.h
