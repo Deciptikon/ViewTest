@@ -5,10 +5,10 @@
 #include <QDebug>
 
 #ifdef Q_OS_WIN
-//
+    //пока здесь ничего нет
 #else
-#include <wiringPi.h>
-#include <wiringPiI2C.h>
+    #include <wiringPi.h>
+    #include <wiringPiI2C.h>
 #endif
 
 class DeviceI2C : public QObject

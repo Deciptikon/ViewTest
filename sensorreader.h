@@ -21,6 +21,11 @@ public:
     Gyroscope     Gyroscope;
 
 signals:
+    void updateDataSens(const QVector3D &accel, const QVector3D &gyro);
+
+public slots:
+    void loop();
+
 
 private:
     int msecDeltaTime = 100;

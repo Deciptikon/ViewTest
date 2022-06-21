@@ -17,6 +17,7 @@
 #include "drawtrack.h"
 #include "devicei2c.h"
 
+
 typedef QList<QVector2D> ListVector;
 
 int main(int argc, char *argv[])
