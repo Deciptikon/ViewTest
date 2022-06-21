@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
     autopilot->connect(&model, SIGNAL(signalSetPointA()), SLOT(slotSetPointA()) );
     autopilot->connect(&model, SIGNAL(signalSetPointB()), SLOT(slotSetPointB()) );
 
-    //получаем данные с акселерометра и гироскопа
+    // получаем данные с акселерометра и гироскопа
     autopilot->connect(sensorreader, SIGNAL(updateDataSens(QVector3D,QVector3D)),
                        SLOT(readFromGyroAndAccel(QVector3D,QVector3D)) );
 
@@ -175,12 +175,13 @@ int main(int argc, char *argv[])
                   SLOT(acceptKeyPoints(ListVector)) );
 
 
-    //устанавливаем точку А и направление (по точке В)
+    // устанавливаем точку А и направление (по точке В)
     model.connect(autopilot, SIGNAL(sendPointAToDraw(QVector2D)),
                   SLOT(addPointAToQML(QVector2D)) );
     model.connect(autopilot, SIGNAL(sendDirectToDraw(QVector2D)),
                   SLOT(addDirectToQML(QVector2D)) );
 
+    // отправка команды на slave14
     devicei2c_14->connect(autopilot, SIGNAL(sendCommandToSlave14(int)),
                           SLOT(writeData(int)) );
     devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(int)),
