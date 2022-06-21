@@ -16,7 +16,7 @@
 #include "gps.h"
 #include "drawtrack.h"
 #include "devicei2c.h"
-
+#include "sensorreader.h"
 
 typedef QList<QVector2D> ListVector;
 
@@ -69,6 +69,10 @@ int main(int argc, char *argv[])
     DeviceI2C *devicei2c_14;
     QThread *threadDeviceI2C_14;
 
+    SensorReader *sensorreader;
+    QThread *threadSensorReader;
+    QTimer *timerSensorReader;
+
 
 ///-------Create autopilot and move to thread with timer----------------------------------------
     autopilot = new Autopilot();
@@ -113,6 +117,27 @@ int main(int argc, char *argv[])
     threadDeviceI2C_14 = new QThread();
     devicei2c_14->moveToThread(threadDeviceI2C_14);
 ///----------------------------------------------------------------------------------------------
+
+
+
+///-------Create Sensor Reader----------------------------------------------------------------
+    sensorreader = new SensorReader();
+    sensorreader->init( 500 );//потом использовать интервал из настроек
+
+    threadSensorReader = new QThread();
+
+    timerSensorReader = new QTimer(0);
+    timerSensorReader->setInterval(sensorreader->getMsecDeltaTime());
+    timerSensorReader->moveToThread(threadSensorReader);
+
+    // вызываем слот loop() по таймеру
+    sensorreader->connect( timerSensorReader, SIGNAL(timeout()),
+                           SLOT(loop()), Qt::ConnectionType::DirectConnection);
+
+    // запускаем таймер как только поток стартует
+    timerSensorReader->connect(threadSensorReader, SIGNAL(started()), SLOT(start()));
+///----------------------------------------------------------------------------------------------
+
 
 
 
@@ -184,6 +209,7 @@ int main(int argc, char *argv[])
     threadAutopilot->start();
     threadGPS->start();
     threadDeviceI2C_14->start();
+    threadSensorReader->start();
 ///----------------------------------------------------------------------------------------------
 
     return app.exec();
