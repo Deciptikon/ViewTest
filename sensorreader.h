@@ -2,6 +2,7 @@
 #define SENSORREADER_H
 
 #include <QObject>
+#include <QTimer>
 
 #include "accelerometer.h"
 #include "gyroscope.h"
@@ -27,8 +28,17 @@ public slots:
     void loop();
 
 
+    void slotCalibrateAccelerometerNull(const int &msec);
+
+
 private:
+    void calibrateAccelerometerNull();
+
     int msecDeltaTime = 100;
+
+    bool flagCalibrateAccelerometerNull = false;
+    QVector3D dataCalibrateAccelerometerNull;
+    int numCalibrateAccelerometerNull;
 };
 
 #endif // SENSORREADER_H
