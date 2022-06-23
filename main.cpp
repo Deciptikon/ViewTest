@@ -187,6 +187,14 @@ int main(int argc, char *argv[])
     devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(int)),
                           SLOT(writeData(int)) );
 
+    // связываем сигналы и слоты на управление калибровкой
+    // положения покоя акселерометра
+    sensorreader->connect(&model, SIGNAL(signalCalibrateZeroPointAccelerometer(int)),
+                          SLOT(slotCalibrateZeroPointAccelerometerl(int)) );
+    // передача успешного завершения калибровки в QML
+    model.connect(sensorreader, SIGNAL(signalCalibrateZeroPointAccelerometerIsDone()),
+                  SLOT(slotCalibrateZeroPointAccelerometerIsDone()) );
+
 ///----------------------------------------------------------------------------------------------
 
     QQmlApplicationEngine engine;

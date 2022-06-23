@@ -27,7 +27,7 @@ void SensorReader::loop()
     Accelerometer.updateData();
     Gyroscope.updateData();
 
-    calibrateAccelerometerNull();
+    calibrateZeroPointAccelerometer();
 
     QVector3D accelData = Accelerometer.getData();
     QVector3D gyrosData = Gyroscope.getData();
@@ -35,31 +35,37 @@ void SensorReader::loop()
     emit updateDataSens(accelData, gyrosData);
 }
 
-void SensorReader::slotCalibrateAccelerometerNull(const int &msec)
+void SensorReader::slotCalibrateZeroPointAccelerometerl(const int &msec)
 {
-    if(flagCalibrateAccelerometerNull) {
+    if(flagCalibrateZeroPointAccelerometer) {
         return;
     }
     if(msec <= 0 || msec > 60000) {
         return;
     }
 
-    flagCalibrateAccelerometerNull = true;
-    dataCalibrateAccelerometerNull = {0, 0, 0};
-    numCalibrateAccelerometerNull  = 0;
+    flagCalibrateZeroPointAccelerometer = true;
+    dataCalibrateZeroPointAccelerometer = {0, 0, 0};
+    numCalibrateZeroPointAccelerometer  = 0;
 
     QTimer::singleShot(msec, this, [&](){
         qDebug() << "=======================QTimer::singleShot========================";
-        flagCalibrateAccelerometerNull = false;
-        ///to do -->
+        flagCalibrateZeroPointAccelerometer = false;
+        if(numCalibrateZeroPointAccelerometer == 0) {
+            return ;
+        }
+        dataCalibrateZeroPointAccelerometer = dataCalibrateZeroPointAccelerometer/numCalibrateZeroPointAccelerometer;
+        /// записать эти данные в Акселерометр и в настройки приложения
+
+        emit signalCalibrateZeroPointAccelerometerIsDone();
     });
 }
 
-void SensorReader::calibrateAccelerometerNull()
+void SensorReader::calibrateZeroPointAccelerometer()
 {
-    if(!flagCalibrateAccelerometerNull) {
+    if(!flagCalibrateZeroPointAccelerometer) {
         return;
     }
-    dataCalibrateAccelerometerNull += Accelerometer.getData();
-    numCalibrateAccelerometerNull++;
+    dataCalibrateZeroPointAccelerometer += Accelerometer.getData();
+    numCalibrateZeroPointAccelerometer++;
 }

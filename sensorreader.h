@@ -24,21 +24,23 @@ public:
 signals:
     void updateDataSens(const QVector3D &accel, const QVector3D &gyro);
 
+    void signalCalibrateZeroPointAccelerometerIsDone();
+
 public slots:
     void loop();
 
 
-    void slotCalibrateAccelerometerNull(const int &msec);
+    void slotCalibrateZeroPointAccelerometerl(const int &msec);
 
 
 private:
-    void calibrateAccelerometerNull();
+    void calibrateZeroPointAccelerometer();
 
     int msecDeltaTime = 100;
 
-    bool flagCalibrateAccelerometerNull = false;
-    QVector3D dataCalibrateAccelerometerNull;
-    int numCalibrateAccelerometerNull;
+    bool flagCalibrateZeroPointAccelerometer = false;
+    QVector3D dataCalibrateZeroPointAccelerometer;
+    int numCalibrateZeroPointAccelerometer;
 };
 
 #endif // SENSORREADER_H

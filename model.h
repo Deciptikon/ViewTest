@@ -39,6 +39,7 @@ public:
 signals:
     void signalSendToQML(QString str);
 
+    // установить точки А и В из QML
     void signalSetPointA();
     void signalSetPointB();
 
@@ -48,10 +49,17 @@ signals:
     void sendKeyPointForAdding(const QVector2D &vec);//посылаем ключевую точку в autopilot
     void sendDriveMode(const QVariant &mode);// посылаем режим вождения в autopilot
 
+    // отправка точки А и направления в слой QML
     void sendPointAToQML(const QVector2D point);
     void sendDirectToQML(const QVector2D dir);
 
+    // отправить команду на устройство
     void signalCommandToSlave14(const int &comm);
+
+    // сигнал старта колибровки покоя акселерометра
+    void signalCalibrateZeroPointAccelerometer(const int &msec);
+    // сигнал успешной калибровки полученый от системы
+    void signalCalibrateZeroPointAccelerometerIsDone();
 
     // эти сигналы можно переименовать, но они не для демонстрации
     void signalStateGPStoQML(bool state);
@@ -73,16 +81,23 @@ public slots:
     void slotUpdateTimerCam();
     //
 
+    // принимаем точку пути от автопилота для отображения в QML
     void slotAppPointToPath(const QVector2D &vec);
 
     void slotAppPointToPathAndRemoveFirst(const QVector2D &vec);
 
+    // принимаем от автопилота список ключевых точек (для передачи их в QML)
     void acceptKeyPoints(const ListVector &keyPoints);
 
+    // отправить ключевую точку пути из QML
     void addKeyPointFromQML(const QVector2D point);
 
+    // слоты приема данных от автопилота для передачи их в QML
     void addPointAToQML(const QVector2D &point);
     void addDirectToQML(const QVector2D &dir);
+
+    // слот приема успешности калибровки состояния покоя акселерометра
+    void slotCalibrateZeroPointAccelerometerIsDone();
 
 private slots:
     void disableButtonAB();

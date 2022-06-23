@@ -61,5 +61,7 @@
         <file>image/bt-home-release-2.png</file>
         <file>PopupAttention.qml</file>
         <file>CalibrationPage.qml</file>
+        <file>CalibrationZeroPointAccelerometer.qml</file>
+        <file>CalibrationZeroPointGyroscope.qml</file>
     </qresource>
 </RCC>

@@ -151,6 +151,11 @@ void Model::addDirectToQML(const QVector2D &dir)
     emit sendDirectToQML(d);
 }
 
+void Model::slotCalibrateZeroPointAccelerometerIsDone()
+{
+    emit signalCalibrateZeroPointAccelerometerIsDone();
+}
+
 void Model::disableButtonAB()
 {
     isEnableAB = false;
