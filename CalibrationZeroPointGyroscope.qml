@@ -48,7 +48,33 @@ Item {
         onReleasedButton: {
             modelView.signalCalibrateZeroPointGyroscope(5000);
             backgroundText.color = Qt.rgba(0.7, 0.7, 0.7, 0.7)
+            if(_progressCalibration.running) {
+                return
+            }
+            _progressCalibration.value = 0
+            _progressCalibration.start()
         }
+    }
+
+    AnimatedProgressBar {
+        id: _progressCalibration
+
+        width: 200
+        height: 25
+
+        anchors {
+            top: _buttonCalibrate.bottom
+            horizontalCenter: _buttonCalibrate.horizontalCenter
+
+            topMargin: 20
+        }
+
+        from: 0
+        to: 100
+
+        value: 0
+
+        duration: 5000
     }
 
     Connections {
@@ -56,6 +82,7 @@ Item {
 
         function onSignalCalibrateZeroPointGyroscopeIsDone() {
             backgroundText.color = Qt.rgba(0.7, 1, 0.7, 0.7)
+            _progressCalibration.stop()
         }
     }
 }

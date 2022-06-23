@@ -51,16 +51,19 @@ Item {
         onReleasedButton: {
             modelView.signalCalibrateZeroPointAccelerometer(5000);
             backgroundText.color = Qt.rgba(0.7, 0.7, 0.7, 0.7)
+            if(_progressCalibration.running) {
+                return
+            }
             _progressCalibration.value = 0
-            _animation.start()
+            _progressCalibration.start()
         }
     }
 
-    ProgressBar {
+    AnimatedProgressBar {
         id: _progressCalibration
 
+        width: 200
         height: 25
-        width: 250
 
         anchors {
             top: _buttonCalibrate.bottom
@@ -69,41 +72,12 @@ Item {
             topMargin: 20
         }
 
-        background: Rectangle {
-            //anchors.fill: _progressCalibration
-            implicitWidth: 250
-            implicitHeight: 25
-
-            color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
-        }
-
-        contentItem: Item {
-            implicitWidth: 250
-            implicitHeight: 25
-
-            Rectangle {
-                width: _progressCalibration.visualPosition * parent.width
-                height: parent.height
-                radius: 2
-                color: "#17a81a"
-            }
-        }
-
         from: 0
         to: 100
 
         value: 0
-    }
 
-    PropertyAnimation {
-        id: _animation
-        target: _progressCalibration
-        property: "value"
-        from: _progressCalibration.from
-        to: _progressCalibration.to
         duration: 5000
-        running: false
-        loops: 1
     }
 
     Connections {
@@ -111,7 +85,7 @@ Item {
 
         function onSignalCalibrateZeroPointAccelerometerIsDone() {
             backgroundText.color = Qt.rgba(0.7, 1, 0.7, 0.7)
-            _animation.stop()
+            _progressCalibration.stop()
         }
     }
 
