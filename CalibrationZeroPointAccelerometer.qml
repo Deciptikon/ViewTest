@@ -21,7 +21,7 @@ Item {
             anchors.centerIn: parent
             anchors.fill: parent
             anchors.margins: 20
-            text: qsTr("Для осуществления калибровки стационарного состояния акселерометра нажмите на кнопку \"%1\" и сохраняйте состояние покоя или равномерного прямолинейного движения").arg(_buttonCalibrate.textButton)
+            text: qsTr("Для осуществления калибровки стационарного состояния акселерометра нажмите на кнопку \"%1\" и сохраняйте состояние покоя или равномерного прямолинейного движения.\nВ случае успешного прохождения калибровки это сообщение окрасится в зеленый цвет.").arg(_buttonCalibrate.textButton)
             color: "black"
             font.pixelSize: 22
 
@@ -62,7 +62,7 @@ Item {
     AnimatedProgressBar {
         id: _progressCalibration
 
-        width: 200
+        width: parent.width/2
         height: 25
 
         anchors {
