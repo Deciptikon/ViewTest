@@ -156,6 +156,11 @@ void Model::slotCalibrateZeroPointAccelerometerIsDone()
     emit signalCalibrateZeroPointAccelerometerIsDone();
 }
 
+void Model::slotCalibrateZeroPointGyroscopeIsDone()
+{
+    emit signalCalibrateZeroPointGyroscopeIsDone();
+}
+
 void Model::disableButtonAB()
 {
     isEnableAB = false;

@@ -33,7 +33,7 @@ Item {
             width: viewListCalibration.width
             height: 100
             radius: 10
-            color: "lightgray"
+            color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
             Text {
                 text: nameMode
 
@@ -50,8 +50,14 @@ Item {
             MouseArea {
                 anchors.fill: parent
 
-                onClicked: {
+                onPressed: {
+                    parent.color = Qt.rgba(0.7, 0.7, 0.7, 0.9)
+                }
+                onReleased: {
                     mainLoader.source = pageMode
+                }
+                onCanceled: {
+                    parent.color = Qt.rgba(0.7, 0.7, 0.7, 0.7)
                 }
             }
 

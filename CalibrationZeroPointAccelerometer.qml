@@ -18,9 +18,12 @@ Item {
         Text {
             id: testText
             anchors.centerIn: parent
-            text: qsTr("Calibration Zero Point Accelerometer")
+            anchors.fill: parent
+            anchors.margins: 20
+
+            text: qsTr("Для осуществления калибровки нажмите на кнопку \"Calibrate\" и сохраняйте состояние покоя или равномерного прямолинейного движения")
             color: "black"
-            font.pixelSize: 40
+            font.pixelSize: 22
 
             wrapMode: Text.WordWrap
             verticalAlignment: Text.AlignVCenter
@@ -42,7 +45,7 @@ Item {
         }
 
         onReleasedButton: {
-            modelView.signalCalibrateZeroPointAccelerometer(1000);
+            modelView.signalCalibrateZeroPointAccelerometer(5000);
             backgroundText.color = Qt.rgba(0.7, 0.7, 0.7, 0.7)
         }
     }

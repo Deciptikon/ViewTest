@@ -15,6 +15,10 @@ void SensorReader::init(const int msec)
 
     Accelerometer.init();
     Gyroscope.init();
+
+    /// чтенние из настроек текущих данных калибровок
+    /// QSettings --> dataCalibrateZeroPointAccelerometer
+    /// QSettings --> dataCalibrateZeroPointGyroscope
 }
 
 int SensorReader::getMsecDeltaTime() const
@@ -28,14 +32,15 @@ void SensorReader::loop()
     Gyroscope.updateData();
 
     calibrateZeroPointAccelerometer();
+    calibrateZeroPointGyroscope();
 
-    QVector3D accelData = Accelerometer.getData();
-    QVector3D gyrosData = Gyroscope.getData();
+    QVector3D accelData = Accelerometer.getData() - dataCalibrateZeroPointAccelerometer;
+    QVector3D gyrosData = Gyroscope.getData() - dataCalibrateZeroPointGyroscope;
 
     emit updateDataSens(accelData, gyrosData);
 }
 
-void SensorReader::slotCalibrateZeroPointAccelerometerl(const int &msec)
+void SensorReader::slotCalibrateZeroPointAccelerometer(const int &msec)
 {
     if(flagCalibrateZeroPointAccelerometer) {
         return;
@@ -49,15 +54,43 @@ void SensorReader::slotCalibrateZeroPointAccelerometerl(const int &msec)
     numCalibrateZeroPointAccelerometer  = 0;
 
     QTimer::singleShot(msec, this, [&](){
-        qDebug() << "=======================QTimer::singleShot========================";
+        qDebug() << "======================= Calibrate Zero Point Accelerometer ========================";
         flagCalibrateZeroPointAccelerometer = false;
         if(numCalibrateZeroPointAccelerometer == 0) {
             return ;
         }
         dataCalibrateZeroPointAccelerometer = dataCalibrateZeroPointAccelerometer/numCalibrateZeroPointAccelerometer;
         /// записать эти данные в Акселерометр и в настройки приложения
+        /// dataCalibrateZeroPointAccelerometer --> QSettings
 
         emit signalCalibrateZeroPointAccelerometerIsDone();
+    });
+}
+
+void SensorReader::slotCalibrateZeroPointGyroscope(const int &msec)
+{
+    if(flagCalibrateZeroPointAccelerometer) {
+        return;
+    }
+    if(msec <= 0 || msec > 60000) {
+        return;
+    }
+
+    flagCalibrateZeroPointGyroscope = true;
+    dataCalibrateZeroPointGyroscope = {0, 0, 0};
+    numCalibrateZeroPointGyroscope  = 0;
+
+    QTimer::singleShot(msec, this, [&](){
+        qDebug() << "======================= Calibrate Zero Point Gyroscope ========================";
+        flagCalibrateZeroPointGyroscope = false;
+        if(numCalibrateZeroPointGyroscope == 0) {
+            return ;
+        }
+        dataCalibrateZeroPointGyroscope = dataCalibrateZeroPointGyroscope/numCalibrateZeroPointGyroscope;
+        /// записать эти данные в Гироскоп и в настройки приложения
+        /// dataCalibrateZeroPointGyroscope --> QSettings
+
+        emit signalCalibrateZeroPointGyroscopeIsDone();
     });
 }
 
@@ -68,4 +101,13 @@ void SensorReader::calibrateZeroPointAccelerometer()
     }
     dataCalibrateZeroPointAccelerometer += Accelerometer.getData();
     numCalibrateZeroPointAccelerometer++;
+}
+
+void SensorReader::calibrateZeroPointGyroscope()
+{
+    if(!flagCalibrateZeroPointGyroscope) {
+        return;
+    }
+    dataCalibrateZeroPointGyroscope += Gyroscope.getData();
+    numCalibrateZeroPointGyroscope++;
 }

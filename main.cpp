@@ -190,10 +190,16 @@ int main(int argc, char *argv[])
     // связываем сигналы и слоты на управление калибровкой
     // положения покоя акселерометра
     sensorreader->connect(&model, SIGNAL(signalCalibrateZeroPointAccelerometer(int)),
-                          SLOT(slotCalibrateZeroPointAccelerometerl(int)) );
+                          SLOT(slotCalibrateZeroPointAccelerometer(int)) );
     // передача успешного завершения калибровки в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateZeroPointAccelerometerIsDone()),
                   SLOT(slotCalibrateZeroPointAccelerometerIsDone()) );
+    // положения покоя гироскопа
+    sensorreader->connect(&model, SIGNAL(signalCalibrateZeroPointGyroscope(int)),
+                          SLOT(slotCalibrateZeroPointGyroscope(int)) );
+    // передача успешного завершения калибровки в QML
+    model.connect(sensorreader, SIGNAL(signalCalibrateZeroPointGyroscopeIsDone()),
+                  SLOT(slotCalibrateZeroPointGyroscopeIsDone()) );
 
 ///----------------------------------------------------------------------------------------------
 

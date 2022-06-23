@@ -56,10 +56,12 @@ signals:
     // отправить команду на устройство
     void signalCommandToSlave14(const int &comm);
 
-    // сигнал старта колибровки покоя акселерометра
+    // сигнал старта колибровки покоя акселерометра и гироскопа
     void signalCalibrateZeroPointAccelerometer(const int &msec);
+    void signalCalibrateZeroPointGyroscope(const int &msec);
     // сигнал успешной калибровки полученый от системы
     void signalCalibrateZeroPointAccelerometerIsDone();
+    void signalCalibrateZeroPointGyroscopeIsDone();
 
     // эти сигналы можно переименовать, но они не для демонстрации
     void signalStateGPStoQML(bool state);
@@ -96,8 +98,10 @@ public slots:
     void addPointAToQML(const QVector2D &point);
     void addDirectToQML(const QVector2D &dir);
 
-    // слот приема успешности калибровки состояния покоя акселерометра
+    // слот приема успешности калибровки состояния покоя
+    // акселерометра и гироскопа
     void slotCalibrateZeroPointAccelerometerIsDone();
+    void slotCalibrateZeroPointGyroscopeIsDone();
 
 private slots:
     void disableButtonAB();
