@@ -21,7 +21,7 @@ Item {
             anchors.fill: parent
             anchors.margins: 20
 
-            text: qsTr("Для осуществления калибровки нажмите на кнопку \"Calibrate\" и сохраняйте состояние покоя или равномерного прямолинейного движения")
+            text: qsTr("Для осуществления калибровки стационарного состояния гироскопа нажмите на кнопку \"%1\" и сохраняйте состояние покоя или равномерного прямолинейного движения").arg(_buttonCalibrate.textButton)
             color: "black"
             font.pixelSize: 22
 
@@ -31,6 +31,7 @@ Item {
     }
 
     TextButton {
+        id: _buttonCalibrate
         height: parent.height/5
         width: parent.width/4
 

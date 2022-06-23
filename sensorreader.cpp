@@ -60,7 +60,7 @@ void SensorReader::slotCalibrateZeroPointAccelerometer(const int &msec)
             return ;
         }
         dataCalibrateZeroPointAccelerometer = dataCalibrateZeroPointAccelerometer/numCalibrateZeroPointAccelerometer;
-        /// записать эти данные в Акселерометр и в настройки приложения
+        /// записать эти данные в настройки приложения
         /// dataCalibrateZeroPointAccelerometer --> QSettings
 
         emit signalCalibrateZeroPointAccelerometerIsDone();
@@ -87,7 +87,7 @@ void SensorReader::slotCalibrateZeroPointGyroscope(const int &msec)
             return ;
         }
         dataCalibrateZeroPointGyroscope = dataCalibrateZeroPointGyroscope/numCalibrateZeroPointGyroscope;
-        /// записать эти данные в Гироскоп и в настройки приложения
+        /// записать эти данные в настройки приложения
         /// dataCalibrateZeroPointGyroscope --> QSettings
 
         emit signalCalibrateZeroPointGyroscopeIsDone();

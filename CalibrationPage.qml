@@ -16,7 +16,7 @@ Item {
         }
 
         ListElement {
-            nameMode: "Calibrationof the zero positionof the zero position of the zero position of the gyroscope";
+            nameMode: "";
             pageMode: "";
         }
     }
