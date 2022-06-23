@@ -7,13 +7,8 @@ Item {
         id: listModel
 
         ListElement {
-            name: qsTr("Quick Settings");
-            page: "QuickSettingsPage.qml";
-            imageSource: "qrc:/image/icon-quick-settings.png"
-        }
-        ListElement {
             name: qsTr("Drive");
-            page: "DrivePage.qml";
+            page: "QuickSettingsPage.qml";
             imageSource: "qrc:/image/icon-tractor.png"
         }
         ListElement {
@@ -26,6 +21,12 @@ Item {
             page: "FieldsPage.qml";
             imageSource: "qrc:/image/icon-field-base.png"
         }
+
+        ListElement {
+            name: qsTr("Calibration");
+            page: "CalibrationPage.qml";
+            imageSource: "qrc:/image/icon-quick-settings.png"
+        }
         ListElement {
             name: qsTr("Options");
             page: "OptionsPage.qml";
@@ -36,6 +37,7 @@ Item {
             page: "InfoPage.qml";
             imageSource: "qrc:/image/icon-info.png"
         }
+
         ListElement {
             name: qsTr("Seven");
             page: "";
