@@ -38,7 +38,7 @@ Item {
                 text: nameMode
 
                 anchors.fill: parent
-                anchors.margins: 5
+                anchors.margins: 10
 
                 wrapMode: Text.WordWrap
                 verticalAlignment: Text.AlignVCenter

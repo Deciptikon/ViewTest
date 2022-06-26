@@ -1,5 +1,8 @@
 #include "sensorreader.h"
 
+#include <QSettings>
+#include "constants.h"
+
 SensorReader::SensorReader(QObject *parent) : QObject(parent)
 {
 
@@ -16,9 +19,48 @@ void SensorReader::init(const int msec)
     Accelerometer.init();
     Gyroscope.init();
 
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
     /// чтенние из настроек текущих данных калибровок
-    /// QSettings --> dataCalibrateZeroPointAccelerometer
-    /// QSettings --> dataCalibrateZeroPointGyroscope
+    // откалиброванное состояние покоя акселерометра
+    float czpax = settings.value(DIR_CALIBRATION
+                                 SUBDIR_ACCELEROMETER
+                                 KEY_ACCEL_ZERO_POINT_X,
+                                 DEFAULT_ACCEL_ZERO_POINT_X).toFloat();
+    float czpay = settings.value(DIR_CALIBRATION
+                                 SUBDIR_ACCELEROMETER
+                                 KEY_ACCEL_ZERO_POINT_Y,
+                                 DEFAULT_ACCEL_ZERO_POINT_Y).toFloat();
+    float czpaz = settings.value(DIR_CALIBRATION
+                                 SUBDIR_ACCELEROMETER
+                                 KEY_ACCEL_ZERO_POINT_Z,
+                                 DEFAULT_ACCEL_ZERO_POINT_Z).toFloat();
+
+    dataCalibrateZeroPointAccelerometer.setX(czpax);
+    dataCalibrateZeroPointAccelerometer.setY(czpay);
+    dataCalibrateZeroPointAccelerometer.setZ(czpaz);
+    qDebug() << "READING CALIBRATE DATA ACCELEROMETER:" << dataCalibrateZeroPointAccelerometer;
+
+
+    // откалиброванное состояние покоя гироскопа
+    float czpgx = settings.value(DIR_CALIBRATION
+                                 SUBDIR_GYROSCOPE
+                                 KEY_GYROS_ZERO_POINT_X,
+                                 DEFAULT_GYROS_ZERO_POINT_X).toFloat();
+    float czpgy = settings.value(DIR_CALIBRATION
+                                 SUBDIR_GYROSCOPE
+                                 KEY_GYROS_ZERO_POINT_Y,
+                                 DEFAULT_GYROS_ZERO_POINT_Y).toFloat();
+    float czpgz = settings.value(DIR_CALIBRATION
+                                 SUBDIR_GYROSCOPE
+                                 KEY_GYROS_ZERO_POINT_Z,
+                                 DEFAULT_GYROS_ZERO_POINT_Z).toFloat();
+
+    dataCalibrateZeroPointGyroscope.setX(czpgx);
+    dataCalibrateZeroPointGyroscope.setY(czpgy);
+    dataCalibrateZeroPointGyroscope.setZ(czpgz);
+    qDebug() << "READING CALIBRATE DATA GYROSCOPE:" << dataCalibrateZeroPointGyroscope;
+
 }
 
 int SensorReader::getMsecDeltaTime() const
@@ -60,10 +102,28 @@ void SensorReader::slotCalibrateZeroPointAccelerometer(const int &msec)
             return ;
         }
         dataCalibrateZeroPointAccelerometer = dataCalibrateZeroPointAccelerometer/numCalibrateZeroPointAccelerometer;
-        /// записать эти данные в настройки приложения
-        /// dataCalibrateZeroPointAccelerometer --> QSettings
 
-        emit signalCalibrateZeroPointAccelerometerIsDone();
+        /// записываем эти данные в настройки приложения
+        /// dataCalibrateZeroPointAccelerometer --> QSettings
+        QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+        settings.setValue(DIR_CALIBRATION
+                          SUBDIR_ACCELEROMETER
+                          KEY_ACCEL_ZERO_POINT_X,
+                          dataCalibrateZeroPointAccelerometer.x());
+        settings.setValue(DIR_CALIBRATION
+                          SUBDIR_ACCELEROMETER
+                          KEY_ACCEL_ZERO_POINT_Y,
+                          dataCalibrateZeroPointAccelerometer.y());
+        settings.setValue(DIR_CALIBRATION
+                          SUBDIR_ACCELEROMETER
+                          KEY_ACCEL_ZERO_POINT_Z,
+                          dataCalibrateZeroPointAccelerometer.z());
+
+        settings.sync(); // синхронизируемся и получаем статус
+        if(settings.status() == QSettings::NoError) {
+            emit signalCalibrateZeroPointAccelerometerIsDone();
+        }
     });
 }
 
@@ -87,10 +147,27 @@ void SensorReader::slotCalibrateZeroPointGyroscope(const int &msec)
             return ;
         }
         dataCalibrateZeroPointGyroscope = dataCalibrateZeroPointGyroscope/numCalibrateZeroPointGyroscope;
-        /// записать эти данные в настройки приложения
+        /// записываем эти данные в настройки приложения
         /// dataCalibrateZeroPointGyroscope --> QSettings
+        QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
 
-        emit signalCalibrateZeroPointGyroscopeIsDone();
+        settings.setValue(DIR_CALIBRATION
+                          SUBDIR_GYROSCOPE
+                          KEY_GYROS_ZERO_POINT_X,
+                          dataCalibrateZeroPointGyroscope.x());
+        settings.setValue(DIR_CALIBRATION
+                          SUBDIR_GYROSCOPE
+                          KEY_GYROS_ZERO_POINT_Y,
+                          dataCalibrateZeroPointGyroscope.y());
+        settings.setValue(DIR_CALIBRATION
+                          SUBDIR_GYROSCOPE
+                          KEY_GYROS_ZERO_POINT_Z,
+                          dataCalibrateZeroPointGyroscope.z());
+
+        settings.sync(); // синхронизируемся и получаем статус
+        if(settings.status() == QSettings::NoError) {
+            emit signalCalibrateZeroPointGyroscopeIsDone();
+        }
     });
 }
 

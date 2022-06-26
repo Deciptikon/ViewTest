@@ -30,6 +30,7 @@ void Accelerometer::init()
 #else
     #ifdef Q_OS_WIN
         qDebug() << "void Accelerometer::init()";
+        //data = {10,10,10};
     #endif
 #endif
 }

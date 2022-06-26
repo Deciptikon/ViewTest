@@ -30,6 +30,29 @@
 
 
 
+#define DIR_CALIBRATION             "Calibration/"
+
+#define SUBDIR_ACCELEROMETER        "Accelerometer/"
+
+#define KEY_ACCEL_ZERO_POINT_X      "AccelZeroPointX"
+#define DEFAULT_ACCEL_ZERO_POINT_X  "0"
+#define KEY_ACCEL_ZERO_POINT_Y      "AccelZeroPointY"
+#define DEFAULT_ACCEL_ZERO_POINT_Y  "0"
+#define KEY_ACCEL_ZERO_POINT_Z      "AccelZeroPointZ"
+#define DEFAULT_ACCEL_ZERO_POINT_Z  "0"
+
+
+#define SUBDIR_GYROSCOPE            "Gyroscope/"
+
+#define KEY_GYROS_ZERO_POINT_X      "GyrosZeroPointX"
+#define DEFAULT_GYROS_ZERO_POINT_X  "0"
+#define KEY_GYROS_ZERO_POINT_Y      "GyrosZeroPointY"
+#define DEFAULT_GYROS_ZERO_POINT_Y  "0"
+#define KEY_GYROS_ZERO_POINT_Z      "GyrosZeroPointZ"
+#define DEFAULT_GYROS_ZERO_POINT_Z  "0"
+
+
+
 //=======================================================
 #define DIR_RESTORE_SETTINGS        "RestoreSettings/"
 #define KEY_RESTORE_SETTINGS        "RestoreSettings"
