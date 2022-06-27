@@ -61,6 +61,9 @@ void SensorReader::init(const int msec)
     dataCalibrateZeroPointGyroscope.setZ(czpgz);
     qDebug() << "READING CALIBRATE DATA GYROSCOPE:" << dataCalibrateZeroPointGyroscope;
 
+
+    dataCalibrateZAxisGyroscope = {1,1,1};
+
 }
 
 int SensorReader::getMsecDeltaTime() const
@@ -76,8 +79,16 @@ void SensorReader::loop()
     calibrateZeroPointAccelerometer();
     calibrateZeroPointGyroscope();
 
-    QVector3D accelData = Accelerometer.getData() - dataCalibrateZeroPointAccelerometer;
-    QVector3D gyrosData = Gyroscope.getData() - dataCalibrateZeroPointGyroscope;
+    calibrateZAxisGyroscope();
+
+    QVector3D zeroDataAccel = Accelerometer.getData() - dataCalibrateZeroPointAccelerometer;
+    QVector3D accelData = zeroDataAccel;
+
+    QVector3D zeroDataGyros = Gyroscope.getData() - dataCalibrateZeroPointGyroscope;
+    QVector3D gyrosData = {0, // x
+                           0, // y
+                           QVector3D::dotProduct( dataCalibrateZAxisGyroscope.normalized(),
+                           zeroDataGyros)}; // z
 
     emit updateDataSens(accelData, gyrosData);
 }
@@ -171,6 +182,37 @@ void SensorReader::slotCalibrateZeroPointGyroscope(const int &msec)
     });
 }
 
+void SensorReader::slotCalibrateZAxisGyroscope()
+{
+    flagCalibrateZAxisGyroscope = !flagCalibrateZAxisGyroscope;
+
+    if(flagCalibrateZAxisGyroscope) {
+        // calibrate
+        dataCalibrateZAxisGyroscope = {0, 0, 0};
+        numCalibrateZeroPointGyroscope  = 0;
+
+        elapsedTimer.start();
+    } else {
+        // stoppped calibrate
+
+        elapsedTime = elapsedTimer.elapsed()/1000.0;// 1000 msec = 1 sec
+        elapsedTimer.invalidate();
+
+        qDebug() << "ELAPSED TIME =" << elapsedTime;
+
+        if(dataCalibrateZAxisGyroscope.length()*elapsedTime) {
+            to2PiZAxis = 2 * M_PI / (dataCalibrateZAxisGyroscope.length()*elapsedTime);
+        }
+
+        QVector3D zaxis = dataCalibrateZAxisGyroscope*elapsedTime*to2PiZAxis;
+
+        qDebug() << "ZAXIS.length() =" << zaxis.length();
+        //zaxis.normalize();
+
+        emit signalCalibrateZAxisGyroscopeIsDone();
+    }
+}
+
 void SensorReader::calibrateZeroPointAccelerometer()
 {
     if(!flagCalibrateZeroPointAccelerometer) {
@@ -187,4 +229,13 @@ void SensorReader::calibrateZeroPointGyroscope()
     }
     dataCalibrateZeroPointGyroscope += Gyroscope.getData();
     numCalibrateZeroPointGyroscope++;
+}
+
+void SensorReader::calibrateZAxisGyroscope()
+{
+    if(!flagCalibrateZAxisGyroscope) {
+        return;
+    }
+    dataCalibrateZAxisGyroscope += Gyroscope.getData() - dataCalibrateZeroPointGyroscope;
+    numCalibrateZAxisGyroscope++;
 }

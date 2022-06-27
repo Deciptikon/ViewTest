@@ -7,6 +7,7 @@
 #include <QColor>
 #include <QSettings>
 #include <QVector2D>
+#include <QVector3D>
 #include <QtMath>
 
 #include <DriveMode.h>
@@ -56,12 +57,19 @@ signals:
     // отправить команду на устройство
     void signalCommandToSlave14(const int &comm);
 
+    void signalDataGyrosToQML(qreal x, qreal y, qreal z);
+    void signalDataAccelToQML(qreal x, qreal y, qreal z);
+
     // сигнал старта колибровки покоя акселерометра и гироскопа
     void signalCalibrateZeroPointAccelerometer(const int &msec);
     void signalCalibrateZeroPointGyroscope(const int &msec);
     // сигнал успешной калибровки полученый от системы
     void signalCalibrateZeroPointAccelerometerIsDone();
     void signalCalibrateZeroPointGyroscopeIsDone();
+
+    // сигнал старта колибровки оси Z гироскопа
+    void signalCalibrateZAxisGyroscope();
+    void signalCalibrateZAxisGyroscopeIsDone();
 
     // эти сигналы можно переименовать, но они не для демонстрации
     void signalStateGPStoQML(bool state);
@@ -94,6 +102,8 @@ public slots:
     // отправить ключевую точку пути из QML
     void addKeyPointFromQML(const QVector2D point);
 
+    void slotDataSensToQML(const QVector3D &accel, const QVector3D &gyro);
+
     // слоты приема данных от автопилота для передачи их в QML
     void addPointAToQML(const QVector2D &point);
     void addDirectToQML(const QVector2D &dir);
@@ -102,6 +112,8 @@ public slots:
     // акселерометра и гироскопа
     void slotCalibrateZeroPointAccelerometerIsDone();
     void slotCalibrateZeroPointGyroscopeIsDone();
+
+    void slotCalibrateZAxisGyroscopeIsDone();
 
 private slots:
     void disableButtonAB();

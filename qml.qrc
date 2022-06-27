@@ -64,5 +64,6 @@
         <file>CalibrationZeroPointAccelerometer.qml</file>
         <file>CalibrationZeroPointGyroscope.qml</file>
         <file>AnimatedProgressBar.qml</file>
+        <file>CalibrationZAxisGyroscope.qml</file>
     </qresource>
 </RCC>

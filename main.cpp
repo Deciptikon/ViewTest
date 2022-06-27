@@ -187,6 +187,11 @@ int main(int argc, char *argv[])
     devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(int)),
                           SLOT(writeData(int)) );
 
+    // передаем данные сенсоров в QML
+    model.connect(sensorreader, SIGNAL(updateDataSens(QVector3D,QVector3D)),
+                  SLOT(slotDataSensToQML(QVector3D,QVector3D)),
+                  Qt::ConnectionType::DirectConnection);
+
     // связываем сигналы и слоты на управление калибровкой
     // положения покоя акселерометра
     sensorreader->connect(&model, SIGNAL(signalCalibrateZeroPointAccelerometer(int)),
@@ -200,6 +205,12 @@ int main(int argc, char *argv[])
     // передача успешного завершения калибровки в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateZeroPointGyroscopeIsDone()),
                   SLOT(slotCalibrateZeroPointGyroscopeIsDone()) );
+    // положения ось Z гироскопа
+    sensorreader->connect(&model, SIGNAL(signalCalibrateZAxisGyroscope()),
+                          SLOT(slotCalibrateZAxisGyroscope()) );
+    // передача успешного завершения калибровки в QML
+    model.connect(sensorreader, SIGNAL(signalCalibrateZAxisGyroscopeIsDone()),
+                  SLOT(slotCalibrateZAxisGyroscopeIsDone()) );
 
 ///----------------------------------------------------------------------------------------------
 

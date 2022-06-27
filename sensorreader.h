@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QElapsedTimer>
 
 #include "accelerometer.h"
 #include "gyroscope.h"
@@ -28,6 +29,8 @@ signals:
     void signalCalibrateZeroPointAccelerometerIsDone();
     void signalCalibrateZeroPointGyroscopeIsDone();
 
+    void signalCalibrateZAxisGyroscopeIsDone();
+
 public slots:
     void loop();
 
@@ -35,10 +38,15 @@ public slots:
     void slotCalibrateZeroPointAccelerometer(const int &msec);
     void slotCalibrateZeroPointGyroscope(const int &msec);
 
+    void slotCalibrateZAxisGyroscope();
+
 private:
     // функции калибровки
     void calibrateZeroPointAccelerometer();
     void calibrateZeroPointGyroscope();
+
+    void calibrateZAxisGyroscope();
+
 
     int msecDeltaTime = 100;
 
@@ -50,6 +58,15 @@ private:
     bool flagCalibrateZeroPointGyroscope = false;
     QVector3D dataCalibrateZeroPointGyroscope;
     int numCalibrateZeroPointGyroscope;
+
+
+    bool flagCalibrateZAxisGyroscope = false;
+    QVector3D dataCalibrateZAxisGyroscope;
+    int numCalibrateZAxisGyroscope;
+    QElapsedTimer elapsedTimer;
+    float elapsedTime;
+    float to2PiZAxis = 1;
+
 };
 
 #endif // SENSORREADER_H

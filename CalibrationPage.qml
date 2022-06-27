@@ -16,8 +16,8 @@ Item {
         }
 
         ListElement {
-            nameMode: "";
-            pageMode: "";
+            nameMode: "Calibration of the Z-axis of the gyroscope";
+            pageMode: "CalibrationZAxisGyroscope.qml";
         }
     }
 
