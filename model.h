@@ -57,8 +57,10 @@ signals:
     // отправить команду на устройство
     void signalCommandToSlave14(const int &comm);
 
+
     void signalDataGyrosToQML(qreal x, qreal y, qreal z);
     void signalDataAccelToQML(qreal x, qreal y, qreal z);
+
 
     // сигнал старта колибровки покоя акселерометра и гироскопа
     void signalCalibrateZeroPointAccelerometer(const int &msec);
@@ -70,6 +72,11 @@ signals:
     // сигнал старта колибровки оси Z гироскопа
     void signalCalibrateZAxisGyroscope();
     void signalCalibrateZAxisGyroscopeIsDone();
+
+    // сигнал старта колибровки оси X акселерометра
+    void signalCalibrateXAxisAccelerometer();
+    void signalCalibrateXAxisAccelerometerIsDone();
+
 
     // эти сигналы можно переименовать, но они не для демонстрации
     void signalStateGPStoQML(bool state);
@@ -114,6 +121,7 @@ public slots:
     void slotCalibrateZeroPointGyroscopeIsDone();
 
     void slotCalibrateZAxisGyroscopeIsDone();
+    void slotCalibrateXAxisAccelerometerIsDone();
 
 private slots:
     void disableButtonAB();

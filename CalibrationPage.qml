@@ -19,6 +19,11 @@ Item {
             nameMode: "Calibration of the Z-axis of the gyroscope";
             pageMode: "CalibrationZAxisGyroscope.qml";
         }
+
+        ListElement {
+            nameMode: "Calibration of the X-axis of the accelerometer";
+            pageMode: "CalibrationXAxisAccelerometer.qml";
+        }
     }
 
     ListView {

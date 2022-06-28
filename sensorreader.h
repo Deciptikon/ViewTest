@@ -30,6 +30,7 @@ signals:
     void signalCalibrateZeroPointGyroscopeIsDone();
 
     void signalCalibrateZAxisGyroscopeIsDone();
+    void signalCalibrateXAxisAccelerometerIsDone();
 
 public slots:
     void loop();
@@ -39,6 +40,7 @@ public slots:
     void slotCalibrateZeroPointGyroscope(const int &msec);
 
     void slotCalibrateZAxisGyroscope();
+    void slotCalibrateXAxisAccelerometer();
 
 private:
     // функции калибровки
@@ -46,6 +48,7 @@ private:
     void calibrateZeroPointGyroscope();
 
     void calibrateZAxisGyroscope();
+    void calibrateXAxisAccelerometer();
 
 
     int msecDeltaTime = 100;
@@ -67,7 +70,9 @@ private:
     float elapsedTime;
     float to2PiZAxis = 1;
 
-    QVector3D dataCalibrateYAxisAccelerometer;
+    bool flagCalibrateXAxisAccelerometer = false;
+    QVector3D dataCalibrateXAxisAccelerometer;
+    int numCalibrateXAxisAccelerometer;
 
 };
 

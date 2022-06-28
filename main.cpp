@@ -199,18 +199,27 @@ int main(int argc, char *argv[])
     // передача успешного завершения калибровки в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateZeroPointAccelerometerIsDone()),
                   SLOT(slotCalibrateZeroPointAccelerometerIsDone()) );
+
     // положения покоя гироскопа
     sensorreader->connect(&model, SIGNAL(signalCalibrateZeroPointGyroscope(int)),
                           SLOT(slotCalibrateZeroPointGyroscope(int)) );
     // передача успешного завершения калибровки в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateZeroPointGyroscopeIsDone()),
                   SLOT(slotCalibrateZeroPointGyroscopeIsDone()) );
-    // положения ось Z гироскопа
+
+    // положение оси Z гироскопа
     sensorreader->connect(&model, SIGNAL(signalCalibrateZAxisGyroscope()),
                           SLOT(slotCalibrateZAxisGyroscope()) );
-    // передача успешного завершения калибровки в QML
+    // передача успешного завершения калибровки оси Z в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateZAxisGyroscopeIsDone()),
                   SLOT(slotCalibrateZAxisGyroscopeIsDone()) );
+
+    // положение оси X акселерометра
+    sensorreader->connect(&model, SIGNAL(signalCalibrateXAxisAccelerometer()),
+                          SLOT(slotCalibrateXAxisAccelerometer()) );
+    // передача успешного завершения калибровки оси X в QML
+    model.connect(sensorreader, SIGNAL(signalCalibrateXAxisAccelerometerIsDone()),
+                  SLOT(slotCalibrateXAxisAccelerometerIsDone()) );
 
 ///----------------------------------------------------------------------------------------------
 
