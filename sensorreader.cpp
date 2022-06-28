@@ -84,11 +84,12 @@ void SensorReader::loop()
     QVector3D zeroDataAccel = Accelerometer.getData() - dataCalibrateZeroPointAccelerometer;
     QVector3D accelData = zeroDataAccel;
 
+
     QVector3D zeroDataGyros = Gyroscope.getData() - dataCalibrateZeroPointGyroscope;
-    QVector3D gyrosData = {0, // x
-                           0, // y
-                           QVector3D::dotProduct( dataCalibrateZAxisGyroscope.normalized(),
-                           zeroDataGyros)}; // z
+    float zgd = QVector3D::dotProduct( dataCalibrateZAxisGyroscope.normalized(), zeroDataGyros);
+    float ygd = 0;
+    float xgd = sqrtf(zeroDataGyros.lengthSquared() - powf(zgd,2));
+    QVector3D gyrosData = {xgd, ygd, zgd};
 
     emit updateDataSens(accelData, gyrosData);
 }
