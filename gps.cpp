@@ -119,7 +119,7 @@ void GPS::ubxParser()
     QByteArray data = messageCurrent;
     data.remove(34,2);// delete check summ: checkA checkB
     data.remove(0,2); // delete header: 0xB5 0x62
-    qDebug() << "Data size" << data.size();
+    //qDebug() << "Data size" << data.size();
 
     for(uint8_t b: data) {
         chA += b;

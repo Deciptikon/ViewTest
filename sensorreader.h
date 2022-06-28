@@ -67,6 +67,8 @@ private:
     float elapsedTime;
     float to2PiZAxis = 1;
 
+    QVector3D dataCalibrateYAxisAccelerometer;
+
 };
 
 #endif // SENSORREADER_H

@@ -81,14 +81,15 @@ void SensorReader::loop()
 
     calibrateZAxisGyroscope();
 
+
     QVector3D zeroDataAccel = Accelerometer.getData() - dataCalibrateZeroPointAccelerometer;
     QVector3D accelData = zeroDataAccel;
 
 
-    QVector3D zeroDataGyros = Gyroscope.getData() - dataCalibrateZeroPointGyroscope;
+    QVector3D zeroDataGyros = (Gyroscope.getData() - dataCalibrateZeroPointGyroscope) * to2PiZAxis;
     float zgd = QVector3D::dotProduct( dataCalibrateZAxisGyroscope.normalized(), zeroDataGyros);
     float ygd = 0;
-    float xgd = sqrtf(zeroDataGyros.lengthSquared() - powf(zgd,2));
+    float xgd = sqrtf(zeroDataGyros.lengthSquared() - powf(zgd, 2));
     QVector3D gyrosData = {xgd, ygd, zgd};
 
     emit updateDataSens(accelData, gyrosData);
@@ -189,8 +190,10 @@ void SensorReader::slotCalibrateZAxisGyroscope()
 
     if(flagCalibrateZAxisGyroscope) {
         // calibrate
+        dataCalibrateYAxisAccelerometer = {0, 0, 0};
+
         dataCalibrateZAxisGyroscope = {0, 0, 0};
-        numCalibrateZeroPointGyroscope  = 0;
+        numCalibrateZeroPointGyroscope = 0;
 
         elapsedTimer.start();
     } else {
@@ -237,6 +240,11 @@ void SensorReader::calibrateZAxisGyroscope()
     if(!flagCalibrateZAxisGyroscope) {
         return;
     }
+    dataCalibrateYAxisAccelerometer += Accelerometer.getData() - dataCalibrateZeroPointAccelerometer;
     dataCalibrateZAxisGyroscope += Gyroscope.getData() - dataCalibrateZeroPointGyroscope;
+
+    qDebug() << "//////////////// dataCalibrateYAxisAccelerometer =" << dataCalibrateYAxisAccelerometer.normalized();
+    qDebug() << "//////////////// dataCalibrateZAxisGyroscope     =" << dataCalibrateZAxisGyroscope.normalized();
+
     numCalibrateZAxisGyroscope++;
 }

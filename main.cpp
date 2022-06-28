@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 
 ///-------Create Sensor Reader----------------------------------------------------------------
     sensorreader = new SensorReader();
-    sensorreader->init( 500 );//потом использовать интервал из настроек
+    sensorreader->init( 100 );//потом использовать интервал из настроек
 
     threadSensorReader = new QThread();
 

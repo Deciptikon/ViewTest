@@ -117,7 +117,7 @@ void Model::slotUpdateTimerCam()
 void Model::slotAppPointToPath(const QVector2D &vec)
 {
     QVector2D v = vec;
-    qDebug() << "slotAppPointToPath";
+    //qDebug() << "slotAppPointToPath";
     emit signalAppPointToPathQML(v);
 }
 
