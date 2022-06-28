@@ -190,8 +190,6 @@ void SensorReader::slotCalibrateZAxisGyroscope()
 
     if(flagCalibrateZAxisGyroscope) {
         // calibrate
-        dataCalibrateYAxisAccelerometer = {0, 0, 0};
-
         dataCalibrateZAxisGyroscope = {0, 0, 0};
         numCalibrateZeroPointGyroscope = 0;
 
@@ -240,11 +238,8 @@ void SensorReader::calibrateZAxisGyroscope()
     if(!flagCalibrateZAxisGyroscope) {
         return;
     }
-    dataCalibrateYAxisAccelerometer += Accelerometer.getData() - dataCalibrateZeroPointAccelerometer;
     dataCalibrateZAxisGyroscope += Gyroscope.getData() - dataCalibrateZeroPointGyroscope;
-
-    qDebug() << "//////////////// dataCalibrateYAxisAccelerometer =" << dataCalibrateYAxisAccelerometer.normalized();
-    qDebug() << "//////////////// dataCalibrateZAxisGyroscope     =" << dataCalibrateZAxisGyroscope.normalized();
+    qDebug() << "dataCalibrateZAxisGyroscope     =" << dataCalibrateZAxisGyroscope.normalized();
 
     numCalibrateZAxisGyroscope++;
 }
