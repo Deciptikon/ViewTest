@@ -18,6 +18,7 @@ SOURCES += \
         fieldmodel.cpp \
         gps.cpp \
         gyroscope.cpp \
+        localbasis.cpp \
         main.cpp \
         model.cpp \
         sensorreader.cpp
@@ -57,5 +58,6 @@ HEADERS += \
     fieldmodel.h \
     gps.h \
     gyroscope.h \
+    localbasis.h \
     model.h \
     sensorreader.h

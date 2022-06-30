@@ -32,6 +32,29 @@
 
 #define DIR_CALIBRATION             "Calibration/"
 
+//----- local basis
+#define KEY_X_LOCALX                "xLocalX"
+#define DEFAULT_X_LOCALX            "1"
+#define KEY_Y_LOCALX                "yLocalX"
+#define DEFAULT_Y_LOCALX            "0"
+#define KEY_Z_LOCALX                "zLocalX"
+#define DEFAULT_Z_LOCALX            "0"
+
+#define KEY_X_LOCALY                "xLocalY"
+#define DEFAULT_X_LOCALY            "0"
+#define KEY_Y_LOCALY                "yLocalY"
+#define DEFAULT_Y_LOCALY            "1"
+#define KEY_Z_LOCALY                "zLocalY"
+#define DEFAULT_Z_LOCALY            "0"
+
+#define KEY_X_LOCALZ                "xLocalZ"
+#define DEFAULT_X_LOCALZ            "0"
+#define KEY_Y_LOCALZ                "yLocalZ"
+#define DEFAULT_Y_LOCALZ            "0"
+#define KEY_Z_LOCALZ                "zLocalZ"
+#define DEFAULT_Z_LOCALZ            "1"
+//-----
+
 #define SUBDIR_ACCELEROMETER        "Accelerometer/"
 
 #define KEY_ACCEL_ZERO_POINT_X      "AccelZeroPointX"
@@ -50,6 +73,7 @@
 #define DEFAULT_GYROS_ZERO_POINT_Y  "0"
 #define KEY_GYROS_ZERO_POINT_Z      "GyrosZeroPointZ"
 #define DEFAULT_GYROS_ZERO_POINT_Z  "0"
+
 
 
 
