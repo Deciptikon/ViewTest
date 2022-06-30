@@ -56,11 +56,10 @@ bool LocalBasis::saveBasis()
     if (settings.status() == QSettings::NoError) {
         qDebug() << "Локальный базис успешно сохранен";
         return true;
-    } else {
-        qDebug() << "Ошибка сохранения локального базиса";
-        return false;
     }
 
+    qDebug() << "Ошибка сохранения локального базиса";
+    return false;
 }
 
 bool LocalBasis::readBasis()
@@ -105,10 +104,10 @@ bool LocalBasis::readBasis()
         m_localZ = {xLocZ, yLocZ, zLocZ};
         qDebug() << "Локальный базис успешно загружен !";
         return true;
-    } else {
-        qDebug() << "Ошибка загрузки локального базиса !";
-        return false;
     }
+
+    qDebug() << "Ошибка загрузки локального базиса !";
+    return false;
 }
 
 void LocalBasis::setLocalX(const QVector3D &vec)

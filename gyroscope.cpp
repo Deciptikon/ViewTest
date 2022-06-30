@@ -1,4 +1,7 @@
 #include "gyroscope.h"
+#include <QSettings>
+#include <QDebug>
+#include "constants.h"
 
 Gyroscope::Gyroscope(QObject *parent) : QObject(parent)
 {
@@ -73,5 +76,124 @@ void Gyroscope::updateData()
 
 QVector3D Gyroscope::getData() const
 {
-    return data;
+    return (data - zeroData) * coefficient;
+}
+
+void Gyroscope::setZeroData(const QVector3D &vec)
+{
+    zeroData = vec;
+}
+
+const QVector3D &Gyroscope::getZeroData() const
+{
+    return zeroData;
+}
+
+bool Gyroscope::readZeroData()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    // откалиброванное состояние покоя гироскопа
+    float x = settings.value(DIR_CALIBRATION
+                             SUBDIR_GYROSCOPE
+                             KEY_GYROS_ZERO_POINT_X,
+                             DEFAULT_GYROS_ZERO_POINT_X).toFloat();
+    float y = settings.value(DIR_CALIBRATION
+                             SUBDIR_GYROSCOPE
+                             KEY_GYROS_ZERO_POINT_Y,
+                             DEFAULT_GYROS_ZERO_POINT_Y).toFloat();
+    float z = settings.value(DIR_CALIBRATION
+                             SUBDIR_GYROSCOPE
+                             KEY_GYROS_ZERO_POINT_Z,
+                             DEFAULT_GYROS_ZERO_POINT_Z).toFloat();
+
+    settings.sync(); // синхронизируемся и получаем статус
+
+    if(settings.status() == QSettings::NoError) {
+        zeroData = {x, y, z};
+        qDebug() << "Вектор состояния покоя успешно загружен !";
+        return true;
+    }
+
+    qDebug() << "Ошибка загрузки вектора состояния покоя !";
+    return false;
+}
+
+bool Gyroscope::saveZeroData()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    settings.setValue(DIR_CALIBRATION
+                      SUBDIR_GYROSCOPE
+                      KEY_GYROS_ZERO_POINT_X,
+                      zeroData.x());
+    settings.setValue(DIR_CALIBRATION
+                      SUBDIR_GYROSCOPE
+                      KEY_GYROS_ZERO_POINT_Y,
+                      zeroData.y());
+    settings.setValue(DIR_CALIBRATION
+                      SUBDIR_GYROSCOPE
+                      KEY_GYROS_ZERO_POINT_Z,
+                      zeroData.z());
+
+    settings.sync(); // синхронизируемся и получаем статус
+
+    if(settings.status() == QSettings::NoError) {
+        qDebug() << "Данные состояния покоя успешно сохранены !";
+        return true;
+    }
+
+    qDebug() << "Ошибка сохранения данных состояния покоя !";
+    return false;
+}
+
+bool Gyroscope::readCoefficient()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    float k = settings.value(DIR_CALIBRATION
+                             SUBDIR_GYROSCOPE
+                             KEY_GYROS_COEFFICIENT,
+                             DEFAULT_GYROS_COEFFICIENT).toFloat();
+
+    settings.sync(); // синхронизируемся и получаем статус
+
+    if(settings.status() == QSettings::NoError) {
+        coefficient = k;
+        qDebug() << "Коэффициент соответствия успешно загружен !";
+        return true;
+    }
+
+    qDebug() << "Ошибка загрузки коэффициента соответствия !";
+    return false;
+}
+
+bool Gyroscope::saveCoefficient()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    settings.setValue(DIR_CALIBRATION
+                      SUBDIR_GYROSCOPE
+                      KEY_GYROS_COEFFICIENT,
+                      coefficient);
+
+    settings.sync(); // синхронизируемся и получаем статус
+
+    if(settings.status() == QSettings::NoError) {
+        qDebug() << "Коеффициент пропорциональности успешно сохранен !";
+        return true;
+    }
+
+    qDebug() << "Ошибка сохранения коеффициента пропорциональности !";
+    return false;
+}
+
+float Gyroscope::getCoefficient() const
+{
+    return coefficient;
+}
+
+void Gyroscope::setCoefficient(float newCoefficient)
+{
+    coefficient = newCoefficient;
 }
