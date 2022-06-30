@@ -4,15 +4,11 @@ GPS::GPS(QObject *parent) : QObject(parent)
 {
     msecUpdate = 1000;
 
-
-
     // если сообщение с координатами получено - читаем из него координаты
     connect(this, SIGNAL(parseMessage()), this, SLOT(ubxParser()) );
 
     // при разрыве соединения переустанавливаем порт
     connect(this, SIGNAL(gpsOff()), this, SLOT(init()) );
-
-
 }
 
 void GPS::setMsecUpdate(size_t value)
@@ -27,7 +23,6 @@ void GPS::setMsecUpdate(size_t value)
 
 void GPS::init()
 {
-
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
 
     enableGPS = settings.value(DIR_GPS KEY_ENABLE_GPS,
@@ -35,7 +30,6 @@ void GPS::init()
 
     QString portname = QString( settings.value(DIR_GPS KEY_CURRENT_GPS_PORTNAME,
                                           DEFAULT_CURRENT_GPS_PORTNAME).toString() );
-
 
     serial = new QSerialPort();
     serial->setPortName(portname);//"ttyACM0"//"COM4"//"ttyUSB0"
@@ -90,7 +84,7 @@ void GPS::readPort()
 
     if(bytes.length()>0) {
 
-        for(auto b: bytes) {
+        for(auto b: qAsConst(bytes)) {
             if((uchar)b == 0xb5) {
                 if(messageBuffer.size() == 36) {
                     messageCurrent.clear();

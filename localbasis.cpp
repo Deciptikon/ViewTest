@@ -135,9 +135,6 @@ const QVector3D &LocalBasis::localZ() const
     return m_localZ;
 }
 
-// преобразование вектора vec в локальную систему координат
-// заданную тремя базисными векторами m_localX, m_localY, m_localZ
-// имеющими длину = 1
 QVector3D LocalBasis::toLocalBasis(const QVector3D &vec)
 {
     QVector3D loc;

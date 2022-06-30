@@ -104,8 +104,10 @@ int main(int argc, char *argv[])
     // инициализируем gps как serialport device как только поток стартует
     gps->connect(threadGPS, SIGNAL(started()), SLOT(init()) );
 
-    model.connect(gps, SIGNAL(gpsOn()), SLOT(slotGPSon()) );
-    model.connect(gps, SIGNAL(gpsOff()), SLOT(slotGPSoff()) );
+    model.connect(gps, SIGNAL(gpsOn()), SLOT(slotGPSon()) ,
+                  Qt::ConnectionType::QueuedConnection);
+    model.connect(gps, SIGNAL(gpsOff()), SLOT(slotGPSoff()) ,
+                  Qt::ConnectionType::QueuedConnection);
 
 
 ///----------------------------------------------------------------------------------------------
@@ -151,76 +153,95 @@ int main(int argc, char *argv[])
     // получаем ключевую точку в автопилот из model (полученную из QML)
     // для добавления в список ключевых точек
     autopilot->connect(&model, SIGNAL(sendKeyPointForAdding(QVector2D)),
-                       SLOT(addKeyPoint(QVector2D)) );
+                       SLOT(addKeyPoint(QVector2D)) ,
+                       Qt::ConnectionType::QueuedConnection);
 
     // получаем режим вождения
     autopilot->connect(&model, SIGNAL(sendDriveMode(QVariant)),
-                       SLOT(acceptDriveMode(QVariant)) );
+                       SLOT(acceptDriveMode(QVariant)) ,
+                       Qt::ConnectionType::QueuedConnection);
 
     // получаем сигнал на установку точек А и В
-    autopilot->connect(&model, SIGNAL(signalSetPointA()), SLOT(slotSetPointA()) );
-    autopilot->connect(&model, SIGNAL(signalSetPointB()), SLOT(slotSetPointB()) );
+    autopilot->connect(&model, SIGNAL(signalSetPointA()), SLOT(slotSetPointA()),
+                       Qt::ConnectionType::QueuedConnection);
+    autopilot->connect(&model, SIGNAL(signalSetPointB()), SLOT(slotSetPointB()),
+                       Qt::ConnectionType::QueuedConnection);
 
     // получаем данные с акселерометра и гироскопа
     autopilot->connect(sensorreader, SIGNAL(updateDataSens(QVector3D,QVector3D)),
-                       SLOT(readFromGyroAndAccel(QVector3D,QVector3D)) );
+                       SLOT(readFromGyroAndAccel(QVector3D,QVector3D)),
+                       Qt::ConnectionType::QueuedConnection);
 
     // изменение пути и ключевых точек в автопилоте передаются в model
     // для дальнейшего отображения
 //    model.connect(autopilot, SIGNAL(signalAppPointToPathAndRemoveFirst(const QVector2D&)),
 //                                SLOT(slotAppPointToPathAndRemoveFirst(const QVector2D&)) );
     model.connect(autopilot, SIGNAL(signalAppPointToPath(QVector2D)),
-                  SLOT(slotAppPointToPath(QVector2D)) );
+                  SLOT(slotAppPointToPath(QVector2D)),
+                  Qt::ConnectionType::QueuedConnection);
 
     model.connect(autopilot, SIGNAL(keyPointsChanged(ListVector)),
-                  SLOT(acceptKeyPoints(ListVector)) );
+                  SLOT(acceptKeyPoints(ListVector)),
+                  Qt::ConnectionType::QueuedConnection);
 
 
     // устанавливаем точку А и направление (по точке В)
     model.connect(autopilot, SIGNAL(sendPointAToDraw(QVector2D)),
-                  SLOT(addPointAToQML(QVector2D)) );
+                  SLOT(addPointAToQML(QVector2D)),
+                  Qt::ConnectionType::QueuedConnection);
     model.connect(autopilot, SIGNAL(sendDirectToDraw(QVector2D)),
-                  SLOT(addDirectToQML(QVector2D)) );
+                  SLOT(addDirectToQML(QVector2D)),
+                  Qt::ConnectionType::QueuedConnection);
 
     // отправка команды на slave14
     devicei2c_14->connect(autopilot, SIGNAL(sendCommandToSlave14(int)),
-                          SLOT(writeData(int)) );
+                          SLOT(writeData(int)),
+                          Qt::ConnectionType::QueuedConnection);
     devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(int)),
-                          SLOT(writeData(int)) );
+                          SLOT(writeData(int)),
+                          Qt::ConnectionType::QueuedConnection);
 
     // передаем данные сенсоров в QML
     model.connect(sensorreader, SIGNAL(updateDataSens(QVector3D,QVector3D)),
                   SLOT(slotDataSensToQML(QVector3D,QVector3D)),
-                  Qt::ConnectionType::DirectConnection);
+                  Qt::ConnectionType::QueuedConnection);
 
     // связываем сигналы и слоты на управление калибровкой
     // положения покоя акселерометра
     sensorreader->connect(&model, SIGNAL(signalCalibrateZeroPointAccelerometer(int)),
-                          SLOT(slotCalibrateZeroPointAccelerometer(int)) );
+                          SLOT(slotCalibrateZeroPointAccelerometer(int)),
+                          Qt::ConnectionType::QueuedConnection);
     // передача успешного завершения калибровки в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateZeroPointAccelerometerIsDone()),
-                  SLOT(slotCalibrateZeroPointAccelerometerIsDone()) );
+                  SLOT(slotCalibrateZeroPointAccelerometerIsDone()),
+                  Qt::ConnectionType::QueuedConnection);
 
     // положения покоя гироскопа
     sensorreader->connect(&model, SIGNAL(signalCalibrateZeroPointGyroscope(int)),
-                          SLOT(slotCalibrateZeroPointGyroscope(int)) );
+                          SLOT(slotCalibrateZeroPointGyroscope(int)),
+                          Qt::ConnectionType::QueuedConnection);
     // передача успешного завершения калибровки в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateZeroPointGyroscopeIsDone()),
-                  SLOT(slotCalibrateZeroPointGyroscopeIsDone()) );
+                  SLOT(slotCalibrateZeroPointGyroscopeIsDone()),
+                  Qt::ConnectionType::QueuedConnection);
 
     // положение оси Z гироскопа
     sensorreader->connect(&model, SIGNAL(signalCalibrateZAxisGyroscope()),
-                          SLOT(slotCalibrateZAxisGyroscope()) );
+                          SLOT(slotCalibrateZAxisGyroscope()),
+                          Qt::ConnectionType::QueuedConnection);
     // передача успешного завершения калибровки оси Z в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateZAxisGyroscopeIsDone()),
-                  SLOT(slotCalibrateZAxisGyroscopeIsDone()) );
+                  SLOT(slotCalibrateZAxisGyroscopeIsDone()),
+                  Qt::ConnectionType::QueuedConnection);
 
     // положение оси X акселерометра
     sensorreader->connect(&model, SIGNAL(signalCalibrateXAxisAccelerometer()),
-                          SLOT(slotCalibrateXAxisAccelerometer()) );
+                          SLOT(slotCalibrateXAxisAccelerometer()),
+                          Qt::ConnectionType::QueuedConnection);
     // передача успешного завершения калибровки оси X в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateXAxisAccelerometerIsDone()),
-                  SLOT(slotCalibrateXAxisAccelerometerIsDone()) );
+                  SLOT(slotCalibrateXAxisAccelerometerIsDone()),
+                  Qt::ConnectionType::QueuedConnection);
 
 ///----------------------------------------------------------------------------------------------
 
@@ -233,9 +254,9 @@ int main(int argc, char *argv[])
     context->setContextProperty("appSettings", &settings);
 
     //регистрируем в метаобъектной системе
-    qmlRegisterType<TypeEdit>("TypeEdit", 1, 0, "TypeEdit");
+    qmlRegisterType<TypeEdit> ("TypeEdit" , 1, 0, "TypeEdit" );
     qmlRegisterType<DriveMode>("DriveMode", 1, 0, "DriveMode");
-    qmlRegisterType<DrawTrack>("DrawTrack",1,0,"DrawTrack");
+    qmlRegisterType<DrawTrack>("DrawTrack", 1, 0, "DrawTrack");
     qRegisterMetaType<ListVector>("ListVector");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
