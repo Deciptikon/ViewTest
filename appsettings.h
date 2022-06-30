@@ -15,12 +15,6 @@
 
 //using namespace constants;
 
-//#define ORGANIZATION_NAME    "Deciptikon"
-//#define ORGANIZATION_DOMAIN  "vk.com/deciptikon"
-//#define APPLICATION_NAME     "AgroSlave"
-
-//#define TEST_NAME            "testName"
-
 struct SettingsData {
     /// Ключ для записи настроек через QSettings
     /// (не доступно пользователю напрямую).

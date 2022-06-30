@@ -33,25 +33,25 @@
 #define DIR_CALIBRATION             "Calibration/"
 
 //----- local basis
-#define KEY_X_LOCALX                "xLocalX"
+#define KEY_X_LOCALX                "LocalXx"
 #define DEFAULT_X_LOCALX            "1"
-#define KEY_Y_LOCALX                "yLocalX"
+#define KEY_Y_LOCALX                "LocalXy"
 #define DEFAULT_Y_LOCALX            "0"
-#define KEY_Z_LOCALX                "zLocalX"
+#define KEY_Z_LOCALX                "LocalXz"
 #define DEFAULT_Z_LOCALX            "0"
 
-#define KEY_X_LOCALY                "xLocalY"
+#define KEY_X_LOCALY                "LocalYx"
 #define DEFAULT_X_LOCALY            "0"
-#define KEY_Y_LOCALY                "yLocalY"
+#define KEY_Y_LOCALY                "LocalYy"
 #define DEFAULT_Y_LOCALY            "1"
-#define KEY_Z_LOCALY                "zLocalY"
+#define KEY_Z_LOCALY                "LocalYz"
 #define DEFAULT_Z_LOCALY            "0"
 
-#define KEY_X_LOCALZ                "xLocalZ"
+#define KEY_X_LOCALZ                "LocalZx"
 #define DEFAULT_X_LOCALZ            "0"
-#define KEY_Y_LOCALZ                "yLocalZ"
+#define KEY_Y_LOCALZ                "LocalZy"
 #define DEFAULT_Y_LOCALZ            "0"
-#define KEY_Z_LOCALZ                "zLocalZ"
+#define KEY_Z_LOCALZ                "LocalZz"
 #define DEFAULT_Z_LOCALZ            "1"
 //-----
 
