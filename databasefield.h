@@ -36,15 +36,27 @@ signals:
     //
 
 public slots:
-    bool inserIntoTable(const QVariantList &data);      // Добавление записей в таблицу
+    /// Добавление записей в таблицу базы данных.
+    bool inserIntoTable(const QVariantList &data);
+
+    /// Добавление записей в таблицу базы данных.
     bool inserIntoTable(const QString &fname, const QString &sname, const QString &nik);
-    bool removeRecord(const int id); // Удаление записи из таблицы по её id
+
+    /// Удаление записи из таблицы по её id
+    bool removeRecord(const int id);
 
 private:
-    bool openDataBase();        // Открытие базы данных
-    bool restoreDataBase();     // Восстановление базы данных
-    void closeDataBase();       // Закрытие базы данных
-    bool createTable();         // Создание базы таблицы в базе данных
+    /// Открытие базы данных.
+    bool openDataBase();
+
+    /// Восстановление базы данных.
+    bool restoreDataBase();
+
+    /// Закрытие базы данных.
+    void closeDataBase();
+
+    /// Создание базы таблицы в базе данных
+    bool createTable();
 
     QSqlDatabase db;
 

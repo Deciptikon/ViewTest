@@ -22,29 +22,46 @@ class GPS : public QObject
 public:
     explicit GPS(QObject *parent = nullptr);
 
+    /// Устанавливает период обновления !!!пока не используется!!!
     void setMsecUpdate(size_t msec);
 
 signals:
+    /// Сигнал передающий текущее положение в Декартовых координатах
+    /// (в проекции Меркатора).
     void updatePositionXY(const double &x, const double &y);
+    /// Сигнал передающий текущее положение в угловых координатах.
     void updatePositionLatLon(const double &lat, const double &lon);
 
+    /// Сигнал с данными готовыми для чтения.
     void readyRead(const QByteArray &bytes);
+    /// Сигнал начала парсинга сообщения.
     void parseMessage();
 
-    void gpsOn();//сигнал на рабочий GPS
-    void gpsOff();//сигнал на не рабочий GPS
+    /// Сигнал о рабочем состоянии GPS
+    void gpsOn();
+    /// Сигнал о не рабочем состоянии GPS
+    void gpsOff();
 
 public slots:
+    /// Открывает соединение через последовательное соединение
+    /// и настраивает его, а так же формирует основные зависимости
+    /// для корректной работы.
     void init();
+    /// Записывает в последовательный порт массив данных.
     void write(const QByteArray &bytes);
 
 
 private slots:
+    /// Слот читает из последовательного порта.
     void readPort();
+    /// Слот парсит данные в соответствии с UBX протоколом.
     void ubxParser();
+    /// Слот открывает последовательный порт.
     void openPort();
 
 private:
+    /// процедура преобразует угловые координаты на сфере в
+    /// Декартовы координаты (в проекции Меркатора)
     void latLonToXY(double lat, double lon);
 
     QSerialPort* serial;

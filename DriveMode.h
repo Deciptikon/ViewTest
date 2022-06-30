@@ -9,10 +9,14 @@ class DriveMode : public QObject
     Q_OBJECT
 public:
     enum State {
-        NONE_MODE,      // нет режима
-        KEYPOINTS_MODE, // движение по ключевым точкам
-        PARALLEL_MODE,  // параллельное вождение
-        SPIRAL_MODE     // по спирали (вдоль замкнутой кривой, вдоль старой кромки)
+        /// Нет режима.
+        NONE_MODE,
+        /// Режим движениея по ключевым точкам.
+        KEYPOINTS_MODE,
+        /// Режим параллельного вождения.
+        PARALLEL_MODE,
+        /// Режим движения по спирали (вдоль замкнутой кривой, вдоль старой кромки).
+        SPIRAL_MODE
     };
     Q_ENUM(State)
 };

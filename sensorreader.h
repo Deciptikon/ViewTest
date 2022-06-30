@@ -16,39 +16,63 @@ class SensorReader : public QObject
 public:
     explicit SensorReader(QObject *parent = nullptr);
 
+    /// Регистрирует устройство в системе и настраивает его на обмен данными,
+    /// устанавливает интервал принудительного обновления данных от
+    /// акселерометра и гироскопа.
     void init(const int msec=100);
 
+    /// Возвращает текущий интервал принудителных обновлений.
     int getMsecDeltaTime() const;
 
+    /// Акселерометр, содержит функции и члены для получения данных
+    /// с физического устройства по каналу I2C и калибровки нулевого положения,
+    /// а так же процедуры чтения и записи откалиброванных значений в настройки приложения.
     Accelerometer Accelerometer;
+    /// Гироскоп, содержит функции и члены для получения данных
+    /// с физического устройства по каналу I2C и калибровки нулевого положения,
+    /// а так же процедуры чтения и записи откалиброванных значений в настройки приложения.
     Gyroscope     Gyroscope;
 
 signals:
+    /// Сигнал передающий текущие данные полученные с гироскопа и
+    /// акселерометра в систему (автопилоту, QML и ...).
     void updateDataSens(const QVector3D &accel, const QVector3D &gyro);
 
-    // сигнал о успешной калибровке для QML
+    /// Сигнал о успешной калибровки состояния покоя акселерометра для QML.
     void signalCalibrateZeroPointAccelerometerIsDone();
+    /// Сигнал о успешной калибровки состояния покоя гироскопа для QML.
     void signalCalibrateZeroPointGyroscopeIsDone();
 
+    /// Сигнал о успешной калибровки оси Z гироскопа для QML.
     void signalCalibrateZAxisGyroscopeIsDone();
+    /// Сигнал о успешной калибровки оси X акселерометра для QML.
     void signalCalibrateXAxisAccelerometerIsDone();
 
 public slots:
+    /// Основной цикл обновления данных с акселерометра и гироскопа.
     void loop();
 
-    // слоты запуска калибровки
+    /// Слот запуска калибровки состояния покоя акселерометра,
+    /// с длительностью в миллисекундах.
     void slotCalibrateZeroPointAccelerometer(const int &msec);
+    /// Слот запуска калибровки состояния покоя гироскопа,
+    /// с длительностью в миллисекундах.
     void slotCalibrateZeroPointGyroscope(const int &msec);
 
+    /// Слот запуска\остановки калибровки оси Z гироскопа.
     void slotCalibrateZAxisGyroscope();
+    /// Слот запуска\остановки калибровки оси X акселерометра,
     void slotCalibrateXAxisAccelerometer();
 
 private:
-    // функции калибровки
+    /// Процедура калибровки состояния покоя акселерометра.
     void calibrateZeroPointAccelerometer();
+    /// Процедура калибровки состояния покоя гироскопа.
     void calibrateZeroPointGyroscope();
 
+    /// Процедура калибровки оси Z гироскопа.
     void calibrateZAxisGyroscope();
+    /// Процедура калибровки оси Х акселерометра.
     void calibrateXAxisAccelerometer();
 
 

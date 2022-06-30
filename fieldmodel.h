@@ -11,9 +11,12 @@ public:
 
     enum Roles {
         IdRole = Qt::UserRole + 1,     // id, всё остальное обязательно!!! ниже
-        NameRole,                      // Имя
-        SizeRole,                      // Размер, в м**2
-        PathToDataRole                 // Путь к файлу(или имя файла) с данными трактории и тд
+        /// Наименование поля.
+        NameRole,
+        /// Размер поля, в м**2.
+        SizeRole,
+        /// Путь к файлу(или имя файла) с данными трактории данного поля.
+        PathToDataRole
     };
 
     explicit FieldModel(QObject *parent = nullptr);
@@ -27,6 +30,7 @@ signals:
 
 
 public slots:
+    /// Слот обновления модели.
     void updateModel();
     int getId(int row);
 

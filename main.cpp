@@ -85,7 +85,8 @@ int main(int argc, char *argv[])
     timerAutopilot->moveToThread(threadAutopilot);
 
     // вызываем слот loop() по таймеру
-    autopilot->connect( timerAutopilot, SIGNAL(timeout()), SLOT(loop()), Qt::ConnectionType::DirectConnection);
+    autopilot->connect( timerAutopilot, SIGNAL(timeout()), SLOT(loop()),
+                        Qt::ConnectionType::DirectConnection);
 
     // запускаем таймер как только поток стартует
     timerAutopilot->connect(threadAutopilot, SIGNAL(started()), SLOT(start()));

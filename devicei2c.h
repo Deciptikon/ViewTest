@@ -17,13 +17,18 @@ class DeviceI2C : public QObject
 public:
     explicit DeviceI2C(QObject *parent = nullptr);
 
+    /// Регистрирует устройство в системе и настраивает его на обмен данными.
     void init(int hexAdress);
 
 signals:
+    /// Сигнал, возвращает прочтенные данные при помощи слота readData()
     void readFrom(int &data);
 
 public slots:
+    /// Читает данные !!!не реализован!!!
     void readData();
+
+    /// Слот, передает данные на устройство
     void writeData(const int &data);
 
 private:
