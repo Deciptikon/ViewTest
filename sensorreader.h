@@ -55,7 +55,6 @@ private:
     int msecDeltaTime = 100;
 
     // локальная система координат, определяемая во время калибровок
-    //QVector3D localX{1,0,0}, localY{0,1,0}, localZ{0,0,1};
     LocalBasis localBasis;
 
 
@@ -74,11 +73,12 @@ private:
     int numCalibrateZAxisGyroscope;
     QElapsedTimer elapsedTimer;
     float elapsedTime;
-    float to2PiZAxis = 1;
+    float gyrosCoefficient = 1;// коеффициент соответствия показателей
 
     bool flagCalibrateXAxisAccelerometer = false;
     QVector3D dataCalibrateXAxisAccelerometer;
     int numCalibrateXAxisAccelerometer;
+    float accelCoefficient = 1;// коеффициент соответствия показателей
 
 };
 

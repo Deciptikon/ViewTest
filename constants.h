@@ -64,6 +64,9 @@
 #define KEY_ACCEL_ZERO_POINT_Z      "AccelZeroPointZ"
 #define DEFAULT_ACCEL_ZERO_POINT_Z  "0"
 
+#define KEY_ACCEL_COEFFICIENT       "AccelerometerCoefficient"
+#define DEFAULT_ACCEL_COEFFICIENT   "1"
+
 
 #define SUBDIR_GYROSCOPE            "Gyroscope/"
 
@@ -74,8 +77,8 @@
 #define KEY_GYROS_ZERO_POINT_Z      "GyrosZeroPointZ"
 #define DEFAULT_GYROS_ZERO_POINT_Z  "0"
 
-
-
+#define KEY_GYROS_COEFFICIENT       "GyroscopeCoefficient"
+#define DEFAULT_GYROS_COEFFICIENT   "1"
 
 //=======================================================
 #define DIR_RESTORE_SETTINGS        "RestoreSettings/"
