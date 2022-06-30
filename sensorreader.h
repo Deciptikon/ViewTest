@@ -53,6 +53,10 @@ private:
 
     int msecDeltaTime = 100;
 
+    // локальная система координат, определяемая во время калибровок
+    QVector3D localX{1,0,0}, localY{0,1,0}, localZ{0,0,1};
+
+
     // переменные и флаги содержащие данные калибровки
     bool flagCalibrateZeroPointAccelerometer = false;
     QVector3D dataCalibrateZeroPointAccelerometer;
