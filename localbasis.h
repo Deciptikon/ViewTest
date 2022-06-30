@@ -13,9 +13,9 @@ public:
 
     void debug();
 
-    void saveBasis(void (*callback)() = nullptr);
+    bool saveBasis();
 
-    void readBasis(void (*callback)() = nullptr);
+    bool readBasis();
 
     void setLocalX(const QVector3D &vec);
     const QVector3D &localX() const;

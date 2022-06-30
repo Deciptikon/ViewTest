@@ -7,6 +7,7 @@
 
 #include "accelerometer.h"
 #include "gyroscope.h"
+#include "localbasis.h"
 
 
 class SensorReader : public QObject
@@ -54,7 +55,8 @@ private:
     int msecDeltaTime = 100;
 
     // локальная система координат, определяемая во время калибровок
-    QVector3D localX{1,0,0}, localY{0,1,0}, localZ{0,0,1};
+    //QVector3D localX{1,0,0}, localY{0,1,0}, localZ{0,0,1};
+    LocalBasis localBasis;
 
 
     // переменные и флаги содержащие данные калибровки

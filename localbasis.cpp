@@ -17,7 +17,7 @@ void LocalBasis::debug()
     qDebug() << "------------------------------------------";
 }
 
-void LocalBasis::saveBasis(void (*callback)())
+bool LocalBasis::saveBasis()
 {
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
 
@@ -52,15 +52,18 @@ void LocalBasis::saveBasis(void (*callback)())
                       m_localZ.z());
 
     settings.sync(); // синхронизируемся и получаем статус
-    if(settings.status() == QSettings::NoError) {
-        if(callback == nullptr) {
-            return;
-        }
-        emit callback();
+
+    if (settings.status() == QSettings::NoError) {
+        qDebug() << "Локальный базис успешно сохранен";
+        return true;
+    } else {
+        qDebug() << "Ошибка сохранения локального базиса";
+        return false;
     }
+
 }
 
-void LocalBasis::readBasis(void (*callback)())
+bool LocalBasis::readBasis()
 {
     QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
 
@@ -95,17 +98,17 @@ void LocalBasis::readBasis(void (*callback)())
                                  DEFAULT_Z_LOCALZ).toFloat();
 
     settings.sync(); // синхронизируемся и получаем статус
+
     if(settings.status() == QSettings::NoError) {
         m_localX = {xLocX, yLocX, zLocX};
         m_localY = {xLocY, yLocY, zLocY};
         m_localZ = {xLocZ, yLocZ, zLocZ};
-
-        if(callback == nullptr) {
-            return;
-        }
-        emit callback();
+        qDebug() << "Локальный базис успешно загружен !";
+        return true;
+    } else {
+        qDebug() << "Ошибка загрузки локального базиса !";
+        return false;
     }
-
 }
 
 void LocalBasis::setLocalX(const QVector3D &vec)
@@ -133,6 +136,9 @@ const QVector3D &LocalBasis::localZ() const
     return m_localZ;
 }
 
+// преобразование вектора vec в локальную систему координат
+// заданную тремя базисными векторами m_localX, m_localY, m_localZ
+// имеющими длину = 1
 QVector3D LocalBasis::toLocalBasis(const QVector3D &vec)
 {
     QVector3D loc;

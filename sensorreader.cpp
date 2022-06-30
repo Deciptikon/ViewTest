@@ -61,12 +61,9 @@ void SensorReader::init(const int msec)
     dataCalibrateZeroPointGyroscope.setZ(czpgz);
     qDebug() << "READING CALIBRATE DATA GYROSCOPE:" << dataCalibrateZeroPointGyroscope;
 
+    localBasis.readBasis();
 
-    //dataCalibrateZAxisGyroscope = {1,1,1};
-
-    /// read from settings
-    ///  QSettings --> localX, localY, localZ
-
+    /// QSettings --> to2PiZAxis
 }
 
 int SensorReader::getMsecDeltaTime() const
@@ -85,33 +82,17 @@ void SensorReader::loop()
     calibrateZAxisGyroscope();
     calibrateXAxisAccelerometer();
 
-    // преобразование вектора vec в локальную систему координат
-    // заданную тремя базисными векторами lX, lY, lZ
-    // имеющими длину = 1
-    auto toLocalCoordinate = [](
-              QVector3D vec
-            , QVector3D lX
-            , QVector3D lY
-            , QVector3D lZ
-            ) -> QVector3D {
-        QVector3D loc;
 
-        loc.setX(QVector3D::dotProduct( lX.normalized(), vec));
-        loc.setY(QVector3D::dotProduct( lY.normalized(), vec));
-        loc.setZ(QVector3D::dotProduct( lZ.normalized(), vec));
-
-        return loc;
-    };
 
     // данные акселерометра за вычетом покоя
     QVector3D zeroDataAccel = Accelerometer.getData() - dataCalibrateZeroPointAccelerometer;
     // преобразуем в локальные координаты
-    QVector3D accelData = toLocalCoordinate(zeroDataAccel, localX, localY, localZ);
+    QVector3D accelData = localBasis.toLocalBasis(zeroDataAccel);
 
     // данные гироскопа за вычетом покоя
     QVector3D zeroDataGyros = (Gyroscope.getData() - dataCalibrateZeroPointGyroscope) * to2PiZAxis;
     // преобразуем в локальные координаты
-    QVector3D gyrosData = toLocalCoordinate(zeroDataGyros, localX, localY, localZ);
+    QVector3D gyrosData = localBasis.toLocalBasis(zeroDataGyros);
 
     emit updateDataSens(accelData, gyrosData);
 }
@@ -229,23 +210,14 @@ void SensorReader::slotCalibrateZAxisGyroscope()
         }
 
         // локальная ось Z сонаправленна с осью вращения гироскопа
-        localZ = dataCalibrateZAxisGyroscope.normalized();
-        // пересчитываем ось Y
-        localY = QVector3D::crossProduct(localX, localZ);
+        localBasis.setLocalZ(dataCalibrateZAxisGyroscope);
+        if(localBasis.saveBasis()) {
+            emit signalCalibrateZAxisGyroscopeIsDone();
+        }
+        localBasis.debug();
 
-        qDebug() << "----{localX}:" << localX;
-        qDebug() << "----{localY}:" << localY;
-        qDebug() << "----{localZ}:" << localZ;
+        /// to2PiZAxis --> QSettings
 
-        /// app to settings
-        /// localZ, localY --> QSettings
-
-        QVector3D zaxis = dataCalibrateZAxisGyroscope*elapsedTime*to2PiZAxis;
-
-        qDebug() << "ZAXIS.length() =" << zaxis.length();
-        //zaxis.normalize();
-
-        emit signalCalibrateZAxisGyroscopeIsDone();
     }
 }
 
@@ -258,18 +230,11 @@ void SensorReader::slotCalibrateXAxisAccelerometer()
         numCalibrateXAxisAccelerometer = 0;
     } else {
         // локальная ось X сонаправленна с осью разгона
-        localX = dataCalibrateXAxisAccelerometer.normalized();
-        // пересчитываем ось Y
-        localY = QVector3D::crossProduct(localX, localZ);
-
-        qDebug() << "----{localX}:" << localX;
-        qDebug() << "----{localY}:" << localY;
-        qDebug() << "----{localZ}:" << localZ;
-
-        /// app to settings
-        /// localX, localY --> QSettings
-
-        emit signalCalibrateXAxisAccelerometerIsDone();
+        localBasis.setLocalX(dataCalibrateXAxisAccelerometer);
+        if(localBasis.saveBasis()) {
+            emit signalCalibrateXAxisAccelerometerIsDone();
+        }
+        localBasis.debug();
     }
 }
 
