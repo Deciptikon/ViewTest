@@ -67,6 +67,9 @@ void SensorReader::slotCalibrateZeroPointAccelerometer(const int &msec)
     dataCalibrateZeroPointAccelerometer = {0, 0, 0};
     numCalibrateZeroPointAccelerometer  = 0;
 
+    Accelerometer.setZeroData({0,0,0});
+    Accelerometer.setCoefficient(1);
+
     QTimer::singleShot(msec, this, [&](){
         qDebug() << "======================= Calibrate Zero Point Accelerometer ========================";
         flagCalibrateZeroPointAccelerometer = false;
@@ -95,6 +98,9 @@ void SensorReader::slotCalibrateZeroPointGyroscope(const int &msec)
     dataCalibrateZeroPointGyroscope = {0, 0, 0};
     numCalibrateZeroPointGyroscope  = 0;
 
+    Gyroscope.setZeroData({0,0,0});
+    Gyroscope.setCoefficient(1);
+
     QTimer::singleShot(msec, this, [&](){
         qDebug() << "======================= Calibrate Zero Point Gyroscope ========================";
         flagCalibrateZeroPointGyroscope = false;
@@ -117,6 +123,8 @@ void SensorReader::slotCalibrateZAxisGyroscope()
     if(flagCalibrateZAxisGyroscope) {
         dataCalibrateZAxisGyroscope = {0, 0, 0};
         numCalibrateZeroPointGyroscope = 0;
+
+        Gyroscope.setCoefficient(1);
 
         elapsedTimer.start();
     } else {
@@ -149,6 +157,8 @@ void SensorReader::slotCalibrateXAxisAccelerometer()
     if(flagCalibrateXAxisAccelerometer) {
         dataCalibrateXAxisAccelerometer = {0, 0, 0};
         numCalibrateXAxisAccelerometer = 0;
+
+        Accelerometer.setCoefficient(1);
     } else {
         Accelerometer.setCoefficient(accelCoefficient);
         Accelerometer.saveCoefficient();
@@ -185,7 +195,7 @@ void SensorReader::calibrateZAxisGyroscope()
     if(!flagCalibrateZAxisGyroscope) {
         return;
     }
-    dataCalibrateZAxisGyroscope += Gyroscope.getData() - dataCalibrateZeroPointGyroscope;
+    dataCalibrateZAxisGyroscope += Gyroscope.getData();
     qDebug() << "dataCalibrateZAxisGyroscope     =" << dataCalibrateZAxisGyroscope.normalized();
 
     numCalibrateZAxisGyroscope++;
@@ -196,7 +206,7 @@ void SensorReader::calibrateXAxisAccelerometer()
     if(!flagCalibrateXAxisAccelerometer) {
         return;
     }
-    dataCalibrateXAxisAccelerometer += Accelerometer.getData() - dataCalibrateZeroPointAccelerometer;
+    dataCalibrateXAxisAccelerometer += Accelerometer.getData();
     qDebug() << "dataCalibrateXAxisAccelerometer =" << dataCalibrateXAxisAccelerometer.normalized();
 
     numCalibrateXAxisAccelerometer++;
