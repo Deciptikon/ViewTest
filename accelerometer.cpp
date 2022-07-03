@@ -63,6 +63,10 @@ void Accelerometer::updateData()
 
 QVector3D Accelerometer::getData() const
 {
+    qDebug() << "**** Accelerometer.data       " << data;
+    qDebug() << "**** Accelerometer.zeroData   " << zeroData;
+    qDebug() << "**** Accelerometer.coefficient" << coefficient;
+    qDebug() << "**** Accelerometer.getData()  " << (data - zeroData) * coefficient;
     return (data - zeroData) * coefficient;
 }
 

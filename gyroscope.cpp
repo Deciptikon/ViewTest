@@ -58,12 +58,10 @@ void Gyroscope::updateData()
         int dataYg = wiringPiI2CReadReg16(deviceGyro, GYRO_YOUT_L);
         int dataZg = wiringPiI2CReadReg16(deviceGyro, GYRO_ZOUT_L);
 
-        float koeff = 1.0/207000.0;// 1.0/215000.0
-
         data = QVector3D(
-                    -(~(int16_t)dataXg + 1) * koeff,
-                    -(~(int16_t)dataYg + 1) * koeff,
-                    -(~(int16_t)dataZg + 1) * koeff);
+                    -(~(int16_t)dataXg + 1),
+                    -(~(int16_t)dataYg + 1),
+                    -(~(int16_t)dataZg + 1));
         //qDebug() << "Gyroscope:" << data;
     }
 #else
@@ -76,6 +74,10 @@ void Gyroscope::updateData()
 
 QVector3D Gyroscope::getData() const
 {
+    qDebug() << "**** Gyroscope.data       " << data;
+    qDebug() << "**** Gyroscope.zeroData   " << zeroData;
+    qDebug() << "**** Gyroscope.coefficient" << coefficient;
+    qDebug() << "**** Gyroscope.getData()  " << (data - zeroData) * coefficient;
     return (data - zeroData) * coefficient;
 }
 

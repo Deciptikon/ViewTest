@@ -74,6 +74,21 @@ int main(int argc, char *argv[])
     QTimer *timerSensorReader;
 
 
+    QQmlApplicationEngine engine;
+
+    QQmlContext *context = engine.rootContext();
+    context->setContextProperty("modelView", &model);
+    context->setContextProperty("fieldModel", fieldModel);
+    context->setContextProperty("fieldDataBase", &dbField);
+    context->setContextProperty("appSettings", &settings);
+
+    //регистрируем в метаобъектной системе
+    qmlRegisterType<TypeEdit> ("TypeEdit" , 1, 0, "TypeEdit" );
+    qmlRegisterType<DriveMode>("DriveMode", 1, 0, "DriveMode");
+    qmlRegisterType<DrawTrack>("DrawTrack", 1, 0, "DrawTrack");
+    qRegisterMetaType<ListVector>("ListVector");
+
+
 ///-------Create autopilot and move to thread with timer----------------------------------------
     autopilot = new Autopilot();
     autopilot->init(100);
@@ -139,12 +154,12 @@ int main(int argc, char *argv[])
 
     // запускаем таймер как только поток стартует
     timerSensorReader->connect(threadSensorReader, SIGNAL(started()), SLOT(start()));
-///----------------------------------------------------------------------------------------------
+///------------------------------------------------------------------------------------------
 
 
 
 
-///-------Connects objects-----------------------------------------------------------------------
+///-------Connects objects-------------------------------------------------------------------
 
     // связываем обновление положения в автопилоте с чтением положения в gps
     autopilot->connect(gps      , SIGNAL(updatePositionXY(double,double)),
@@ -243,21 +258,7 @@ int main(int argc, char *argv[])
                   SLOT(slotCalibrateXAxisAccelerometerIsDone()),
                   Qt::ConnectionType::QueuedConnection);
 
-///----------------------------------------------------------------------------------------------
-
-    QQmlApplicationEngine engine;
-
-    QQmlContext *context = engine.rootContext();
-    context->setContextProperty("modelView", &model);
-    context->setContextProperty("fieldModel", fieldModel);
-    context->setContextProperty("fieldDataBase", &dbField);
-    context->setContextProperty("appSettings", &settings);
-
-    //регистрируем в метаобъектной системе
-    qmlRegisterType<TypeEdit> ("TypeEdit" , 1, 0, "TypeEdit" );
-    qmlRegisterType<DriveMode>("DriveMode", 1, 0, "DriveMode");
-    qmlRegisterType<DrawTrack>("DrawTrack", 1, 0, "DrawTrack");
-    qRegisterMetaType<ListVector>("ListVector");
+///--------------------------------------------------------------------------------------
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
