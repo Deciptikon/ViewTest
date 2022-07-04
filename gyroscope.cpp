@@ -113,11 +113,11 @@ bool Gyroscope::readZeroData()
 
     if(settings.status() == QSettings::NoError) {
         zeroData = {x, y, z};
-        qDebug() << "Вектор состояния покоя успешно загружен !";
+        qDebug() << "Вектор состояния покоя гироскопа успешно загружен !";
         return true;
     }
 
-    qDebug() << "Ошибка загрузки вектора состояния покоя !";
+    qDebug() << "Ошибка загрузки вектора состояния покоя гироскопа !";
     return false;
 }
 
@@ -141,11 +141,11 @@ bool Gyroscope::saveZeroData()
     settings.sync(); // синхронизируемся и получаем статус
 
     if(settings.status() == QSettings::NoError) {
-        qDebug() << "Данные состояния покоя успешно сохранены !";
+        qDebug() << "Данные состояния покоя гироскопа успешно сохранены !";
         return true;
     }
 
-    qDebug() << "Ошибка сохранения данных состояния покоя !";
+    qDebug() << "Ошибка сохранения данных состояния покоя гироскопа !";
     return false;
 }
 
@@ -162,11 +162,11 @@ bool Gyroscope::readCoefficient()
 
     if(settings.status() == QSettings::NoError) {
         coefficient = k;
-        qDebug() << "Коэффициент соответствия успешно загружен !";
+        qDebug() << "Коэффициент соответствия гироскопа успешно загружен !";
         return true;
     }
 
-    qDebug() << "Ошибка загрузки коэффициента соответствия !";
+    qDebug() << "Ошибка загрузки коэффициента соответствия гироскопа !";
     return false;
 }
 
@@ -182,11 +182,11 @@ bool Gyroscope::saveCoefficient()
     settings.sync(); // синхронизируемся и получаем статус
 
     if(settings.status() == QSettings::NoError) {
-        qDebug() << "Коеффициент пропорциональности успешно сохранен !";
+        qDebug() << "Коеффициент пропорциональности гироскопа успешно сохранен !";
         return true;
     }
 
-    qDebug() << "Ошибка сохранения коеффициента пропорциональности !";
+    qDebug() << "Ошибка сохранения коеффициента пропорциональности гироскопа !";
     return false;
 }
 

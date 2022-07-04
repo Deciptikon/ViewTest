@@ -3,6 +3,8 @@
 #include <QSettings>
 #include "constants.h"
 
+#define GRAVITY_MS2                 9.80665
+
 SensorReader::SensorReader(QObject *parent) : QObject(parent)
 {
 
@@ -87,8 +89,11 @@ void SensorReader::slotCalibrateZeroPointAccelerometer(const int &msec)
         }
         dataCalibrateZeroPointAccelerometer = dataCalibrateZeroPointAccelerometer/numCalibrateZeroPointAccelerometer;
         qDebug() << "======================= Calibrate Zero Point" << dataCalibrateZeroPointAccelerometer;
-        Accelerometer.setZeroData(dataCalibrateZeroPointAccelerometer);
 
+        Accelerometer.setCoefficient(GRAVITY_MS2/dataCalibrateZeroPointAccelerometer.length());
+        Accelerometer.saveCoefficient();
+
+        Accelerometer.setZeroData(dataCalibrateZeroPointAccelerometer);
         if(Accelerometer.saveZeroData()) {
             emit signalCalibrateZeroPointAccelerometerIsDone();
         }
@@ -174,12 +179,12 @@ void SensorReader::slotCalibrateXAxisAccelerometer()
         dataCalibrateXAxisAccelerometer = {0, 0, 0};
         numCalibrateXAxisAccelerometer = 0;
 
-        Accelerometer.setCoefficient(1);
+        //Accelerometer.setCoefficient(1);
         qDebug() << "==================slotCalibrateXAxisAccelerometere START================";
     } else {
         qDebug() << "==================slotCalibrateXAxisAccelerometere END================";
-        Accelerometer.setCoefficient(accelCoefficient);
-        Accelerometer.saveCoefficient();
+        //Accelerometer.setCoefficient(accelCoefficient);
+        //Accelerometer.saveCoefficient();
 
         // локальная ось X сонаправленна с осью разгона
         localBasis.setLocalX(dataCalibrateXAxisAccelerometer);

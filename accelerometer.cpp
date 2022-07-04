@@ -102,11 +102,11 @@ bool Accelerometer::readZeroData()
 
     if(settings.status() == QSettings::NoError) {
         zeroData = {x, y, z};
-        qDebug() << "Вектор состояния покоя успешно загружен !";
+        qDebug() << "Вектор состояния покоя акселерометра успешно загружен !";
         return true;
     }
 
-    qDebug() << "Ошибка загрузки вектора состояния покоя !";
+    qDebug() << "Ошибка загрузки вектора состояния покоя акселерометра !";
     return false;
 }
 
@@ -131,11 +131,11 @@ bool Accelerometer::saveZeroData()
     settings.sync(); // синхронизируемся и получаем статус
 
     if(settings.status() == QSettings::NoError) {
-        qDebug() << "Данные состояния покоя успешно сохранены !";
+        qDebug() << "Данные состояния покоя акселерометра успешно сохранены !";
         return true;
     }
 
-    qDebug() << "Ошибка сохранения данных состояния покоя !";
+    qDebug() << "Ошибка сохранения данных состояния покоя акселерометра !";
     return false;
 }
 
@@ -152,11 +152,11 @@ bool Accelerometer::readCoefficient()
 
     if(settings.status() == QSettings::NoError) {
         coefficient = k;
-        qDebug() << "Коэффициент соответствия успешно загружен !";
+        qDebug() << "Коэффициент соответствия акселерометра успешно загружен !";
         return true;
     }
 
-    qDebug() << "Ошибка загрузки коэффициента соответствия !";
+    qDebug() << "Ошибка загрузки коэффициента соответствия акселерометра !";
     return false;
 }
 
@@ -172,11 +172,11 @@ bool Accelerometer::saveCoefficient()
     settings.sync(); // синхронизируемся и получаем статус
 
     if(settings.status() == QSettings::NoError) {
-        qDebug() << "Коеффициент пропорциональности успешно сохранен !";
+        qDebug() << "Коеффициент пропорциональности акселерометра успешно сохранен !";
         return true;
     }
 
-    qDebug() << "Ошибка сохранения коеффициента пропорциональности !";
+    qDebug() << "Ошибка сохранения коеффициента пропорциональности акселерометра !";
     return false;
 }
 
