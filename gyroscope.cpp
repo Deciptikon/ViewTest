@@ -6,8 +6,8 @@
 Gyroscope::Gyroscope(QObject *parent) : QObject(parent)
 {
     // Gyroscope ITG3200--------------------------
-    #define GYRO 0x68 //  when AD0 is connected to GND ,gyro address is 0x68.
-    //#define GYRO 0x69   when AD0 is connected to VCC ,gyro address is 0x69
+    #define GYRO           0x68 //  когда AD0 подсоединен к GND ,адрес гироскопа 0x68.
+    //#define GYRO           0x69 //  когда AD0 подсоединен к VCC ,адрес гироскопа 0x69
     #define GYRO_POWER_CTL 0x1B
     #define GYRO_XOUT_H    0x1D
     #define GYRO_XOUT_L    0x1E
@@ -16,11 +16,11 @@ Gyroscope::Gyroscope(QObject *parent) : QObject(parent)
     #define GYRO_ZOUT_H    0x21
     #define GYRO_ZOUT_L    0x22
 
-    #define G_SMPLRT_DIV 0x15
-    #define G_DLPF_FS 0x16
-    #define G_INT_CFG 0x17
-    #define G_PWR_MGM 0x3E
-    #define G_TO_READ 8 // 2 bytes for each axis x, y, z
+    #define G_SMPLRT_DIV   0x15
+    #define G_DLPF_FS      0x16
+    #define G_INT_CFG      0x17
+    #define G_PWR_MGM      0x3E
+    #define G_TO_READ      8    // 2 байта для каждой из осей x, y, z
     //------------------------------------------------
     deviceGyro = -1;
 }
@@ -74,10 +74,6 @@ void Gyroscope::updateData()
 
 QVector3D Gyroscope::getData() const
 {
-    qDebug() << "**** Gyroscope.data       " << data;
-    qDebug() << "**** Gyroscope.zeroData   " << zeroData;
-    qDebug() << "**** Gyroscope.coefficient" << coefficient;
-    qDebug() << "**** Gyroscope.getData()  " << (data - zeroData) * coefficient;
     return (data - zeroData) * coefficient;
 }
 

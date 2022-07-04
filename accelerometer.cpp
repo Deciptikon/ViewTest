@@ -6,7 +6,7 @@
 Accelerometer::Accelerometer(QObject *parent) : QObject(parent)
 {
     // Accelerometer ADXL-345---------------------
-    #define ACCELEROMETER 0x53
+    #define ACCELEROMETER   0x53
     #define REG_POWER_CTL   0x2D
     #define REG_DATA_X_LOW  0x32
     #define REG_DATA_X_HIGH 0x33
@@ -52,7 +52,6 @@ void Accelerometer::updateData()
                     -(~(int16_t)dataXa + 1),
                     -(~(int16_t)dataYa + 1),
                     -(~(int16_t)dataZa + 1));
-        //qDebug() << "Accelerometer: " << data;
     }
 #else
     #ifdef Q_OS_WIN
@@ -63,10 +62,6 @@ void Accelerometer::updateData()
 
 QVector3D Accelerometer::getData() const
 {
-    qDebug() << "**** Accelerometer.data       " << data;
-    qDebug() << "**** Accelerometer.zeroData   " << zeroData;
-    qDebug() << "**** Accelerometer.coefficient" << coefficient;
-    qDebug() << "**** Accelerometer.getData()  " << (data - zeroData) * coefficient;
     return (data - zeroData) * coefficient;
 }
 

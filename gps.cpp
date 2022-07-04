@@ -13,9 +13,6 @@ GPS::GPS(QObject *parent) : QObject(parent)
 
 void GPS::setMsecUpdate(size_t value)
 {
-    if(value < 0) {
-        return;
-    }
     if(value < 10000) {
         msecUpdate = value;
     }

@@ -47,18 +47,13 @@ void SensorReader::loop()
     calibrateZAxisGyroscope();
     calibrateXAxisAccelerometer();
 
-    qDebug() << "==================================";
-
     // данные акселерометра за вычетом покоя в локальных координатах
     QVector3D accelData = localBasis.toLocalBasis(Accelerometer.getData());
-    qDebug() << "**** Accelerometer.accelData       " << accelData;
 
     // данные гироскопа за вычетом покоя в локальных координатах
     QVector3D gyrosData = localBasis.toLocalBasis(Gyroscope.getData());
-    qDebug() << "**** Gyroscope.gyrosData       " << gyrosData;
 
     localBasis.debug();
-    qDebug() << " ";
 
     emit updateDataSens(accelData, gyrosData);
 }
@@ -79,16 +74,12 @@ void SensorReader::slotCalibrateZeroPointAccelerometer(const int &msec)
     Accelerometer.setZeroData({0,0,0});
     Accelerometer.setCoefficient(1);
 
-    qDebug() << "==================slotCalibrateZeroPointAccelerometer================";
-
     QTimer::singleShot(msec, this, [&](){
-        qDebug() << "======================= Calibrate Zero Point Accelerometer END ========================";
         flagCalibrateZeroPointAccelerometer = false;
         if(numCalibrateZeroPointAccelerometer == 0) {
             return ;
         }
         dataCalibrateZeroPointAccelerometer = dataCalibrateZeroPointAccelerometer/numCalibrateZeroPointAccelerometer;
-        qDebug() << "======================= Calibrate Zero Point" << dataCalibrateZeroPointAccelerometer;
 
         Accelerometer.setCoefficient(GRAVITY_MS2/dataCalibrateZeroPointAccelerometer.length());
         Accelerometer.saveCoefficient();
@@ -116,16 +107,12 @@ void SensorReader::slotCalibrateZeroPointGyroscope(const int &msec)
     Gyroscope.setZeroData({0,0,0});
     Gyroscope.setCoefficient(1);
 
-    qDebug() << "==================slotCalibrateZeroPointGyroscope================";
-
     QTimer::singleShot(msec, this, [&](){
-        qDebug() << "======================= Calibrate Zero Point Gyroscope END========================";
         flagCalibrateZeroPointGyroscope = false;
         if(numCalibrateZeroPointGyroscope == 0) {
             return ;
         }
         dataCalibrateZeroPointGyroscope = dataCalibrateZeroPointGyroscope/numCalibrateZeroPointGyroscope;
-        qDebug() << "======================= Calibrate Zero Point" << dataCalibrateZeroPointGyroscope;
         Gyroscope.setZeroData(dataCalibrateZeroPointGyroscope);
 
         if(Gyroscope.saveZeroData()) {
@@ -146,15 +133,11 @@ void SensorReader::slotCalibrateZAxisGyroscope()
 
         elapsedTimer.start();
 
-        qDebug() << "==================slotCalibrateZAxisGyroscope START================";
     } else {
-        qDebug() << "==================slotCalibrateZAxisGyroscope END================";
         elapsedTime = elapsedTimer.elapsed()/1000.0;// 1000 msec = 1 sec
         elapsedTimer.invalidate();
 
-        qDebug() << "ELAPSED TIME =" << elapsedTime;
-
-        if(dataCalibrateZAxisGyroscope.length()*elapsedTime) {
+        if(dataCalibrateZAxisGyroscope.length() * elapsedTime != NULL) {
             gyrosCoefficient = 2 * M_PI * numCalibrateZAxisGyroscope /
                     (dataCalibrateZAxisGyroscope.length() * elapsedTime);
 
@@ -178,14 +161,7 @@ void SensorReader::slotCalibrateXAxisAccelerometer()
     if(flagCalibrateXAxisAccelerometer) {
         dataCalibrateXAxisAccelerometer = {0, 0, 0};
         numCalibrateXAxisAccelerometer = 0;
-
-        //Accelerometer.setCoefficient(1);
-        qDebug() << "==================slotCalibrateXAxisAccelerometere START================";
     } else {
-        qDebug() << "==================slotCalibrateXAxisAccelerometere END================";
-        //Accelerometer.setCoefficient(accelCoefficient);
-        //Accelerometer.saveCoefficient();
-
         // локальная ось X сонаправленна с осью разгона
         localBasis.setLocalX(dataCalibrateXAxisAccelerometer);
         if(localBasis.saveBasis()) {
@@ -219,8 +195,6 @@ void SensorReader::calibrateZAxisGyroscope()
         return;
     }
     dataCalibrateZAxisGyroscope += Gyroscope.getData();
-    qDebug() << "dataCalibrateZAxisGyroscope     =" << dataCalibrateZAxisGyroscope.normalized();
-
     numCalibrateZAxisGyroscope++;
 }
 
@@ -230,7 +204,5 @@ void SensorReader::calibrateXAxisAccelerometer()
         return;
     }
     dataCalibrateXAxisAccelerometer += Accelerometer.getData();
-    qDebug() << "dataCalibrateXAxisAccelerometer =" << dataCalibrateXAxisAccelerometer.normalized();
-
     numCalibrateXAxisAccelerometer++;
 }
