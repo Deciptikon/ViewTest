@@ -1,4 +1,4 @@
-QT += quick sql serialport
+QT += quick sql serialport multimedia
 
 CONFIG += c++11
 
@@ -12,6 +12,7 @@ SOURCES += \
         accelerometer.cpp \
         appsettings.cpp \
         autopilot.cpp \
+        cameraview.cpp \
         databasefield.cpp \
         devicei2c.cpp \
         drawtrack.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
     accelerometer.h \
     appsettings.h \
     autopilot.h \
+    cameraview.h \
     constants.h \
     databasefield.h \
     devicei2c.h \

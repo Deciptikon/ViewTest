@@ -17,6 +17,7 @@
 #include "drawtrack.h"
 #include "devicei2c.h"
 #include "sensorreader.h"
+#include "cameraview.h"
 
 typedef QList<QVector2D> ListVector;
 
@@ -83,9 +84,11 @@ int main(int argc, char *argv[])
     context->setContextProperty("appSettings", &settings);
 
     //регистрируем в метаобъектной системе
-    qmlRegisterType<TypeEdit> ("TypeEdit" , 1, 0, "TypeEdit" );
-    qmlRegisterType<DriveMode>("DriveMode", 1, 0, "DriveMode");
-    qmlRegisterType<DrawTrack>("DrawTrack", 1, 0, "DrawTrack");
+    qmlRegisterType<TypeEdit>  ("TypeEdit",   1, 0, "TypeEdit"  );
+    qmlRegisterType<DriveMode> ("DriveMode",  1, 0, "DriveMode" );
+    qmlRegisterType<DrawTrack> ("DrawTrack",  1, 0, "DrawTrack" );
+    qmlRegisterType<CameraView>("CameraView", 1, 0, "CameraView");
+
     qRegisterMetaType<ListVector>("ListVector");
 
 
@@ -272,7 +275,7 @@ int main(int argc, char *argv[])
     threadAutopilot->start();
     threadGPS->start();
     threadDeviceI2C_14->start();
-    threadSensorReader->start();
+    //threadSensorReader->start();
 ///----------------------------------------------------------------------------------------------
 
     return app.exec();

@@ -1,21 +1,63 @@
 import QtQuick 2.0
+import QtMultimedia 5.12
+import CameraView 1.0
 
 Item {
+    id: _root
     anchors.fill: parent
 
+    Item {
+        id: _camera1Item
+        width: parent.width/2 - 2
+        height: parent.height/2 - 2
 
-    Rectangle {
-        width: parent.width/2
-        height: parent.height/2
-        radius: parent.width/20
-        anchors.centerIn: parent
-        color: Qt.rgba(0.7, 0.7, 0.7, 0.7)
-        Text {
-            id: testText
-            anchors.centerIn: parent
-            text: qsTr("Camera Page")
-            color: "black"
-            font.pixelSize: 40
+        anchors.left: parent.left
+        anchors.top: parent.top
+
+        Camera {
+            id: _camera1
+            objectName: "Camera1"
+            deviceId: QtMultimedia.availableCameras[0].deviceId
+
+        }
+
+        VideoOutput {
+            source: _camera1
+            anchors.fill: parent
+        }
+    }
+    Item {
+        id: _camera2Item
+        width: parent.width/2 - 2
+        height: parent.height/2 - 2
+
+        anchors.right: parent.right
+        anchors.top: parent.top
+
+        Camera {
+            id: _camera2
+            objectName: "Camera2"
+            deviceId: QtMultimedia.availableCameras[1].deviceId
+
+        }
+
+        VideoOutput {
+            source: _camera2
+            anchors.fill: parent
+        }
+    }
+
+    Item {
+        id: _cameraView
+        width: parent.width/2 - 2
+        height: parent.height/2 - 2
+
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
+        CameraView {
+            anchors.fill: parent
+            cameraIndex: 1
         }
     }
 }
