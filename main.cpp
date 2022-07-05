@@ -17,7 +17,6 @@
 #include "drawtrack.h"
 #include "devicei2c.h"
 #include "sensorreader.h"
-#include "cameraview.h"
 
 typedef QList<QVector2D> ListVector;
 
@@ -87,7 +86,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<TypeEdit>  ("TypeEdit",   1, 0, "TypeEdit"  );
     qmlRegisterType<DriveMode> ("DriveMode",  1, 0, "DriveMode" );
     qmlRegisterType<DrawTrack> ("DrawTrack",  1, 0, "DrawTrack" );
-    qmlRegisterType<CameraView>("CameraView", 1, 0, "CameraView");
 
     qRegisterMetaType<ListVector>("ListVector");
 

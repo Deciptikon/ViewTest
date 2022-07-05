@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtMultimedia 5.12
-import CameraView 1.0
 
 Item {
     id: _root
@@ -44,20 +43,6 @@ Item {
         VideoOutput {
             source: _camera2
             anchors.fill: parent
-        }
-    }
-
-    Item {
-        id: _cameraView
-        width: parent.width/2 - 2
-        height: parent.height/2 - 2
-
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-
-        CameraView {
-            anchors.fill: parent
-            cameraIndex: 1
         }
     }
 }
