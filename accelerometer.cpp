@@ -55,7 +55,7 @@ void Accelerometer::updateData()
     }
 #else
     #ifdef Q_OS_WIN
-        qDebug() << "void Accelerometer::updateData()";
+        //qDebug() << "void Accelerometer::updateData()";
     #endif
 #endif
 }

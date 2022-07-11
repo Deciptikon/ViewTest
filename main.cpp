@@ -258,6 +258,12 @@ int main(int argc, char *argv[])
                   SLOT(slotCalibrateXAxisAccelerometerIsDone()),
                   Qt::ConnectionType::QueuedConnection);
 
+    // передаём в автопилот новое значение расстояния между
+    // паралллеьными линиями, перезаписываем его и сохраняем в настройки
+    autopilot->connect(&model, SIGNAL(signalUpdateWidthBetweenLines(float)),
+                       SLOT(updateWidthBetweenLines(float)),
+                       Qt::ConnectionType::QueuedConnection);
+
 ///--------------------------------------------------------------------------------------
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

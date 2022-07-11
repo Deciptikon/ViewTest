@@ -66,7 +66,7 @@ void Gyroscope::updateData()
     }
 #else
     #ifdef Q_OS_WIN
-        qDebug() << "void Gyroscope::updateData()";
+        //qDebug() << "void Gyroscope::updateData()";
         //data = {1,1,1};
     #endif
 #endif

@@ -42,6 +42,14 @@ public:
     /// Возвращает значение "true" если выполняется на ситеме Linux.
     Q_INVOKABLE bool isLinux();
 
+    /// Возвращает расстояние между параллельными линиями
+    /// прочитанное из настроек.
+    Q_INVOKABLE qreal getWidthBetweenLines();
+
+    /// Устанавливает новое расстояние между параллельными линиями
+    /// в режиме параллельного вождения.
+    Q_INVOKABLE void setWidthBetweenLines(qreal width);
+
     /// Возвращает цвет статусбара.
     const QColor &colorStatusBar() const;
     /// Устанавливает цвет статусбара.
@@ -127,6 +135,10 @@ signals:
 
     /// Сигнал о изменении цвета статусбара.
     void colorStatusBarChanged();
+
+    /// Сигнал устанавливающий расстояние между параллельными линиями
+    /// в режиме параллельного вождения.
+    void signalUpdateWidthBetweenLines(const float &width);
 
 public slots:
     /// Слот приёма состояния активности модуля GPS.

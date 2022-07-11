@@ -83,6 +83,24 @@ bool Model::isLinux()
     return osLinux;
 }
 
+qreal Model::getWidthBetweenLines()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    qreal width = 0;
+    width = settings.value(DIR_DRIVEMODES
+                           SUBDIR_PARALLEL
+                           KEY_WIDTH_BETWEEN_LINES,
+                           DEFAULT_WIDTH_BETWEEN_LINES).toFloat();
+    return width;
+}
+
+void Model::setWidthBetweenLines(qreal width)
+{
+    float w = width;
+    emit signalUpdateWidthBetweenLines(w);
+}
+
 void Model::slotGPSon()
 {
     emit signalStateGPStoQML(true);

@@ -80,6 +80,15 @@ public slots:
     /// Слот, устанавливает текущую кооддинату в качестве точки В.
     void slotSetPointB();
 
+    /// Слот обновляющий расстояние между линиями.
+    void readWidthBetweenLines();
+
+    /// Записывает значение расстояния между параллельными линиями в
+    /// настройки приложения.
+    void saveWidthBetweenLines();
+
+    void updateWidthBetweenLines(const float &width);
+
 private slots:
     //
 

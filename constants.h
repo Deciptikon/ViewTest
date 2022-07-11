@@ -81,6 +81,16 @@
 #define DEFAULT_GYROS_COEFFICIENT   "1"
 
 //=======================================================
+
+
+#define DIR_DRIVEMODES             "DriveModes/"
+
+#define SUBDIR_PARALLEL            "Parallel/"
+
+#define KEY_WIDTH_BETWEEN_LINES    "WidthBetweenLines"
+#define DEFAULT_WIDTH_BETWEEN_LINES "5"
+
+
 #define DIR_RESTORE_SETTINGS        "RestoreSettings/"
 #define KEY_RESTORE_SETTINGS        "RestoreSettings"
 #define DEFAULT_RESTORE_SETTINGS    "false"

@@ -29,6 +29,7 @@ void SensorReader::init(const int msec)
 
     // читаем локальный базис
     localBasis.readBasis();
+    localBasis.debug();
 }
 
 int SensorReader::getMsecDeltaTime() const
@@ -53,7 +54,7 @@ void SensorReader::loop()
     // данные гироскопа за вычетом покоя в локальных координатах
     QVector3D gyrosData = localBasis.toLocalBasis(Gyroscope.getData());
 
-    localBasis.debug();
+    //localBasis.debug();
 
     emit updateDataSens(accelData, gyrosData);
 }
@@ -150,7 +151,7 @@ void SensorReader::slotCalibrateZAxisGyroscope()
         if(localBasis.saveBasis()) {
             emit signalCalibrateZAxisGyroscopeIsDone();
         }
-        localBasis.debug();
+        //localBasis.debug();
     }
 }
 
@@ -167,7 +168,7 @@ void SensorReader::slotCalibrateXAxisAccelerometer()
         if(localBasis.saveBasis()) {
             emit signalCalibrateXAxisAccelerometerIsDone();
         }
-        localBasis.debug();
+        //localBasis.debug();
     }
 }
 

@@ -1,4 +1,6 @@
 #include "autopilot.h"
+#include <QSettings>
+#include "constants.h"
 
 
 Autopilot::Autopilot(QObject *parent) : QObject(parent)
@@ -158,7 +160,8 @@ void Autopilot::slotSetPointA()
         return;
     }
     //read from QSettings
-    widthBetweenLines = 5;
+    //widthBetweenLines = 5;
+    readWidthBetweenLines();
 
     pointA = path2D.last();
     pointB = {0,0};
@@ -183,6 +186,38 @@ void Autopilot::slotSetPointB()
 
     emit sendDirectToDraw(dir);
 
+}
+
+void Autopilot::readWidthBetweenLines()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    widthBetweenLines = settings.value(DIR_DRIVEMODES
+                                       SUBDIR_PARALLEL
+                                       KEY_WIDTH_BETWEEN_LINES,
+                                       DEFAULT_WIDTH_BETWEEN_LINES).toFloat();
+
+
+}
+
+void Autopilot::saveWidthBetweenLines()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    settings.setValue(DIR_DRIVEMODES
+                      SUBDIR_PARALLEL
+                      KEY_WIDTH_BETWEEN_LINES,
+                      widthBetweenLines);
+}
+
+void Autopilot::updateWidthBetweenLines( const float &width)
+{
+    qDebug() << "////////////////////////////////////////////////";
+    if(width == widthBetweenLines) {
+        return;
+    }
+    widthBetweenLines = width;
+    saveWidthBetweenLines();
 }
 
 void Autopilot::driveKeyPoint()
