@@ -49,8 +49,8 @@ static inline void planarYUV420_to_ARGB32(const uchar *y, int yStride,
     }
 }
 
-CameraView::CameraView(QQuickItem *parent):
-    m_cameraIndex(1)
+CameraView::CameraView(QQuickItem *parent)
+    //m_cameraIndex(1)
   //, ...
 {
 
@@ -68,7 +68,8 @@ CameraView::CameraView(QQuickItem *parent):
 
     qDebug() << "Камера выбрана: " << cameras.at(cameraIndex() - 1).deviceName();
     cam = new QCamera(cameras.at(cameraIndex() - 1));
-    cam->setCaptureMode(QCamera::CaptureVideo);//CaptureVideo//CaptureViewfinder
+    cam->setCaptureMode(QCamera::CaptureMode::CaptureViewfinder);//CaptureVideo//CaptureViewfinder
+    qDebug() << " availableCameras()" << cameras.size();
 
     //viewfinder = new QCameraViewfinder();
 
@@ -84,34 +85,42 @@ CameraView::CameraView(QQuickItem *parent):
     videoProbe = new QVideoProbe();//this
 
     if (videoProbe->setSource((QMediaObject *)cam)) {
-        qDebug() << " set source 1 succeed";
+        qDebug() << " set source 1 succeed" << videoProbe->isActive();
+        qDebug() << "cam->captureMode() =" << cam->captureMode();
 
         QObject::connect(videoProbe, SIGNAL(videoFrameProbed(QVideoFrame)),
                          this,       SLOT(frameProbeCam(QVideoFrame)));
         cameraNotAvailable = false;
+
+
     }
+    cam->start();
 
 }
 
 void CameraView::paint(QPainter *painter)
 {
+    qDebug() << "//////////////////////////////////////////////////////////////////////";
     if(painter == nullptr) {
         qDebug() << "CameraView::paint:: painter == nullptr";
         return;
     }
+    painter->fillRect(            0,              0,
+                      this->width(), this->height(),
+                      QColor(128,128,128) );
+    qDebug() << "//////////////////////////////////////////////////////////////////////";
     if(cameraNotAvailable) {
-        painter->fillRect(            0,              0,
-                          this->width(), this->height(),
-                          QColor(128,128,128) );
+
         QString text = "Camera Not Available";
         qDebug() << text;
         //painter->drawText(this->width()/2, this->height()/2, text);
         return;
     }
-
+    qDebug() << "//////////////////////////////////////////////////////////////////////";
     if(m_capture.isNull()) {
         return;
     }
+    qDebug() << "//////////////////////////////////////////////////////////////////////";
 
     painter->drawImage(0, 0, m_capture);
 }
@@ -140,6 +149,7 @@ void CameraView::setCameraIndex(qreal newCameraIndex)
 void CameraView::frameProbeCam(const QVideoFrame &frame)
 {
     QImage imgTemp = frameToQImage(frame);
+    qDebug() << "frameProbeCam";
 
     if(imgTemp.isNull()) {
         qDebug() << "img is NULL: ";
