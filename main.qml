@@ -12,7 +12,7 @@ Window {
 
     // если Linux - во весь экран
     visibility: modelView.isLinux()? Window.FullScreen : Window.AutomaticVisibility
-
+    flags: if(!modelView.isLinux()) Qt.FramelessWindowHint
 //    onClosing: {
 //        appSettings.checkAndRestoreSettings()
 //    }
