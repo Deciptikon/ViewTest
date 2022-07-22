@@ -8,6 +8,7 @@
 #include "accelerometer.h"
 #include "gyroscope.h"
 #include "localbasis.h"
+#include "sensoranglerotate.h"
 
 
 class SensorReader : public QObject
@@ -28,10 +29,13 @@ public:
     /// с физического устройства по каналу I2C и калибровки нулевого положения,
     /// а так же процедуры чтения и записи откалиброванных значений в настройки приложения.
     Accelerometer Accelerometer;
+
     /// Гироскоп, содержит функции и члены для получения данных
     /// с физического устройства по каналу I2C и калибровки нулевого положения,
     /// а так же процедуры чтения и записи откалиброванных значений в настройки приложения.
     Gyroscope     Gyroscope;
+
+    SensorAngleRotate AngleRotate;
 
 signals:
     /// Сигнал передающий текущие данные полученные с гироскопа и

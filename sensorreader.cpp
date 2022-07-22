@@ -20,6 +20,7 @@ void SensorReader::init(const int msec)
 
     Accelerometer.init();
     Gyroscope.init();
+    AngleRotate.init(0x15);
 
     Accelerometer.readZeroData();
     Accelerometer.readCoefficient();
@@ -40,6 +41,7 @@ void SensorReader::loop()
 {
     Accelerometer.updateData();
     Gyroscope.updateData();
+    AngleRotate.readData();
 
     calibrateZeroPointAccelerometer();
     calibrateZeroPointGyroscope();
