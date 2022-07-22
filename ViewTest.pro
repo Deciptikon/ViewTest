@@ -21,6 +21,7 @@ SOURCES += \
         localbasis.cpp \
         main.cpp \
         model.cpp \
+        sensoranglerotate.cpp \
         sensorreader.cpp
 
 RESOURCES += qml.qrc
@@ -60,4 +61,5 @@ HEADERS += \
     gyroscope.h \
     localbasis.h \
     model.h \
+    sensoranglerotate.h \
     sensorreader.h
