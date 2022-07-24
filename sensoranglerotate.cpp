@@ -1,4 +1,5 @@
 #include "sensoranglerotate.h"
+#include <QtMath>
 
 SensorAngleRotate::SensorAngleRotate(QObject *parent) : QObject(parent)
 {
@@ -48,21 +49,25 @@ void SensorAngleRotate::readData()
         return;
     }
 
-    uint8_t g = 'g';
-    uint8_t f = 'f';
-    uint8_t c = 'c';
+    uint8_t h = 120; // команда на чтение старшего разряда
+    uint8_t l = 121; // команда на чтение младшего разряда
 
-    int received_data  = wiringPiI2CReadReg8(this->deviceRegAdress, c);
-    //int received_data2 = wiringPiI2CReadReg8(this->deviceRegAdress, f);
+    int receivedDataH = wiringPiI2CReadReg8(this->deviceRegAdress, h);
+    int receivedDataL = wiringPiI2CReadReg8(this->deviceRegAdress, l);
 
-    //int rd = received_data2*100 + received_data;
-    int rd = received_data;
+    int rd = abs(receivedDataH) * 100 + abs(receivedDataL);
+
+    if( receivedDataH<0 || receivedDataL<0) {
+        rd = -rd;
+    }
+
     emit readFrom(rd);
 
     qDebug() << "-----------------------------------------------";
     qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 1: " << received_data;
     //qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 2: " << received_data2;
     qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read summ: " << rd;
+
 #else
     #ifdef Q_OS_WIN
         qDebug() << "void SensorAngleRotate::updateData()";

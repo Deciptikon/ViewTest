@@ -21,7 +21,8 @@ public:
     void init(int hexAdress);
 
 signals:
-    //
+    /// Сигнал, возвращает прочтенные данные при помощи слота readData()
+    void readFrom(int &data);
 
 public slots:
     /// Обновляет данные с сенсоров (читает из регистров и записывает в
