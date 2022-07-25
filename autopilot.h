@@ -64,6 +64,9 @@ public slots:
     /// Слот, принимает данные от Гироскопа и Акселерометра.
     void readFromGyroAndAccel(const QVector3D &accel, const QVector3D &gyro);
 
+    /// Слот, принимает данные от датчика угла поворота рулевого колеса (в градусах)
+    void readFromSensorAngleRotation(const int &angle);
+
     /// Слот, принимает ключевую точку полученную из QML.
     void addKeyPoint(const QVector2D &point);
 

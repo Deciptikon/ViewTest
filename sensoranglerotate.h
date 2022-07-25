@@ -20,16 +20,16 @@ public:
     /// Регистрирует устройство в системе и настраивает его на обмен данными.
     void init(int hexAdress);
 
+    float getCurrentAngle() const;
+
 signals:
-    /// Сигнал, возвращает прочтенные данные при помощи слота readData()
-    void readFrom(int &data);
 
 public slots:
     /// Обновляет данные с сенсоров (читает из регистров и записывает в
     /// приватные поля класса).
     void readData();
 
-    /// Слот, передает данные на устройство
+    /// Слот, передает данные на устройство по i2c
     void writeData(const int &data);
 
 private:
@@ -37,8 +37,7 @@ private:
 
     int deviceRegAdress;
 
-    int counter;
-    float currentAngle;
+    float currentAngle = 0;
 };
 
 #endif // SENSORANGLEROTATE_H

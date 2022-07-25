@@ -187,6 +187,11 @@ int main(int argc, char *argv[])
                        SLOT(readFromGyroAndAccel(QVector3D,QVector3D)),
                        Qt::ConnectionType::QueuedConnection);
 
+    // получаем данные с датчика угла поворота рулевого колеса
+    autopilot->connect(sensorreader, SIGNAL(updateCurrentAngle(int)),
+                       SLOT(readFromSensorAngleRotation(int)),
+                       Qt::ConnectionType::QueuedConnection);
+
     // изменение пути и ключевых точек в автопилоте передаются в model
     // для дальнейшего отображения
 //    model.connect(autopilot, SIGNAL(signalAppPointToPathAndRemoveFirst(const QVector2D&)),

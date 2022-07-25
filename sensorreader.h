@@ -42,6 +42,10 @@ signals:
     /// акселерометра в систему (автопилоту, QML и ...).
     void updateDataSens(const QVector3D &accel, const QVector3D &gyro);
 
+    /// Сигнал передающий текущие данные полученные с датчика угла
+    /// поворота рулевого колеса в систему (автопилоту, QML и ...).
+    void updateCurrentAngle(const int &angle);
+
     /// Сигнал о успешной калибровки состояния покоя акселерометра для QML.
     void signalCalibrateZeroPointAccelerometerIsDone();
     /// Сигнал о успешной калибровки состояния покоя гироскопа для QML.

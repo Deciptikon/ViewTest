@@ -55,9 +55,10 @@ void SensorReader::loop()
     // данные гироскопа за вычетом покоя в локальных координатах
     QVector3D gyrosData = localBasis.toLocalBasis(Gyroscope.getData());
 
-    localBasis.debug();
+    //localBasis.debug();
 
     emit updateDataSens(accelData, gyrosData);
+    emit updateCurrentAngle(AngleRotate.getCurrentAngle());
 }
 
 void SensorReader::slotCalibrateZeroPointAccelerometer(const int &msec)

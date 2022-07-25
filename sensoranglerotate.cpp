@@ -41,6 +41,11 @@ void SensorAngleRotate::writeData(const int &data)
 #endif
 }
 
+float SensorAngleRotate::getCurrentAngle() const
+{
+    return currentAngle;
+}
+
 void SensorAngleRotate::readData()
 {
 #ifdef Q_OS_LINUX
@@ -67,7 +72,7 @@ void SensorAngleRotate::readData()
         rd = -rd;
     }
 
-    emit readFrom(rd);
+    currentAngle = rd;
 
     qDebug() << "-----------------------------------------------";
     qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 1: " << receivedDataH;
