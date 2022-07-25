@@ -53,7 +53,13 @@ void SensorAngleRotate::readData()
     uint8_t l = 121; // команда на чтение младшего разряда
 
     int receivedDataH = wiringPiI2CReadReg8(this->deviceRegAdress, h);
+    //if(receivedDataH>127) {
+        receivedDataH = receivedDataH - 127;
+    //}
     int receivedDataL = wiringPiI2CReadReg8(this->deviceRegAdress, l);
+    //if(receivedDataL>127) {
+        receivedDataL = receivedDataL - 127;
+    //}
 
     int rd = abs(receivedDataH) * 100 + abs(receivedDataL);
 
@@ -64,8 +70,8 @@ void SensorAngleRotate::readData()
     emit readFrom(rd);
 
     qDebug() << "-----------------------------------------------";
-    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 1: " << received_data;
-    //qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 2: " << received_data2;
+    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 1: " << receivedDataH;
+    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 2: " << receivedDataL;
     qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read summ: " << rd;
 
 #else
