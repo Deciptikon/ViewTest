@@ -69,7 +69,7 @@ void Model::sendToDevice14(qreal data)
 
 void Model::swapRelayState()
 {
-    int d = 120;
+    int d = 220;
     emit signalCommandToSlave14(d);
 }
 

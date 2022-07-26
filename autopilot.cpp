@@ -311,6 +311,6 @@ void Autopilot::restateRelay()
     stateRelay = !stateRelay;
     qDebug() << "Состояние реле изменено на " << stateRelay;
 
-    int c=120;
+    int c = 220;
     emit sendCommandToSlave14(c);
 }
