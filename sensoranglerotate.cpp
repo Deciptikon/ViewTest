@@ -41,9 +41,21 @@ void SensorAngleRotate::writeData(const int &data)
 #endif
 }
 
+void SensorAngleRotate::setAngleWheelsRotate(int angle)
+{
+    float koeff = 1.0, delta = 0.0;
+
+    angleWheelsRotate = (float)angle * koeff + delta;
+}
+
 float SensorAngleRotate::getCurrentAngle() const
 {
     return currentAngle;
+}
+
+float SensorAngleRotate::getAngleWheelsRotate() const
+{
+    return angleWheelsRotate;
 }
 
 void SensorAngleRotate::readData()
@@ -73,6 +85,8 @@ void SensorAngleRotate::readData()
     }
 
     currentAngle = rd;
+
+    setAngleWheelsRotate(currentAngle);
 
     qDebug() << "-----------------------------------------------";
     qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 1: " << receivedDataH;

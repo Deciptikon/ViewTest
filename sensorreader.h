@@ -44,7 +44,7 @@ signals:
 
     /// Сигнал передающий текущие данные полученные с датчика угла
     /// поворота рулевого колеса в систему (автопилоту, QML и ...).
-    void updateCurrentAngle(const int &angle);
+    void updateCurrentAngle(const float &angle);
 
     /// Сигнал о успешной калибровки состояния покоя акселерометра для QML.
     void signalCalibrateZeroPointAccelerometerIsDone();

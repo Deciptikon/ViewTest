@@ -65,7 +65,7 @@ public slots:
     void readFromGyroAndAccel(const QVector3D &accel, const QVector3D &gyro);
 
     /// Слот, принимает данные от датчика угла поворота рулевого колеса (в градусах)
-    void readFromSensorAngleRotation(const int &angle);
+    void readFromSensorAngleRotation(const float &angle);
 
     /// Слот, принимает ключевую точку полученную из QML.
     void addKeyPoint(const QVector2D &point);
@@ -119,6 +119,8 @@ private:
     QVector2D pointB{0,0};
     QVector2D dir; // направление линий параллельного вождения
     QVector2D orthoDir;//{dir.y(), -dir.x()};
+
+    float angleWheelsRotate;// угол поворота колёс
 };
 
 #endif // AUTOPILOT_H

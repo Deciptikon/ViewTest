@@ -94,7 +94,7 @@ void Autopilot::readFromGyroAndAccel(const QVector3D &accel, const QVector3D &gy
 //    qDebug() << "**** Gyroscope    " << gyro;
 }
 
-void Autopilot::readFromSensorAngleRotation(const int &angle)
+void Autopilot::readFromSensorAngleRotation(const float &angle)
 {
     qDebug() << "readFromSensorAngleRotation" << angle;
 }

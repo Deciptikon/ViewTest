@@ -58,7 +58,7 @@ void SensorReader::loop()
     //localBasis.debug();
 
     emit updateDataSens(accelData, gyrosData);
-    emit updateCurrentAngle(AngleRotate.getCurrentAngle());
+    emit updateCurrentAngle(AngleRotate.getAngleWheelsRotate());
 }
 
 void SensorReader::slotCalibrateZeroPointAccelerometer(const int &msec)

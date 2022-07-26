@@ -188,8 +188,8 @@ int main(int argc, char *argv[])
                        Qt::ConnectionType::QueuedConnection);
 
     // получаем данные с датчика угла поворота рулевого колеса
-    autopilot->connect(sensorreader, SIGNAL(updateCurrentAngle(int)),
-                       SLOT(readFromSensorAngleRotation(int)),
+    autopilot->connect(sensorreader, SIGNAL(updateCurrentAngle(float)),
+                       SLOT(readFromSensorAngleRotation(float)),
                        Qt::ConnectionType::QueuedConnection);
 
     // изменение пути и ключевых точек в автопилоте передаются в model

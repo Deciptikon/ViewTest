@@ -20,7 +20,11 @@ public:
     /// Регистрирует устройство в системе и настраивает его на обмен данными.
     void init(int hexAdress);
 
+    /// Возвращает текущий угол поворота рулевого колеса
     float getCurrentAngle() const;
+
+    /// Возвращает текущий угол поворота ведущих колёс
+    float getAngleWheelsRotate() const;
 
 signals:
 
@@ -33,11 +37,17 @@ public slots:
     void writeData(const int &data);
 
 private:
+    /// Вычисляет угол направления колес на основе угла полученного
+    /// с датчика угла поворота рулевого колеса
+    void setAngleWheelsRotate(int angle);
+
     int hexAdress;
 
     int deviceRegAdress;
 
     float currentAngle = 0;
+
+    float angleWheelsRotate = 0;
 };
 
 #endif // SENSORANGLEROTATE_H
