@@ -43,8 +43,6 @@ void SensorAngleRotate::writeData(const int &data)
 
 void SensorAngleRotate::setAngleWheelsRotate(int angle)
 {
-    float koeff = 1.0, delta = 0.0;
-
     angleWheelsRotate = (float)angle * koeff + delta;
 }
 

@@ -213,26 +213,47 @@ void Autopilot::driveKeyPoint()
         return;
     }
 
+    /// Вычисляет угол (в радианах) между направлением dir и вектором vec.
+    auto AngleBetweenVectors = [](QVector2D dir, QVector2D vec) -> float {
+        float ang = 0;
+
+        if(dir.isNull() || vec.isNull()) {
+            return ang;
+        }
+
+        QVector2D ortho{dir.y(), -dir.x()};
+
+        float projectionX = QVector2D::dotProduct(dir.normalized(), vec.normalized());
+        float projectionY = QVector2D::dotProduct(dir.normalized(), ortho.normalized());
+
+        ang = acosf(projectionX);
+
+        if(projectionY > 0) {
+            ang = -ang;
+        }
+
+        return ang;
+    };
+
     //projection = cos(angle between a and b) for length(a)=length(b)=1
-    float projection = QVector2D::dotProduct(directionToPoint.normalized(), orthogonal.normalized());
+    //float projection = QVector2D::dotProduct(directionToPoint.normalized(), orthogonal.normalized());
     //qDebug() << "projectionOnOrthogonal:" << projection;
 
-    int msec;
-    int comm = 50;
-    if(abs(projection) < 0.1) {
-        //поворачиваем на малый угол
-        msec = (int)(projection * 5000.0);// msec from -500 to 500
-        comm = (5000 + msec)/100;
-    } else {
-        if(projection>0) {
-            //поворачиваем направо
-            msec = 500;// msec from -5000 to 5000
-            comm = (5000 + msec)/100;
-        } else {
-            //поворачиваем налево (знак минус)
-            msec = -500;// msec from -5000 to 5000
-            comm = (5000 + msec)/100;
-        }
+    float angleToKeyPoint = AngleBetweenVectors(directionToPoint, direction);
+
+    float deltaAngle = angleToKeyPoint - angleWheelsRotate;
+
+    int comm = 100;//from 0 to 200
+
+    if(abs(deltaAngle) > 0.05) {
+        comm = 100.0 + deltaAngle * 180.0 / M_PI;
+    }
+
+    if(comm < 0) {
+        comm = 0;
+    }
+    if(comm > 200) {
+        comm = 200;
     }
 
     qDebug() << "CommandToSlave:" << comm;
