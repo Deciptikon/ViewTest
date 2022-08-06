@@ -214,11 +214,11 @@ int main(int argc, char *argv[])
                   Qt::ConnectionType::QueuedConnection);
 
     // отправка команды на slave14
-    devicei2c_14->connect(autopilot, SIGNAL(sendCommandToSlave14(int)),
-                          SLOT(writeData(int)),
+    devicei2c_14->connect(autopilot, SIGNAL(sendCommandToSlave14(uint8_t)),
+                          SLOT(writeData(uint8_t)),
                           Qt::ConnectionType::QueuedConnection);
-    devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(int)),
-                          SLOT(writeData(int)),
+    devicei2c_14->connect(&model, SIGNAL(signalCommandToSlave14(uint8_t)),
+                          SLOT(writeData(uint8_t)),
                           Qt::ConnectionType::QueuedConnection);
 
     // передаем данные сенсоров в QML

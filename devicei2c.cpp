@@ -45,7 +45,7 @@ void DeviceI2C::readData()
     //    }
 }
 
-void DeviceI2C::writeData(const int &data)
+void DeviceI2C::writeData(const uint8_t &data)
 {
 #ifdef Q_OS_LINUX
     if (this->deviceRegAdress == -1) {
@@ -53,6 +53,45 @@ void DeviceI2C::writeData(const int &data)
     } else {
         wiringPiI2CWrite(this->deviceRegAdress, data);
         qDebug() << "SlaveController::writeData()";
+    }
+#else
+    #ifdef Q_OS_WIN
+        qDebug() << "void DeviceI2C::writeData(const int &data)";
+    #endif
+#endif
+}
+
+void DeviceI2C::writeBigData(const int16_t &data)
+{
+#ifdef Q_OS_LINUX
+    if (this->deviceRegAdress == -1) {
+        qDebug() << "[SlaveController::loop()] deviceRegAdress == -1";
+        return;
+    }
+    if(data == 0) {
+        return;
+    }
+
+    const int amplituda = 100;
+    int k = 1;
+    if(data < 0) {
+        k = -1;
+    }
+
+    int16_t tData = data;
+
+    while(tData != 0) {
+        int pocketData = 0;
+        if(abs(tData) <= amplituda) {
+            pocketData = tData;
+            tData = 0;
+        } else {
+            pocketData = k * amplituda;
+            tData -= pocketData;
+        }
+        uint8_t comm = amplituda + pocketData;
+        wiringPiI2CWrite(this->deviceRegAdress, comm);
+        qDebug() << "SlaveController::writeData(): " << pocketData;
     }
 #else
     #ifdef Q_OS_WIN

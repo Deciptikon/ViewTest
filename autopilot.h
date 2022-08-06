@@ -31,7 +31,7 @@ public:
 
 signals:
     /// Сигнал, отправляет команду на контроллер подруливающего устройства.
-    void sendCommandToSlave14(const int &comm);
+    void sendCommandToSlave14(const uint8_t &comm);
 
     /// Сигнал, отправляет ссылку на траекторию перемещения при её изменении
     /// (удалении или добавлении точки).

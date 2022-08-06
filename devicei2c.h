@@ -28,8 +28,11 @@ public slots:
     /// Читает данные !!!не реализован!!!
     void readData();
 
-    /// Слот, передает данные на устройство
-    void writeData(const int &data);
+    /// Слот, передает данные [0 - 255] на устройство
+    void writeData(const uint8_t &data);
+
+    /// Слот, передает большие данные на устройство
+    void writeBigData(const int16_t &data);
 
 private:
     int hexAdress;

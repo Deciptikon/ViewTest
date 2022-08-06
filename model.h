@@ -76,7 +76,7 @@ signals:
     void sendDirectToQML(const QVector2D dir);
 
     /// Сигнал отправки команды на подруливающее устройство.
-    void signalCommandToSlave14(const int &comm);
+    void signalCommandToSlave14(const uint8_t &comm);
 
     /// Передача данных гироскопа в слой QML.
     void signalDataGyrosToQML(qreal x, qreal y, qreal z);
