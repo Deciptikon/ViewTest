@@ -1,5 +1,9 @@
 #include "sensoranglerotate.h"
+
+#include "constants.h"
+
 #include <QtMath>
+#include <QSettings>
 
 SensorAngleRotate::SensorAngleRotate(QObject *parent) : QObject(parent)
 {
@@ -22,7 +26,7 @@ void SensorAngleRotate::init(int hexAdress)
     #ifdef Q_OS_WIN
         qDebug() << "void DeviceI2C::init(int hexAdress) =" << hexAdress;
     #endif
-#endif
+#endif    
 }
 
 void SensorAngleRotate::writeData(const int &data)
@@ -49,6 +53,56 @@ void SensorAngleRotate::setAngleWheelsRotate(int angle)
 void SensorAngleRotate::setKoeff(float newKoeff)
 {
     koeff = newKoeff;
+}
+
+bool SensorAngleRotate::saveParameters()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    settings.setValue(DIR_CALIBRATION
+                      SUBDIR_WHEEL_ANGLE
+                      KEY_WHEEL_KOEFF,
+                      koeff);
+    settings.setValue(DIR_CALIBRATION
+                      SUBDIR_WHEEL_ANGLE
+                      KEY_WHEEL_DELTA,
+                      delta);
+
+    settings.sync(); // синхронизируемся и получаем статус
+
+    if(settings.status() == QSettings::NoError) {
+        qDebug() << "Коеффициент пропорциональности и смещения датчика угла поворота успешно сохранены!";
+        return true;
+    }
+
+    qDebug() << "Ошибка сохранения коеффициента пропорциональности и смещения датчика угла поворота!";
+    return false;
+}
+
+bool SensorAngleRotate::readParameters()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    float k = settings.value(DIR_CALIBRATION
+                             SUBDIR_WHEEL_ANGLE
+                             KEY_WHEEL_KOEFF,
+                             DEFAULT_WHEEL_KOEFF).toFloat();
+    float d = settings.value(DIR_CALIBRATION
+                             SUBDIR_WHEEL_ANGLE
+                             KEY_WHEEL_DELTA,
+                             DEFAULT_WHEEL_DELTA).toFloat();
+
+    settings.sync(); // синхронизируемся и получаем статус
+
+    if(settings.status() == QSettings::NoError) {
+        koeff = k;
+        delta = d;
+        qDebug() << "Коэффициент пропорциональности и смещения датчика угла поворота успешно загружены !";
+        return true;
+    }
+
+    qDebug() << "Ошибка загрузки коэффициента пропорциональности и смещения датчика угла поворота !";
+    return false;
 }
 
 void SensorAngleRotate::setDelta(float newDelta)

@@ -28,6 +28,8 @@ void SensorReader::init(const int msec)
     Gyroscope.readZeroData();
     Gyroscope.readCoefficient();
 
+    AngleRotate.readParameters();
+
     // читаем локальный базис
     localBasis.readBasis();
 }
@@ -210,7 +212,9 @@ void SensorReader::slotCalibrateWheel()
         AngleRotate.setDelta(minAngle + interval * 0.5);
         AngleRotate.setKoeff(koeff);
 
-        emit signalCalibrateWheelIsDone();
+        if(AngleRotate.saveParameters()) {
+            emit signalCalibrateWheelIsDone();
+        }
     }
 }
 

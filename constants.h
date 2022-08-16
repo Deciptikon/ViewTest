@@ -80,6 +80,14 @@
 #define KEY_GYROS_COEFFICIENT       "GyroscopeCoefficient"
 #define DEFAULT_GYROS_COEFFICIENT   "1"
 
+
+#define SUBDIR_WHEEL_ANGLE          "WheelAngle/"
+
+#define KEY_WHEEL_KOEFF             "WheelKoeff"
+#define DEFAULT_WHEEL_KOEFF         "1"
+#define KEY_WHEEL_DELTA             "WheelDelta"
+#define DEFAULT_WHEEL_DELTA         "0"
+
 //=======================================================
 #define DIR_RESTORE_SETTINGS        "RestoreSettings/"
 #define KEY_RESTORE_SETTINGS        "RestoreSettings"
