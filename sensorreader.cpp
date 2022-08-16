@@ -49,6 +49,8 @@ void SensorReader::loop()
     calibrateZAxisGyroscope();
     calibrateXAxisAccelerometer();
 
+    calibrateWheel();
+
     // данные акселерометра за вычетом покоя в локальных координатах
     QVector3D accelData = localBasis.toLocalBasis(Accelerometer.getData());
 
@@ -182,15 +184,32 @@ void SensorReader::slotCalibrateWheel()
         qDebug() << "";
         qDebug() << "flagCalibrateWheel = " << flagCalibrateWheel;
         qDebug() << "";
-        // здесь нужно записывать и на каждом шаге сохранять
-        // либо массив всех значений либо динамически отыскивать
-        // максимальное и минимальное значения угла отклонения
+
+        AngleRotate.setDelta(0);
+        AngleRotate.setKoeff(1.0);
+        minAngle = maxAngle = AngleRotate.getAngleWheelsRotate();
     } else {
         // А здесь нужно найти среднее значение по найденым отклонениям
         // и зафиксировать его в настройках приложения.
         qDebug() << "";
         qDebug() << "flagCalibrateWheel = " << flagCalibrateWheel;
         qDebug() << "";
+
+        float basa = 3.0;// база ТС (в метрах)
+        float minRadius = 6.5;// минимальный радиус поворота ТС (в метрах)
+
+        // максимальный угол поворота колёс (в радианах)
+        float maxWhellsRotate = atan(basa / minRadius);
+
+        float interval = maxAngle - minAngle;
+
+        // коеффициент перевода данных с сенсора в теоретический угол поворота колёс,
+        // вычисленный на основе базы ТС и минимального радиуса поворота (для передне-управляемых ТС)
+        float koeff = interval/(maxWhellsRotate * 2.0);
+
+        AngleRotate.setDelta(minAngle + interval * 0.5);
+        AngleRotate.setKoeff(koeff);
+
         emit signalCalibrateWheelIsDone();
     }
 }
@@ -229,4 +248,20 @@ void SensorReader::calibrateXAxisAccelerometer()
     }
     dataCalibrateXAxisAccelerometer += Accelerometer.getData();
     numCalibrateXAxisAccelerometer++;
+}
+
+void SensorReader::calibrateWheel()
+{
+    if(!flagCalibrateWheel) {
+        return;
+    }
+
+    float angle = AngleRotate.getAngleWheelsRotate();
+
+    if(angle < minAngle) {
+        minAngle = angle;
+    }
+    if(angle > maxAngle) {
+        maxAngle = angle;
+    }
 }

@@ -23,8 +23,12 @@ public:
     /// Возвращает текущий угол поворота рулевого колеса
     float getCurrentAngle() const;
 
-    /// Возвращает текущий угол поворота ведущих колёс
+    /// Возвращает текущий угол поворота ведущих колёс (в радианах)
     float getAngleWheelsRotate() const;
+
+    void setDelta(float newDelta);
+
+    void setKoeff(float newKoeff);
 
 signals:
 

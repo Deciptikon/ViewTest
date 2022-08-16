@@ -89,6 +89,8 @@ private:
     /// Процедура калибровки оси Х акселерометра.
     void calibrateXAxisAccelerometer();
 
+    /// Процедура калибровки датчика угла поворота рулевого колеса.
+    void calibrateWheel();
 
     int msecDeltaTime = 100;
 
@@ -120,6 +122,8 @@ private:
 
 
     bool flagCalibrateWheel = false;
+    float minAngle;
+    float maxAngle;
 };
 
 #endif // SENSORREADER_H

@@ -43,7 +43,17 @@ void SensorAngleRotate::writeData(const int &data)
 
 void SensorAngleRotate::setAngleWheelsRotate(int angle)
 {
-    angleWheelsRotate = (float)angle * koeff + delta;
+    angleWheelsRotate = ((float)angle - delta) * koeff;
+}
+
+void SensorAngleRotate::setKoeff(float newKoeff)
+{
+    koeff = newKoeff;
+}
+
+void SensorAngleRotate::setDelta(float newDelta)
+{
+    delta = newDelta;
 }
 
 float SensorAngleRotate::getCurrentAngle() const
