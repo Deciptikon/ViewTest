@@ -82,6 +82,8 @@ signals:
     void signalDataGyrosToQML(qreal x, qreal y, qreal z);
     /// Передача данных акселерометра в слой QML.
     void signalDataAccelToQML(qreal x, qreal y, qreal z);
+    /// Передача данных акселерометра в слой QML.
+    void signalDataWheelToQML(qreal angle);
 
 
     /// Сигнал старта колибровки покоя акселерометра с длительностью
@@ -108,6 +110,12 @@ signals:
     /// Сигнал успешного прохождения калибровки оси Х акселерометра
     /// полученый от системы.
     void signalCalibrateXAxisAccelerometerIsDone();
+
+    /// Сигнал старта колибровки угла поворота рулевого колеса.
+    void signalCalibrateWheel();
+    /// Сигнал успешного прохождения калибровки угла поворота рулевого колеса
+    /// полученый от системы.
+    void signalCalibrateWheelIsDone();
 
 
     // эти сигналы можно переименовать, но они не для демонстрации
@@ -152,6 +160,8 @@ public slots:
     void addKeyPointFromQML(const QVector2D point);
     /// Слот, принимает текущие данные акселерометра и гироскопа от системы.
     void slotDataSensToQML(const QVector3D &accel, const QVector3D &gyro);
+    /// Слот, принимает текущее угловое положение рулевого колеса.
+    void slotDataWheelToQML(const float &angle);
 
     /// Слот, принимает точку А от автопилота для отображении её в QML.
     void addPointAToQML(const QVector2D &point);
@@ -168,6 +178,9 @@ public slots:
     void slotCalibrateZAxisGyroscopeIsDone();
     /// Слот приема успешности калибровки оси Z акселерометра.
     void slotCalibrateXAxisAccelerometerIsDone();
+
+    /// Слот приема успешности калибровки угла поворота рулевого колеса.
+    void slotCalibrateWheelIsDone();
 
 private slots:
     /// Слот отключения активности кнопки выбора точек А и В.

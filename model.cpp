@@ -149,6 +149,12 @@ void Model::slotDataSensToQML(const QVector3D &accel, const QVector3D &gyro)
     emit signalDataGyrosToQML(g.x(), g.y(), g.z());
 }
 
+void Model::slotDataWheelToQML(const float &angle)
+{
+    qreal ang = angle;
+    emit signalDataWheelToQML(ang);
+}
+
 void Model::addPointAToQML(const QVector2D &point)
 {
     QVector2D p = point;
@@ -180,6 +186,11 @@ void Model::slotCalibrateZAxisGyroscopeIsDone()
 void Model::slotCalibrateXAxisAccelerometerIsDone()
 {
     emit signalCalibrateXAxisAccelerometerIsDone();
+}
+
+void Model::slotCalibrateWheelIsDone()
+{
+    emit signalCalibrateWheelIsDone();
 }
 
 void Model::disableButtonAB()

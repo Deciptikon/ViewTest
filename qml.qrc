@@ -66,5 +66,6 @@
         <file>AnimatedProgressBar.qml</file>
         <file>CalibrationZAxisGyroscope.qml</file>
         <file>CalibrationXAxisAccelerometer.qml</file>
+        <file>CalibrationWheelAngleSensor.qml</file>
     </qresource>
 </RCC>

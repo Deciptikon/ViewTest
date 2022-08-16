@@ -174,6 +174,20 @@ void SensorReader::slotCalibrateXAxisAccelerometer()
     }
 }
 
+void SensorReader::slotCalibrateWheel()
+{
+    flagCalibrateWheel = !flagCalibrateWheel;
+
+    if(flagCalibrateWheel) {
+        // здесь нужно записывать и на каждом шаге сохранять
+        // либо массив всех значений либо динамически отыскивать
+        // максимальное и минимальное значения угла отклонения
+    } else {
+        // А здесь нужно найти среднее значение по найденым отклонениям
+        // и зафиксировать его в настройках приложения.
+    }
+}
+
 void SensorReader::calibrateZeroPointAccelerometer()
 {
     if(!flagCalibrateZeroPointAccelerometer) {

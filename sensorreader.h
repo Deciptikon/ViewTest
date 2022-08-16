@@ -56,6 +56,9 @@ signals:
     /// Сигнал о успешной калибровки оси X акселерометра для QML.
     void signalCalibrateXAxisAccelerometerIsDone();
 
+    /// Сигнал о успешной калибровки угла поворота рулевого колеса для QML.
+    void signalCalibrateWheelIsDone();
+
 public slots:
     /// Основной цикл обновления данных с акселерометра и гироскопа.
     void loop();
@@ -69,8 +72,11 @@ public slots:
 
     /// Слот запуска\остановки калибровки оси Z гироскопа.
     void slotCalibrateZAxisGyroscope();
-    /// Слот запуска\остановки калибровки оси X акселерометра,
+    /// Слот запуска\остановки калибровки оси X акселерометра.
     void slotCalibrateXAxisAccelerometer();
+
+    /// Слот запуска\остановки калибровки угла поворота рулевого колеса.
+    void slotCalibrateWheel();
 
 private:
     /// Процедура калибровки состояния покоя акселерометра.
@@ -112,6 +118,8 @@ private:
     int numCalibrateXAxisAccelerometer;
     float accelCoefficient = 1;// коеффициент соответствия показателей
 
+
+    bool flagCalibrateWheel = false;
 };
 
 #endif // SENSORREADER_H

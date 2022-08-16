@@ -266,6 +266,15 @@ int main(int argc, char *argv[])
                   SLOT(slotCalibrateXAxisAccelerometerIsDone()),
                   Qt::ConnectionType::QueuedConnection);
 
+    // положение оси X акселерометра
+    sensorreader->connect(&model, SIGNAL(signalCalibrateWheel()),
+                          SLOT(slotCalibrateWheel()),
+                          Qt::ConnectionType::QueuedConnection);
+    // передача успешного завершения калибровки оси X в QML
+    model.connect(sensorreader, SIGNAL(signalCalibrateWheelIsDone()),
+                  SLOT(slotCalibrateWheelIsDone()),
+                  Qt::ConnectionType::QueuedConnection);
+
 ///--------------------------------------------------------------------------------------
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
