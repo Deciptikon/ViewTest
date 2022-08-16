@@ -179,12 +179,19 @@ void SensorReader::slotCalibrateWheel()
     flagCalibrateWheel = !flagCalibrateWheel;
 
     if(flagCalibrateWheel) {
+        qDebug() << "";
+        qDebug() << "flagCalibrateWheel = " << flagCalibrateWheel;
+        qDebug() << "";
         // здесь нужно записывать и на каждом шаге сохранять
         // либо массив всех значений либо динамически отыскивать
         // максимальное и минимальное значения угла отклонения
     } else {
         // А здесь нужно найти среднее значение по найденым отклонениям
         // и зафиксировать его в настройках приложения.
+        qDebug() << "";
+        qDebug() << "flagCalibrateWheel = " << flagCalibrateWheel;
+        qDebug() << "";
+        emit signalCalibrateWheelIsDone();
     }
 }
 

@@ -50,7 +50,7 @@ Item {
 
         onReleasedButton: {
             backgroundText.color = Qt.rgba(0.7, 0.7, 0.7, 0.7)
-            modelView.signalCalibrateWheel();//========================
+            modelView.signalCalibrateWheel();
         }
     }
     Rectangle {
@@ -67,29 +67,27 @@ Item {
 
             topMargin: 50
         }
-
-        Column {
+        Text {
+            id: _dataWheelAngle
             anchors.fill: parent
-
-            Text {
-                id: _dataWheelAngle
-                text: qsTr("X: %1").arg(angleWheel)
-                color: "black"
-                font.pixelSize: 22
-            }
+            text: qsTr("Angle: %1").arg(angleWheel)
+            color: "black"
+            font.pixelSize: 22
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
         }
+
     }
 
     Connections {
         target: modelView
 
-        function onSignalDataWheelToQML(ang) {//==============================
+        function onSignalDataWheelToQML(ang) {
             angleWheel = ang
 
         }
 
-        function onSignalCalibrateWheelIsDone() {//==================================
-            console.log("0000000000000000000000000000000000000000000000000000000000000000000000000")
+        function onSignalCalibrateWheelIsDone() {
             backgroundText.color = Qt.rgba(0.7, 1, 0.7, 0.7)
         }
     }

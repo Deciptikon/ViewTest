@@ -27,7 +27,7 @@ Item {
 
         ListElement {
             nameMode: "Calibration of the steering wheel angle sensor";
-            pageMode: "CalibrationXAxisAccelerometer.qml";
+            pageMode: "CalibrationWheelAngleSensor.qml";
         }
     }
 
