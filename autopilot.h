@@ -29,6 +29,8 @@ public:
     /// в подруливающее устройство.
     void restateRelay();
 
+
+
 signals:
     /// Сигнал, отправляет команду [0 ... 255] на контроллер
     /// подруливающего устройства.
@@ -71,6 +73,9 @@ public slots:
 
     /// Слот, принимает данные от датчика угла поворота рулевого колеса (в градусах)
     void readFromSensorAngleRotation(const float &angle);
+
+    /// Слот, обновляет коэффициент пропорциональности между углом датчика и углом колёс
+    void readKoeffAngleWheel();
 
     /// Слот, принимает ключевую точку полученную из QML.
     void addKeyPoint(const QVector2D &point);
@@ -126,6 +131,7 @@ private:
     QVector2D orthoDir;//{dir.y(), -dir.x()};
 
     float angleWheelsRotate;// угол поворота колёс
+    float koeffAngleWheel = 1.0;
 };
 
 #endif // AUTOPILOT_H

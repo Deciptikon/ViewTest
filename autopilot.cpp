@@ -1,5 +1,9 @@
 #include "autopilot.h"
 
+#include "constants.h"
+
+#include <QSettings>
+
 
 Autopilot::Autopilot(QObject *parent) : QObject(parent)
 {
@@ -243,6 +247,8 @@ void Autopilot::driveKeyPoint()
 
     float deltaAngle = angleToKeyPoint - angleWheelsRotate;
 
+    float angleToCommand = deltaAngle / koeffAngleWheel;
+
     int comm = 100;//from 0 to 200
 
     if(abs(deltaAngle) > 0.05) {
@@ -320,6 +326,22 @@ void Autopilot::driveParallel()
 
         qDebug() << "CommandToSlave:" << comm;
         emit sendCommandToSlave14(comm);
+}
+
+void Autopilot::readKoeffAngleWheel()
+{
+    QSettings settings(ORGANIZATION_NAME, APPLICATION_NAME);
+
+    float k = settings.value(DIR_CALIBRATION
+                             SUBDIR_WHEEL_ANGLE
+                             KEY_WHEEL_KOEFF,
+                             DEFAULT_WHEEL_KOEFF).toFloat();
+
+    settings.sync(); // синхронизируемся и получаем статус
+
+    if(settings.status() == QSettings::NoError) {
+        koeffAngleWheel = k;
+    }
 }
 
 int Autopilot::getMSecDeltaTime() const

@@ -248,7 +248,7 @@ int main(int argc, char *argv[])
                   SLOT(slotCalibrateZeroPointGyroscopeIsDone()),
                   Qt::ConnectionType::QueuedConnection);
 
-    // положение оси Z гироскопа
+    // калибровка оси Z гироскопа
     sensorreader->connect(&model, SIGNAL(signalCalibrateZAxisGyroscope()),
                           SLOT(slotCalibrateZAxisGyroscope()),
                           Qt::ConnectionType::QueuedConnection);
@@ -257,7 +257,7 @@ int main(int argc, char *argv[])
                   SLOT(slotCalibrateZAxisGyroscopeIsDone()),
                   Qt::ConnectionType::QueuedConnection);
 
-    // положение оси X акселерометра
+    // калибровка оси X акселерометра
     sensorreader->connect(&model, SIGNAL(signalCalibrateXAxisAccelerometer()),
                           SLOT(slotCalibrateXAxisAccelerometer()),
                           Qt::ConnectionType::QueuedConnection);
@@ -266,13 +266,18 @@ int main(int argc, char *argv[])
                   SLOT(slotCalibrateXAxisAccelerometerIsDone()),
                   Qt::ConnectionType::QueuedConnection);
 
-    // положение оси X акселерометра
+    // калибровка датчика угла колёс
     sensorreader->connect(&model, SIGNAL(signalCalibrateWheel()),
                           SLOT(slotCalibrateWheel()),
                           Qt::ConnectionType::QueuedConnection);
-    // передача успешного завершения калибровки оси X в QML
+    // передача успешного завершения калибровки датчика угла в QML
     model.connect(sensorreader, SIGNAL(signalCalibrateWheelIsDone()),
                   SLOT(slotCalibrateWheelIsDone()),
+                  Qt::ConnectionType::QueuedConnection);
+    // передача успешного завершения калибровки датчика угла в автопилот
+    // для обновления его внутри
+    autopilot->connect(sensorreader, SIGNAL(signalCalibrateWheelIsDone()),
+                  SLOT(readKoeffAngleWheel()),
                   Qt::ConnectionType::QueuedConnection);
 
 ///--------------------------------------------------------------------------------------
