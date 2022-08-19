@@ -280,6 +280,11 @@ int main(int argc, char *argv[])
                   SLOT(readKoeffAngleWheel()),
                   Qt::ConnectionType::QueuedConnection);
 
+    // передача значения датчика угла в QML
+    model.connect(sensorreader, SIGNAL(updateCurrentAngle(float)),
+                  SLOT(slotDataWheelToQML(float)),
+                  Qt::ConnectionType::QueuedConnection);
+
 ///--------------------------------------------------------------------------------------
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

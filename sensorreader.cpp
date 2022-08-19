@@ -201,13 +201,13 @@ void SensorReader::slotCalibrateWheel()
         float minRadius = 6.5;// минимальный радиус поворота ТС (в метрах)
 
         // максимальный угол поворота колёс (в радианах)
-        float maxWhellsRotate = atan(basa / minRadius);
+        float maxWheelsRotate = atan(basa / minRadius);
 
         float interval = maxAngle - minAngle;
 
         // коеффициент перевода данных с сенсора в теоретический угол поворота колёс,
         // вычисленный на основе базы ТС и минимального радиуса поворота (для передне-управляемых ТС)
-        float koeff = interval/(maxWhellsRotate * 2.0);
+        float koeff = (maxWheelsRotate * 2.0)/interval;
 
         qDebug() << "=======================================";
         qDebug() << "minAngle" << minAngle;
