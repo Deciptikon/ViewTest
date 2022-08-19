@@ -197,8 +197,9 @@ void SensorReader::slotCalibrateWheel()
         qDebug() << "flagCalibrateWheel = " << flagCalibrateWheel;
         qDebug() << "";
 
-        float basa = 3.0;// база ТС (в метрах)
-        float minRadius = 6.5;// минимальный радиус поворота ТС (в метрах)
+        // для трактора МТЗ-82
+        float basa = 2.45;// база ТС (в метрах)
+        float minRadius = 4.5;// минимальный радиус поворота ТС (в метрах)
 
         // максимальный угол поворота колёс (в радианах)
         float maxWheelsRotate = atan(basa / minRadius);
