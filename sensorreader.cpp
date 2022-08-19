@@ -209,6 +209,12 @@ void SensorReader::slotCalibrateWheel()
         // вычисленный на основе базы ТС и минимального радиуса поворота (для передне-управляемых ТС)
         float koeff = interval/(maxWhellsRotate * 2.0);
 
+        qDebug() << "=======================================";
+        qDebug() << "minAngle" << minAngle;
+        qDebug() << "maxAngle" << maxAngle;
+        qDebug() << "koeff" << koeff;
+        qDebug() << "=======================================";
+
         AngleRotate.setDelta(minAngle + interval * 0.5);
         AngleRotate.setKoeff(koeff);
 
