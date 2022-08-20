@@ -247,23 +247,33 @@ void Autopilot::driveKeyPoint()
 
     float deltaAngle = angleToKeyPoint - angleWheelsRotate;
 
-    float angleToCommand = deltaAngle / koeffAngleWheel;
+    //float angleToCommand = deltaAngle / koeffAngleWheel;
 
-    int comm = 100;//from 0 to 200
+    int linearComm = 10;// граница кусочно-линейного преобразования
+    int sign = 1;
+    int comm = 0;
+    int ang = 0;
 
-    if(abs(deltaAngle) > 0.05) {
-        comm = 100.0 + deltaAngle * 180.0 / M_PI;
+    ang = deltaAngle * 100.0;
+
+    // если угол нулевой, ничего не делаем
+    if(ang == 0) {
+        return;
     }
 
-    if(comm < 0) {
-        comm = 0;
+    if(deltaAngle < 0) {
+        sign = -1;
     }
-    if(comm > 200) {
-        comm = 200;
+
+    // если угол маленький, поворачиваем пропорционально углу
+    if(abs(ang) < linearComm) {
+        comm = ang;
+    } else { // иначе поворачиваем на максимальную величину
+        comm = sign * linearComm;
     }
 
     qDebug() << "CommandToSlave:" << comm;
-    emit sendCommandToSlave14(comm);
+    emit sendBigCommandToSlave14(comm);
 }
 
 void Autopilot::driveParallel()
