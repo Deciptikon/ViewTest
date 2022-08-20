@@ -61,7 +61,7 @@ Item {
             colorKeyPoint: "#0000ff"
             colorGround: "#aaffaa"
             isPaintAxis: true
-            lengthPath: 1500
+            lengthPath: 200
             widthFlat: 0
             colorFlat: "#ffff00"
         }

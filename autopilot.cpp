@@ -247,9 +247,10 @@ void Autopilot::driveKeyPoint()
 
     float deltaAngle = angleToKeyPoint - angleWheelsRotate;
 
-    //float angleToCommand = deltaAngle / koeffAngleWheel;
+
 
     int linearComm = 10;// граница кусочно-линейного преобразования
+
     int sign = 1;
     int comm = 0;
     int ang = 0;
