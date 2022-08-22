@@ -93,6 +93,8 @@ void Autopilot::readFromGPS(const double &x, const double &y)
 
 void Autopilot::readFromGyroAndAccel(const QVector3D &accel, const QVector3D &gyro)
 {
+    Q_UNUSED(accel);
+    Q_UNUSED(gyro);
 //    qDebug() << "**** READ FROM GYROSCOPE AND ACCELEROMETER";
 //    qDebug() << "**** Accelerometer" << accel;
 //    qDebug() << "**** Gyroscope    " << gyro;
@@ -202,7 +204,7 @@ void Autopilot::driveKeyPoint()
         return;
     }
 
-    QVector2D orthogonal{ direction.y(), -direction.x()};
+    //QVector2D orthogonal{ direction.y(), -direction.x()};
     //qDebug() << "direction:" << direction;
     //qDebug() << "orthogonal:" << orthogonal;
 
@@ -225,7 +227,7 @@ void Autopilot::driveKeyPoint()
             return ang;
         }
 
-        QVector2D ortho{dir.y(), -dir.x()};
+        QVector2D ortho{vec.y(), -vec.x()};
 
         float projectionX = QVector2D::dotProduct(dir.normalized(), vec.normalized());
         float projectionY = QVector2D::dotProduct(dir.normalized(), ortho.normalized());
@@ -244,9 +246,10 @@ void Autopilot::driveKeyPoint()
     //qDebug() << "projectionOnOrthogonal:" << projection;
 
     float angleToKeyPoint = AngleBetweenVectors(directionToPoint, direction);
+    qDebug() << "angleToKeyPoint" << angleToKeyPoint;
 
     float deltaAngle = angleToKeyPoint - angleWheelsRotate;
-
+    qDebug() << "deltaAngle" << deltaAngle;
 
 
     int linearComm = 10;// граница кусочно-линейного преобразования
@@ -256,6 +259,7 @@ void Autopilot::driveKeyPoint()
     int ang = 0;
 
     ang = deltaAngle * 100.0;
+    qDebug() << "ang" << ang;
 
     // если угол нулевой, ничего не делаем
     if(ang == 0) {
