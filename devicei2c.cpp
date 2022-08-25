@@ -21,6 +21,7 @@ void DeviceI2C::init(int hexAdress)
     qDebug() << "Setup deviceRegAdress N" << this->hexAdress << "= " << this->deviceRegAdress;
 #else
     #ifdef Q_OS_WIN
+        Q_UNUSED(hexAdress);
         qDebug() << "void DeviceI2C::init(int hexAdress)";
     #endif
 #endif
@@ -60,6 +61,7 @@ void DeviceI2C::writeData(const int &data)
 
 #else
     #ifdef Q_OS_WIN
+        Q_UNUSED(data);
         qDebug() << "void DeviceI2C::writeData(const int &data)";
     #endif
 #endif

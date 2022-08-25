@@ -40,6 +40,7 @@ void SensorAngleRotate::writeData(const int &data)
     }
 #else
     #ifdef Q_OS_WIN
+        Q_UNUSED(data);
         qDebug() << "void DeviceI2C::writeData(const int &data)";
     #endif
 #endif

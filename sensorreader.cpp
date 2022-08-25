@@ -157,7 +157,7 @@ void SensorReader::slotCalibrateZAxisGyroscope()
         elapsedTime = elapsedTimer.elapsed()/1000.0;// 1000 msec = 1 sec
         elapsedTimer.invalidate();
 
-        if(dataCalibrateZAxisGyroscope.length() * elapsedTime != NULL) {
+        if(abs(dataCalibrateZAxisGyroscope.length() * elapsedTime) > 0.0001) {
             gyrosCoefficient = 2 * M_PI * numCalibrateZAxisGyroscope /
                     (dataCalibrateZAxisGyroscope.length() * elapsedTime);
 
