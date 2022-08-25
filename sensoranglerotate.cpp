@@ -50,6 +50,16 @@ void SensorAngleRotate::setAngleWheelsRotate(int angle)
     angleWheelsRotate = ((float)angle - delta) * koeff;
 }
 
+float SensorAngleRotate::getAmplituda() const
+{
+    return amplituda;
+}
+
+void SensorAngleRotate::setAmplituda(float newAmplituda)
+{
+    amplituda = newAmplituda;
+}
+
 void SensorAngleRotate::setKoeff(float newKoeff)
 {
     koeff = newKoeff;
@@ -68,6 +78,10 @@ bool SensorAngleRotate::saveParameters()
                       SUBDIR_WHEEL_ANGLE
                       KEY_WHEEL_DELTA,
                       delta);
+    settings.setValue(DIR_CALIBRATION
+                      SUBDIR_WHEEL_ANGLE
+                      KEY_WHEEL_AMPLITUDA,
+                      amplituda);
 
     settings.sync(); // синхронизируемся и получаем статус
 
@@ -92,12 +106,18 @@ bool SensorAngleRotate::readParameters()
                              SUBDIR_WHEEL_ANGLE
                              KEY_WHEEL_DELTA,
                              DEFAULT_WHEEL_DELTA).toFloat();
+    float a = settings.value(DIR_CALIBRATION
+                             SUBDIR_WHEEL_ANGLE
+                             KEY_WHEEL_DELTA,
+                             DEFAULT_WHEEL_AMPLITUDA).toFloat();
+
 
     settings.sync(); // синхронизируемся и получаем статус
 
     if(settings.status() == QSettings::NoError) {
         koeff = k;
         delta = d;
+        amplituda = a;
         qDebug() << "Коэффициент пропорциональности и смещения датчика угла поворота успешно загружены !";
         return true;
     }
@@ -112,7 +132,7 @@ void SensorAngleRotate::setDelta(float newDelta)
     setAngleWheelsRotate(currentAngle);
 }
 
-float SensorAngleRotate::getCurrentAngle() const
+int SensorAngleRotate::getCurrentAngle() const
 {
     return currentAngle;
 }

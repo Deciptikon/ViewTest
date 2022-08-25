@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 
 ///-------Create autopilot and move to thread with timer----------------------------------------
     autopilot = new Autopilot();
-    autopilot->init(1000);
+    autopilot->init(100);
 
     threadAutopilot = new QThread();
 
@@ -285,6 +285,19 @@ int main(int argc, char *argv[])
                   SLOT(slotDataWheelToQML(float)),
                   Qt::ConnectionType::QueuedConnection);
 
+
+    // При превышении угла вращения останавливаем двигатель
+    devicei2c_14->connect(sensorreader, SIGNAL(signalAngleExceeded()),
+                          SLOT(stopDrive()),
+                          Qt::ConnectionType::QueuedConnection);
+    // При возвращении в нормальный интервал - "возвращаем" возможность вращатся
+    devicei2c_14->connect(sensorreader, SIGNAL(signalAngleNormal()),
+                          SLOT(startDrive()),
+                          Qt::ConnectionType::QueuedConnection);
+    // получаем данные с датчика угла поворота рулевого колеса
+    devicei2c_14->connect(sensorreader, SIGNAL(updateCurrentAngle(float)),
+                       SLOT(slotGetCurrentAngle(float)),
+                       Qt::ConnectionType::QueuedConnection);
 ///--------------------------------------------------------------------------------------
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

@@ -11,6 +11,8 @@
     #include <wiringPiI2C.h>
 #endif
 
+const int COMM_STOP = 222;// команда остановки двигателя (сбрасывает пульсации до нуля)
+
 class DeviceI2C : public QObject
 {
     Q_OBJECT
@@ -34,10 +36,19 @@ public slots:
     /// Слот, передает большие данные на устройство
     void writeBigData(const int &data);
 
+    void stopDrive();
+    void startDrive();
+
+    void slotGetCurrentAngle(const float& angle);
+
 private:
     int hexAdress;
 
     int deviceRegAdress;
+
+    bool isStopped = false;
+
+    float currentAngle = 0;
 
 };
 

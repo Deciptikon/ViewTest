@@ -1,5 +1,7 @@
 #include "devicei2c.h"
 
+#include "sensorreader.h"
+
 DeviceI2C::DeviceI2C(QObject *parent) : QObject(parent)
 {
 
@@ -65,6 +67,11 @@ void DeviceI2C::writeData(const int &data)
 
 void DeviceI2C::writeBigData(const int &data)
 {
+    if(isStopped) {
+        if((data>0 && currentAngle>0) || (data<0 && currentAngle<0)) {
+            return;
+        }
+    }
 #ifdef Q_OS_LINUX
     if (this->deviceRegAdress == -1) {
         qDebug() << "[SlaveController::loop()] deviceRegAdress == -1";
@@ -100,4 +107,24 @@ void DeviceI2C::writeBigData(const int &data)
         qDebug() << "void DeviceI2C::writeData(const int &data)";
     #endif
 #endif
+}
+
+void DeviceI2C::stopDrive()
+{
+    writeData(COMM_STOP);
+    isStopped = true;
+
+//    Это будет работать для объектов из разных потоков ???
+//    SensorReader* sr = qobject_cast<SensorReader*>(sender());
+    //    currentAngle = sr->AngleRotate.getAngleWheelsRotate();
+}
+
+void DeviceI2C::startDrive()
+{
+    isStopped = false;
+}
+
+void DeviceI2C::slotGetCurrentAngle(const float &angle)
+{
+    currentAngle = angle;
 }

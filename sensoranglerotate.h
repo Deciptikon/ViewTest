@@ -21,7 +21,7 @@ public:
     void init(int hexAdress);
 
     /// Возвращает текущий угол поворота рулевого колеса
-    float getCurrentAngle() const;
+    int getCurrentAngle() const;
 
     /// Возвращает текущий угол поворота ведущих колёс (в радианах)
     float getAngleWheelsRotate() const;
@@ -38,7 +38,12 @@ public:
     /// Читает последние сохраненные параметры (смещение и коеффициент) из настроек приложения
     bool readParameters();
 
+    void setAmplituda(float newAmplituda);
+
+    float getAmplituda() const;
+
 signals:
+
 
 public slots:
     /// Обновляет данные с сенсоров (читает из регистров и записывает в
@@ -57,7 +62,7 @@ private:
     int deviceRegAdress;
 
     /// Текущий угол полученый от датчика.
-    float currentAngle = 0;
+    int currentAngle = 0;
 
     /// Угол поворота колес найденный при помощи линейного
     /// закона.
@@ -68,6 +73,11 @@ private:
 
     /// Величина смещения в линейном преобразовании.
     float delta = 0.0;
+
+    /// Максимальное отклонение от состояния равновесия (прямолинейного движения)
+    float amplituda = 1.0;
+
+
 };
 
 #endif // SENSORANGLEROTATE_H

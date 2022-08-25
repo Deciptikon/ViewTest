@@ -87,6 +87,9 @@
 #define DEFAULT_WHEEL_KOEFF         "1"
 #define KEY_WHEEL_DELTA             "WheelDelta"
 #define DEFAULT_WHEEL_DELTA         "0"
+#define KEY_WHEEL_AMPLITUDA         "WheelAmplituda"
+#define DEFAULT_WHEEL_AMPLITUDA     "1"
+
 
 //=======================================================
 #define DIR_RESTORE_SETTINGS        "RestoreSettings/"

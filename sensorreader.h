@@ -35,6 +35,7 @@ public:
     /// а так же процедуры чтения и записи откалиброванных значений в настройки приложения.
     Gyroscope     Gyroscope;
 
+    /// Датчик угла поворота рулевого колеса
     SensorAngleRotate AngleRotate;
 
 signals:
@@ -58,6 +59,11 @@ signals:
 
     /// Сигнал о успешной калибровки угла поворота рулевого колеса для QML.
     void signalCalibrateWheelIsDone();
+
+    /// Сигнал о превышении максимального допустимого угла поворота.
+    void signalAngleExceeded();
+    /// Сигнал о том что угол поворота рулевого колеса снова в подходящем интервале.
+    void signalAngleNormal();
 
 public slots:
     /// Основной цикл обновления данных с акселерометра и гироскопа.
@@ -124,6 +130,9 @@ private:
     bool flagCalibrateWheel = false;
     float minAngle;
     float maxAngle;
+
+
+    bool isAngleExceeded = false;
 };
 
 #endif // SENSORREADER_H

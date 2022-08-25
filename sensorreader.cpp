@@ -63,6 +63,19 @@ void SensorReader::loop()
 
     emit updateDataSens(accelData, gyrosData);
     emit updateCurrentAngle(AngleRotate.getAngleWheelsRotate());
+
+    // Испускаем сигнал если превысили допустимую амплитуду поворота
+    if(abs(AngleRotate.getAngleWheelsRotate()) > AngleRotate.getAmplituda() ) {
+        if(!isAngleExceeded) {
+            isAngleExceeded = true;
+            emit signalAngleExceeded();
+        }
+    } else {
+        if(isAngleExceeded) {
+            isAngleExceeded = false;
+            emit signalAngleNormal();
+        }
+    }
 }
 
 void SensorReader::slotCalibrateZeroPointAccelerometer(const int &msec)
@@ -208,7 +221,7 @@ void SensorReader::slotCalibrateWheel()
 
         // коеффициент перевода данных с сенсора в теоретический угол поворота колёс,
         // вычисленный на основе базы ТС и минимального радиуса поворота (для передне-управляемых ТС)
-        float koeff = (maxWheelsRotate * 2.0)/interval;
+        float koeff = 2.0 * maxWheelsRotate/interval;
 
         qDebug() << "=======================================";
         qDebug() << "minAngle" << minAngle;
@@ -218,6 +231,10 @@ void SensorReader::slotCalibrateWheel()
 
         AngleRotate.setDelta(minAngle + interval * 0.5);
         AngleRotate.setKoeff(koeff);
+
+        // амплитуда вращения рулевого колеса должна быть меньше(~90%) теоретического
+        // максимального угла поворота, что бы по возможности избежать передоворота колёс.
+        AngleRotate.setAmplituda(maxWheelsRotate*0.9);
 
         if(AngleRotate.saveParameters()) {
             emit signalCalibrateWheelIsDone();
