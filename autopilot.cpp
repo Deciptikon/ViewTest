@@ -40,6 +40,7 @@ void Autopilot::loop()
 
 //======================================================================================
     if(currentDriveMode == DriveMode::KEYPOINTS_MODE) {
+        testRotate();///////////////////////////////////////////////////////////////////////////////
         driveKeyPoint();
     }
     if(currentDriveMode == DriveMode::PARALLEL_MODE) {
@@ -341,6 +342,36 @@ void Autopilot::driveParallel()
 
         qDebug() << "CommandToSlave:" << comm;
         emit sendCommandToSlave14(comm);
+}
+
+void Autopilot::testRotate()
+{
+    if(testCount > 0) {
+        testCount++;
+    } else {
+        testCount--;
+    }
+
+    int maxCount = 15;
+
+    if(testCount > maxCount) {
+        testCount = -1;
+    }
+    if(-testCount > maxCount) {
+        testCount = 1;
+    }
+
+    auto sign = [](const int value) -> int {
+        if(value == 0) {
+            return 0;
+        }
+        return value > 0 ? 1 : -1;
+    };
+
+    int commmm = 10 * sign(testCount);
+
+    emit sendBigCommandToSlave14(commmm);
+
 }
 
 void Autopilot::readKoeffAngleWheel()

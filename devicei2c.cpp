@@ -118,7 +118,7 @@ void DeviceI2C::stopDrive()
 
 //    Это будет работать для объектов из разных потоков ???
 //    SensorReader* sr = qobject_cast<SensorReader*>(sender());
-    //    currentAngle = sr->AngleRotate.getAngleWheelsRotate();
+//    currentAngle = sr->AngleRotate.getAngleWheelsRotate();
 }
 
 void DeviceI2C::startDrive()

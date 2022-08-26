@@ -132,6 +132,11 @@ private:
 
     float angleWheelsRotate;// угол поворота колёс
     float koeffAngleWheel = 1.0;
+
+
+    int testCount = 0;///////////////////////////////////////////////////////
+    int testInc = 1;
+    void testRotate();
 };
 
 #endif // AUTOPILOT_H
