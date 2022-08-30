@@ -22,6 +22,9 @@ void SensorAngleRotate::init(int hexAdress)
 
     this->deviceRegAdress = wiringPiI2CSetup(this->hexAdress);
     qDebug() << "Setup deviceRegAdress N" << this->hexAdress << "= " << this->deviceRegAdress;
+
+    const uint8_t COMM_RESET = 11;
+    wiringPiI2CReadReg8(this->deviceRegAdress, COMM_RESET);
 #else
     #ifdef Q_OS_WIN
         qDebug() << "void DeviceI2C::init(int hexAdress) =" << hexAdress;
@@ -146,41 +149,51 @@ float SensorAngleRotate::getAngleWheelsRotate() const
 void SensorAngleRotate::readData()
 {
 #ifdef Q_OS_LINUX
+    qDebug() << "-----------------------------------------------";
     if (this->deviceRegAdress == -1) {
         qDebug() << "[SlaveController::loop()] deviceRegAdress == -1";
         return;
     }
 
-    uint8_t h = 120; // команда на чтение старшего разряда
-    uint8_t l = 121; // команда на чтение младшего разряда
+    const int SIGN_PLUS  = 101; // константа кодирующая положительное значение
+    const int SIGN_MINUS = 21;  // константа кодирующая отрицательное значение
 
-    int receivedDataH = wiringPiI2CReadReg8(this->deviceRegAdress, h);
-    receivedDataH -= 127;
-    int receivedDataL = wiringPiI2CReadReg8(this->deviceRegAdress, l);
-    receivedDataL -= 127;
+    const uint8_t COMM_GETH = 20; // команда на чтение старшего разряда
+    const uint8_t COMM_GETL = 21; // команда на чтение младшего разряда
+    const uint8_t COMM_GETS = 22; // команда на чтение знака
+
+    int receivedDataH = wiringPiI2CReadReg8(this->deviceRegAdress, COMM_GETH);
+    int receivedDataL = wiringPiI2CReadReg8(this->deviceRegAdress, COMM_GETL);
+    int receivedDataS = wiringPiI2CReadReg8(this->deviceRegAdress, COMM_GETS);
+
+    // проверка валидности принятого идентификатора знака
+    bool isValidSign = (receivedDataS == SIGN_PLUS) || (receivedDataS == SIGN_MINUS);
 
     // Если принятые данные не в диапазоне, значит произошла ошибка
-    if(abs(receivedDataH) > 100 || abs(receivedDataL) > 100) {
-        qDebug() << "-----------------------------------------------";
-        qDebug() << "void SensorAngleRotate::readData() ОШИБКА Полученные значения вне диапазона !!!!";
-        qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 1: " << receivedDataH;
-        qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 2: " << receivedDataL;
+    if(receivedDataH > 100 ||
+       receivedDataL > 100 ||
+       !isValidSign ) {
+
+        qDebug() << "void SensorAngleRotate::readData() ОШИБКА ПОЛУЧЕНИЯ ДАННЫХ С ДАТЧИКА УГЛА ПОВОРОТА !!!!";
+        qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read H: " << receivedDataH;
+        qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read L: " << receivedDataL;
         return;
     }
 
     int rd = abs(receivedDataH) * 100 + abs(receivedDataL);
 
-    if( receivedDataH<0 || receivedDataL<0) {
+    if(receivedDataS == SIGN_PLUS) {
+        // ничего
+    }
+    if(receivedDataS == SIGN_MINUS) {
         rd = -rd;
     }
 
-    currentAngle = rd;
-
+    currentAngle = ((float)rd)/600.0 * 360.0;
     setAngleWheelsRotate(currentAngle);
 
-    qDebug() << "-----------------------------------------------";
-    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 1: " << receivedDataH;
-    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read 2: " << receivedDataL;
+    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read H: " << receivedDataH;
+    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read L: " << receivedDataL;
     qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read summ: " << rd;
 
 #else
