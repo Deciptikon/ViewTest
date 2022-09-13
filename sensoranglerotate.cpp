@@ -158,43 +158,62 @@ void SensorAngleRotate::readData()
     const int SIGN_PLUS  = 101; // константа кодирующая положительное значение
     const int SIGN_MINUS = 21;  // константа кодирующая отрицательное значение
 
-    const uint8_t COMM_GETH = 20; // команда на чтение старшего разряда
-    const uint8_t COMM_GETL = 21; // команда на чтение младшего разряда
-    const uint8_t COMM_GETS = 22; // команда на чтение знака
+    const uint8_t COMM_GETH    = 20; // команда на чтение старшего разряда
+    const uint8_t COMM_GETL    = 21; // команда на чтение младшего разряда
+    const uint8_t COMM_GETSIGN = 22; // команда на чтение знака
+    const uint8_t COMM_GETS    = 23; // команда на чтение КОНТРОЛЬНОЙ СУММЫ
 
     int receivedDataH = wiringPiI2CReadReg8(this->deviceRegAdress, COMM_GETH);
     int receivedDataL = wiringPiI2CReadReg8(this->deviceRegAdress, COMM_GETL);
+    int receivedDataSign = wiringPiI2CReadReg8(this->deviceRegAdress, COMM_GETSIGN);
     int receivedDataS = wiringPiI2CReadReg8(this->deviceRegAdress, COMM_GETS);
 
     // проверка валидности принятого идентификатора знака
-    bool isValidSign = (receivedDataS == SIGN_PLUS) || (receivedDataS == SIGN_MINUS);
+    bool isValidSign = (receivedDataSign == SIGN_PLUS) ||
+                       (receivedDataSign == SIGN_MINUS);
+
+
+    // контрольная сумма
+    int summ = receivedDataH + receivedDataL;
+    while(summ > 100) {
+        summ -= 100;
+    }
+    bool isCheckSumm = (summ == receivedDataS) ? true : false;
+
+    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit()
+             << "read H: " << receivedDataH;
+    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit()
+             << "read L: " << receivedDataL;
+    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit()
+             << "read Sign: " << receivedDataSign;
+    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit()
+             << "read S: " << receivedDataS;
 
     // Если принятые данные не в диапазоне, значит произошла ошибка
     if(receivedDataH > 100 ||
        receivedDataL > 100 ||
-       !isValidSign ) {
+       !isValidSign ||
+       !isCheckSumm) {
 
         qDebug() << "void SensorAngleRotate::readData() ОШИБКА ПОЛУЧЕНИЯ ДАННЫХ С ДАТЧИКА УГЛА ПОВОРОТА !!!!";
-        qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read H: " << receivedDataH;
-        qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read L: " << receivedDataL;
+
         return;
     }
 
     int rd = abs(receivedDataH) * 100 + abs(receivedDataL);
 
-    if(receivedDataS == SIGN_PLUS) {
+    if(receivedDataSign == SIGN_PLUS) {
         // ничего
     }
-    if(receivedDataS == SIGN_MINUS) {
+    if(receivedDataSign == SIGN_MINUS) {
         rd = -rd;
     }
 
     currentAngle = ((float)rd)/600.0 * 360.0;
     setAngleWheelsRotate(currentAngle);
 
-    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read H: " << receivedDataH;
-    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read L: " << receivedDataL;
-    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit() << "read summ: " << rd;
+    qDebug() << "Slave" << QString::number(this->hexAdress).toLocal8Bit()
+             << "read rezult: " << rd;
 
 #else
     #ifdef Q_OS_WIN
